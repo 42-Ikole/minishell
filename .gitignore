@@ -1,0 +1,8 @@
+# ignore everything
+
+# except these files
+!Makefile
+!srcs/*.c
+!srcs/libft/libft.h
+!includes/*.h
+!srcs/libft/Makefile
