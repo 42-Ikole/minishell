@@ -45,5 +45,9 @@ void		kut_errors(char *msg);
 **	Tokenizer
 */
 void		tokenizer(char *line);
+t_tokens	*token_addback(t_tokens *tokens, char *token);
+int			fsm_dq(t_tokens *token, char *line, int start, int i);
+int			fsm_space(t_tokens *token, char *line, int start, int i);
+int			fsm_sq(t_tokens *token, char *line, int start, int i);
 
 #endif

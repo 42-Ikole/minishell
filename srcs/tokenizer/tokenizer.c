@@ -3,20 +3,18 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static t_tokens	*token_addback(t_tokens *tokens, char *token, int length)
+t_tokens	*token_addback(t_tokens *tokens, char *token)
 {
 	t_tokens	*new;
 	t_tokens	*head;
 
+	if (!token)
+		kut_errors("substring for token failed!\n");
 	head = tokens;
-	// printf("tkad = %s\n", token);
 	new = malloc(sizeof(t_tokens));
 	if (!new)
 		kut_errors("yikers malloc failed!\n");
-	new->token = ft_substr(token, 0, length);
-	// printf("sub = %s\n", new->token);
-	if (!new->token)
-		kut_errors("substring for token failed");
+	new->token = token;
 	new->next = NULL;
 	while (tokens && tokens->next)
 		tokens = tokens->next;
@@ -30,28 +28,33 @@ static t_tokens	*token_addback(t_tokens *tokens, char *token, int length)
 void		tokenizer(char *line)
 {
 	int i;
-	int j;
+	int	start;
 	t_tokens *tokens;
-
 	
-	tokens = NULL;
-	i = 0;
-	j = 0;
+	tokens = malloc(sizeof(t_tokens));
+	if (!tokens)
+		kut_errors("malloc failed ffs\n");
+	tokens->next = NULL;
+	tokens->token = NULL;
+	i = ft_skip_space(line, 0);
+	start = i;
 	while (line[i])
 	{
-		if (line[i] == ' ' || line[i + 1] == '\0') //pakt laatste char van string niet
-		{
-			tokens = token_addback(tokens, line + j, i - j);
-			while (line[i] == ' ')
-				i++;
-			j = i;
-		}
-		i++;
+		// printf("i = %d| start = %d| line %s\n", i, start, line);
+		if ((line[i] == ' ') || !line[i + 1])
+			start = fsm_space(tokens, line, start, i);
+		else if (line[i] == '\"' && line[i - 1] != '\\')
+			start = fsm_dq(tokens, line, start, i);
+		else if (line[i] == '\'' && line[i - 1] != '\\')
+			start = fsm_sq(tokens, line, start, i);
+		else
+			i++;
+		if (start > i)
+			i = start;
 	}
-	// printf("tk = %s\n", tokens->token);
 	while (tokens)
 	{
-		printf("token = %s\n", tokens->token);
+		printf("token = [%s]\n", tokens->token);
 		tokens = tokens->next;
 	}
 }

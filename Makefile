@@ -8,7 +8,7 @@ SRC_ = minishell.c
 ERROR_ = error.c
 ERROR = $(addprefix error/, $(ERROR_))
 
-TOKENIZER_ = tokenizer.c
+TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER))
@@ -22,7 +22,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) -L. -lft -o $(NAME) $(OBJ)
+	$(CC) -L. -lft -fsanitize=address -o $(NAME) $(OBJ)
 
 $(LIBFT):
 	@printf "\e[0;34mCompiling LIBFT $<\n\e[0;35m"
