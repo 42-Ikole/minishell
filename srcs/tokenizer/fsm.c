@@ -23,9 +23,12 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 
 int	fsm_dq(t_tokens *token, char *line, int start, int i)
 {
+	int check;
+
+	check = i;
 	while (line[i])
 	{
-		if (line[i] == '"' && line[i - 1] != '\\' && (!line[i + 1] || line[i + 1] == ' ') && i != start)
+		if (line[i] == '\"' && line[i - 1] != '\\' && (!line[i + 1] || line[i + 1] == ' ') && i != check)
 		{
 			token_addback(token, ft_substr(line, start, i - start + 1));
 			return (ft_skip_space(line, i + 1));
@@ -40,9 +43,12 @@ int	fsm_dq(t_tokens *token, char *line, int start, int i)
 
 int	fsm_sq(t_tokens *token, char *line, int start, int i)
 {
+	int check;
+
+	check = i;
 	while (line[i])
 	{
-		if (line[i] == '\'' && line[i - 1] != '\\' && (!line[i + 1] || line[i + 1] == ' ') && i != start)
+		if (line[i] == '\'' && line[i - 1] != '\\' && (!line[i + 1] || line[i + 1] == ' ') && i != check)
 		{
 			token_addback(token, ft_substr(line, start, i - start + 1));
 			return (ft_skip_space(line, i + 1));
