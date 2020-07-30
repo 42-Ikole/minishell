@@ -11,17 +11,22 @@ t_tokens	*token_addback(t_tokens *tokens, char *token)
 	if (!token)
 		kut_errors("substring for token failed!\n");
 	head = tokens;
-	new = malloc(sizeof(t_tokens));
-	if (!new)
-		kut_errors("yikers malloc failed!\n");
-	new->token = token;
-	new->next = NULL;
-	while (tokens && tokens->next)
-		tokens = tokens->next;
-	if (tokens)
-		tokens->next = new;
+	if (head->token)
+	{
+		new = malloc(sizeof(t_tokens));
+		if (!new)
+			kut_errors("yikers malloc failed!\n");
+		new->token = token;
+		new->next = NULL;
+		while (tokens && tokens->next)
+			tokens = tokens->next;
+		if (tokens)
+			tokens->next = new;
+		else
+			head = new;
+	}
 	else
-		head = new;
+		head->token = token;
 	return (head);
 }
 

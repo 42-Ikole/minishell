@@ -10,7 +10,7 @@ int     main(void)
 
 	while (1)
 	{
-		write(1, "\e[0;35mFluffeon \e[0;34m➢ \e[0m", 27);
+		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
 			kut_errors("Unable to read line!\n");
