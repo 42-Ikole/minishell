@@ -36,6 +36,7 @@ void		tokenizer(char *line)
 	int	start;
 	t_tokens *tokens;
 	
+	line = formatDe(line);
 	tokens = malloc(sizeof(t_tokens));
 	if (!tokens)
 		kut_errors("malloc failed ffs\n");

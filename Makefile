@@ -5,13 +5,17 @@ LIBFT = libft.a
 
 SRC_ = minishell.c
 
+FORMAT_ = format.c
+FORMAT = $(addprefix format/, $(FORMAT_))
+
 ERROR_ = error.c
 ERROR = $(addprefix error/, $(ERROR_))
 
 TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
-SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER))
+SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT))
+
 
 OBJ = $(SRC:.c=.o)
 
