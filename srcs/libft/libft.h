@@ -6,7 +6,7 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/05 09:13:14 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/07/27 16:46:30 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/06 13:30:20 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 int					ft_isascii(int c);
 int					ft_isprint(int c);
+int					ft_iswhitespace(int c);
 
 int					ft_toupper(int c);
 int					ft_tolower(int c);

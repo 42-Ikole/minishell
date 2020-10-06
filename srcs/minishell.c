@@ -7,6 +7,8 @@ int     main(void)
 {
 	int		ret;
 	char	*line;
+	t_tokens *tokens;
+	//something to ignore signals
 
 	while (1)
 	{
@@ -14,7 +16,7 @@ int     main(void)
 		ret = get_next_line(0, &line);
 		if (ret < 0)
 			kut_errors("Unable to read line!\n");
-		tokenizer(line);
+		tokens = tokenizer(line);
 		free(line);
 	}
 	return (0);

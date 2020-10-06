@@ -30,13 +30,13 @@ t_tokens	*token_addback(t_tokens *tokens, char *token)
 	return (head);
 }
 
-void		tokenizer(char *line)
+t_tokens		*tokenizer(char *line)
 {
 	int i;
 	int	start;
 	t_tokens *tokens;
 	
-	line = formatDe(line);
+	line = formatde(line);
 	tokens = malloc(sizeof(t_tokens));
 	if (!tokens)
 		kut_errors("malloc failed ffs\n");
@@ -47,7 +47,7 @@ void		tokenizer(char *line)
 	while (line[i])
 	{
 		// printf("i = %d| start = %d| line %s\n", i, start, line);
-		if ((line[i] == ' ') || !line[i + 1])
+		if (ft_iswhitespace(line[i]) || !line[i + 1])
 			start = fsm_space(tokens, line, start, i);
 		else if (line[i] == '\"' && line[i - 1] != '\\')
 			start = fsm_dq(tokens, line, start, i);
@@ -58,9 +58,10 @@ void		tokenizer(char *line)
 		if (start > i)
 			i = start;
 	}
-	while (tokens)
-	{
-		printf("token = [%s]\n", tokens->token);
-		tokens = tokens->next;
-	}
+	return tokens;
+	// while (tokens)
+	// {
+	// 	printf("token = [%s]\n", tokens->token);
+	// 	tokens = tokens->next;
+	// }
 }

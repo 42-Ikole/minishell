@@ -10,11 +10,17 @@
 
 enum types
 {
-	none = 0,
-	pipeline = 1,
-	append = 2,
-	trunc = 3,
-	input = 4
+	none,
+	pipeline,
+	append,
+	trunc,
+	input
+};
+
+enum bool
+{
+	true = 1,
+	false = 0
 };
 
 typedef struct s_cmd
@@ -44,11 +50,24 @@ void		kut_errors(char *msg);
 /*
 **	Tokenizer
 */
-void		tokenizer(char *line);
+t_tokens	*tokenizer(char *line);
 t_tokens	*token_addback(t_tokens *tokens, char *token);
+
+/*
+** Finite State Machine
+*/
 int			fsm_dq(t_tokens *token, char *line, int start, int i);
 int			fsm_space(t_tokens *token, char *line, int start, int i);
 int			fsm_sq(t_tokens *token, char *line, int start, int i);
-char		*formatDe(char *str);
+
+/*
+** Formatter
+*/
+char		*format_de(char *str);
+
+/*
+** Parser
+*/
+t_cmd		*split_semicolon(t_tokens *tokens);
 
 #endif
