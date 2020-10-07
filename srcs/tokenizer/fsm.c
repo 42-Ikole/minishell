@@ -11,6 +11,12 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 			token_addback(token, ft_substr(line, start, i - start));
 			return (ft_skip_space(line, i));
 		}
+		else if (ft_ismeta(line[i]))
+		{
+			i = ft_skipmeta(line, i);
+			token_addback(token, ft_substr(line, start, i - start));
+			return (ft_skip_space(line, i));
+		}
 		else if (line[i] == '\"' && line[i - 1] != '\\')
 			return (fsm_dq(token, line, start, i));
 		else if (line[i] == '\'' && line[i - 1] != '\\')
@@ -39,7 +45,7 @@ int	fsm_dq(t_tokens *token, char *line, int start, int i)
 			return (fsm_space(token, line, start, i + 1));
 		i++;
 	}
-	kut_errors("string expantion!\n");
+	errors("string expantion!\n");
 	return (i);
 }
 
@@ -61,6 +67,6 @@ int	fsm_sq(t_tokens *token, char *line, int start, int i)
 			return (fsm_space(token, line, start, i + 1));
 		i++;
 	}
-	kut_errors("string expantion!\n");
+	errors("string expantion!\n");
 	return (i);
 }

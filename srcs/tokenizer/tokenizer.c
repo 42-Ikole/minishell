@@ -9,13 +9,13 @@ t_tokens	*token_addback(t_tokens *tokens, char *token)
 	t_tokens	*head;
 
 	if (!token)
-		kut_errors("substring for token failed!\n");
+		errors("substring for token failed!\n");
 	head = tokens;
 	if (head->token)
 	{
 		new = malloc(sizeof(t_tokens));
 		if (!new)
-			kut_errors("yikers malloc failed!\n");
+			errors("yikers malloc failed!\n");
 		new->token = token;
 		new->next = NULL;
 		while (tokens && tokens->next)
@@ -36,18 +36,17 @@ t_tokens		*tokenizer(char *line)
 	int	start;
 	t_tokens *tokens;
 	
-	line = formatde(line);
 	tokens = malloc(sizeof(t_tokens));
 	if (!tokens)
-		kut_errors("malloc failed ffs\n");
+		errors("malloc failed ffs\n");
 	tokens->next = NULL;
 	tokens->token = NULL;
 	i = ft_skip_space(line, 0);
 	start = i;
 	while (line[i])
 	{
-		// printf("i = %d| start = %d| line %s\n", i, start, line);
-		if (ft_iswhitespace(line[i]) || !line[i + 1])
+		// printf("i = %d| start = %d| line %s\n", i, start, line + start);
+		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) || !line[i + 1])
 			start = fsm_space(tokens, line, start, i);
 		else if (line[i] == '\"' && line[i - 1] != '\\')
 			start = fsm_dq(tokens, line, start, i);
@@ -58,10 +57,10 @@ t_tokens		*tokenizer(char *line)
 		if (start > i)
 			i = start;
 	}
+	while (tokens)
+	{
+		printf("token = [%s]\n", tokens->token);
+		tokens = tokens->next;
+	}
 	return tokens;
-	// while (tokens)
-	// {
-	// 	printf("token = [%s]\n", tokens->token);
-	// 	tokens = tokens->next;
-	// }
 }

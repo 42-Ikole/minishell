@@ -8,6 +8,13 @@
 ** structs
 */
 
+enum state
+{
+	space,
+	sq,
+	dq
+};
+
 enum types
 {
 	none,
@@ -45,7 +52,7 @@ typedef struct s_tokens
 /*
 **	ERROR
 */
-void		kut_errors(char *msg);
+void		errors(char *msg);
 
 /*
 **	Tokenizer

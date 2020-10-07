@@ -15,7 +15,7 @@ int     main(void)
 		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
-			kut_errors("Unable to read line!\n");
+			errors("Unable to read line!\n");
 		tokens = tokenizer(line);
 		free(line);
 	}
