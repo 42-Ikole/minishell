@@ -1,2 +1,2 @@
-#Minishell
-###A bash like shell written in c
+# Minishell
+### A bash like shell written in c
