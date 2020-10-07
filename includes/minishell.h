@@ -70,7 +70,7 @@ int			fsm_sq(t_tokens *token, char *line, int start, int i);
 /*
 ** Formatter
 */
-char		*format_de(char *str);
+char		*format_de(char *str, int i);
 
 /*
 ** Parser
