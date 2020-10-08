@@ -3,12 +3,11 @@
 #include "minishell.h"
 #include <unistd.h>
 
-int     main(void)
+void	prompt(void)
 {
 	int		ret;
 	char	*line;
 	t_tokens *tokens;
-	//something to ignore signals
 
 	while (1)
 	{
@@ -20,5 +19,15 @@ int     main(void)
 		parser(tokens);
 		free(line);
 	}
+}
+
+int     main(int ac, char **av, char **env)
+{
+	(void)av;
+	if (ac > 1)
+		errors("arguments not allowed :(");
+	// parse environment variables
+	prompt();
+	(void)env;
 	return (0);
 }

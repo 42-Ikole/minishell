@@ -77,6 +77,8 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
 		{
+			if (tokens->next && ft_ismeta((tokens->next)->token[0]))
+				errors("syntax error.");
 			commands = set_type(commands, tokens->token);
 			break ;
 		}
