@@ -14,7 +14,10 @@ ERROR = $(addprefix error/, $(ERROR_))
 TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
-SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT))
+PARSER_ = parser.cd
+PARSER = $(addprefix parser/, $(PARSER_))
+
+SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER))
 
 
 OBJ = $(SRC:.c=.o)
