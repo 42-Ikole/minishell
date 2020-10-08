@@ -57,10 +57,10 @@ t_tokens		*tokenizer(char *line)
 		if (start > i)
 			i = start;
 	}
-	while (tokens)
-	{
-		printf("token = [%s]\n", tokens->token);
-		tokens = tokens->next;
-	}
+	// while (tokens)
+	// {
+	// 	printf("token = [%s]\n", tokens->token);
+	// 	tokens = tokens->next;
+	// }
 	return tokens;
 }

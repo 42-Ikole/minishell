@@ -17,6 +17,7 @@ int     main(void)
 		if (ret < 0)
 			errors("Unable to read line!\n");
 		tokens = tokenizer(line);
+		parser(tokens);
 		free(line);
 	}
 	return (0);

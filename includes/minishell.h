@@ -17,11 +17,11 @@ enum state
 
 enum types
 {
-	none,
-	pipeline,
-	append,
-	trunc,
-	input
+	semicolon = 0,
+	pipeline = 1,
+	append = 2,
+	trunc = 3,
+	input = 4
 };
 
 enum bool
@@ -77,6 +77,7 @@ char		*format_de(char *str, int i);
 /*
 ** Parser
 */
-
+t_cmd		*parser(t_tokens *tokens);
+int			command_size(t_tokens *tokens);
 
 #endif
