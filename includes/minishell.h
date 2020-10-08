@@ -34,6 +34,8 @@ typedef struct s_cmd
 {
 	char			**arg;
 	enum types		type;
+	int				input_fd;
+	int				output_fd;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -75,6 +77,6 @@ char		*format_de(char *str, int i);
 /*
 ** Parser
 */
-t_cmd		*split_semicolon(t_tokens *tokens);
+
 
 #endif
