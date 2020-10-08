@@ -79,5 +79,7 @@ char		*format_de(char *str, int i);
 */
 t_cmd		*parser(t_tokens *tokens);
 int			command_size(t_tokens *tokens);
+char		*find_replace(char *str, char *find, char *replace);
+char		*ft_replace(char *str, char *find, char *replace, int new_length);
 
 #endif

@@ -72,7 +72,7 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 		errors("malloc failed");
 	commands->type = 0;
 	i = 0;
-	int cmds = command_size(tokens);
+	int cmds = command_size(tokens); //alleen voor test purposes
 	while (tokens)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
