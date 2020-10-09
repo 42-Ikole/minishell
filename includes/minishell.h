@@ -20,14 +20,14 @@ t_global g_vars[1];
 ** enums
 */
 
-enum state
+enum e_state
 {
 	space,
 	sq,
 	dq
 };
 
-enum types
+enum e_types
 {
 	semicolon = 0,
 	pipeline = 1,
@@ -49,7 +49,7 @@ enum bool
 typedef struct s_cmd
 {
 	char			**arg;
-	enum types		type;
+	enum e_types	type;
 	int				input_fd;
 	int				output_fd;
 	struct s_cmd	*next;
@@ -97,6 +97,9 @@ t_cmd		*parser(t_tokens *tokens);
 int			command_size(t_tokens *tokens);
 char		*find_replace(char *str, char *find, char *replace);
 char		*ft_replace(char *str, char *find, char *replace, int new_length);
+char		*ft_replace_occur(char *str, char *find, char *replace, int new_length);
 void		parse_env(char **env);
+char		*expansion(char *str, int *i);
+char		*remover(char *str);
 
 #endif

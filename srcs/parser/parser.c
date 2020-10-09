@@ -8,6 +8,8 @@ int		command_size(t_tokens *tokens)
 	int i;
 
 	i = 0;
+	if (!tokens->token)
+		return (i);
 	while (tokens)
 	{
 		if (ft_ismeta(tokens->token[0]))
@@ -89,7 +91,10 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	*tk = free_tokens(tokens);
 	commands->arg[i] = NULL;
 	for (int j = 0; j < cmds; j++)
+	{
+		commands->arg[j] = remover(commands->arg[j]);
 		printf("cmd[%d] = [%s]\n", j, commands->arg[j]);
+	}
 	printf("type = %d\n", commands->type);
 	return (commands);
 }
@@ -109,5 +114,9 @@ t_cmd	*parser(t_tokens *tokens)
 		commands->next = NULL;
 	}
 	free(tokens);
+	// for (int i = 0; g_vars->envp[i]; i++) {
+	// 	for (int j = 0; g_vars->envp[i][j]; j++)
+	// 		printf("%s\n")
+	// }
 	return (commands);
 }
