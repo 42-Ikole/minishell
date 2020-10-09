@@ -5,7 +5,19 @@
 # include <stdio.h>//
 
 /*
-** structs
+** Globals
+*/
+typedef struct s_global
+{
+	char	***envp;
+	int		ret;
+} t_global;
+
+t_global g_vars[1];
+
+
+/*
+** enums
 */
 
 enum state
@@ -29,6 +41,10 @@ enum bool
 	true = 1,
 	false = 0
 };
+
+/*
+** structs
+*/
 
 typedef struct s_cmd
 {
@@ -81,5 +97,6 @@ t_cmd		*parser(t_tokens *tokens);
 int			command_size(t_tokens *tokens);
 char		*find_replace(char *str, char *find, char *replace);
 char		*ft_replace(char *str, char *find, char *replace, int new_length);
+void		parse_env(char **env);
 
 #endif

@@ -108,5 +108,6 @@ t_cmd	*parser(t_tokens *tokens)
 		commands = commands->next;
 		commands->next = NULL;
 	}
+	free(tokens);
 	return (commands);
 }

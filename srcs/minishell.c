@@ -26,8 +26,10 @@ int     main(int ac, char **av, char **env)
 	(void)av;
 	if (ac > 1)
 		errors("arguments not allowed :(");
-	// parse environment variables
+	parse_env(env);
+	for (int i = 0; g_vars->envp[i]; i++) {
+		printf("%s = %s\n", g_vars->envp[i][0], g_vars->envp[i][1]);
+	}
 	prompt();
-	(void)env;
 	return (0);
 }
