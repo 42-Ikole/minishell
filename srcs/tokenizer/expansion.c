@@ -1,0 +1,5 @@
+
+char	*expansion(char *str)
+{
+	
+}

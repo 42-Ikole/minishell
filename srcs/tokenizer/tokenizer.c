@@ -48,19 +48,19 @@ t_tokens		*tokenizer(char *line)
 		// printf("i = %d| start = %d| line %s\n", i, start, line + start);
 		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) || !line[i + 1])
 			start = fsm_space(tokens, line, start, i);
-		else if (line[i] == '\"' && line[i - 1] != '\\')
+		else if (line[i] == '\"' && ((i > 0 && line[i - 1] != '\\') || i == 0))
 			start = fsm_dq(tokens, line, start, i);
-		else if (line[i] == '\'' && line[i - 1] != '\\')
+		else if (line[i] == '\'' && ((i > 0 && line[i - 1] != '\\') || i == 0))
 			start = fsm_sq(tokens, line, start, i);
 		else
 			i++;
 		if (start > i)
 			i = start;
 	}
-	// while (tokens)
-	// {
-	// 	printf("token = [%s]\n", tokens->token);
-	// 	tokens = tokens->next;
-	// }
+	while (tokens)
+	{
+		printf("token = [%s]\n", tokens->token);
+		tokens = tokens->next;
+	}
 	return tokens;
 }
