@@ -11,10 +11,10 @@ FORMAT = $(addprefix format/, $(FORMAT_))
 ERROR_ = error.c
 ERROR = $(addprefix error/, $(ERROR_))
 
-TOKENIZER_ = tokenizer.c fsm.c expansion.c
+TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
-PARSER_ = parser.c find_replace.c environment.c remover.c
+PARSER_ = parser.c find_replace.c environment.c remover.c expansion.c
 PARSER = $(addprefix parser/, $(PARSER_))
 
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER))

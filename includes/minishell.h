@@ -25,7 +25,7 @@ enum e_state
 	space,
 	sq,
 	dq
-};
+}	t_state;
 
 enum e_types
 {
@@ -34,13 +34,13 @@ enum e_types
 	append = 2,
 	trunc = 3,
 	input = 4
-};
+}	t_types;
 
-enum bool
+enum e_bool
 {
 	true = 1,
 	false = 0
-};
+}	t_bool;
 
 /*
 ** structs

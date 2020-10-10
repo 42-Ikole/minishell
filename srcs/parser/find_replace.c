@@ -73,7 +73,6 @@ char	*ft_replace_occur(char *str, char *find, char *replace, int idx)
 	i = 0;
 	j = 0;
 	k = 0;
-	printf("str[idx] == [%c]\n", str[idx]);
 	while ((unsigned)i < ft_strlen(str) + ft_strlen(replace) - ft_strlen(find))
 	{
 		if (j == idx)
