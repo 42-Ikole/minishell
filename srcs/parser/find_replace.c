@@ -26,7 +26,7 @@ char	*ft_replace(char *str, char *find, char *replace, int new_length)
 				i++;
 				k++;
 			}
-			j += ft_strlen(find);
+		    	j += ft_strlen(find);
 		}
 		else
 		{
@@ -60,22 +60,23 @@ char	*find_replace(char *str, char *find, char *replace)
 	return (ret);
 }
 
-char	*ft_replace_occur(char *str, char *find, char *replace, int new_length)
+char	*ft_replace_occur(char *str, char *find, char *replace, int idx)
 {
 	int		i;
 	int		j;
 	int 	k;
 	char	*ret;
 
-	ret = malloc(sizeof(char) * new_length + 1);
+	ret = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(replace) - ft_strlen(find) + 1));
 	if (!ret)
 		errors("malloc failed!");
 	i = 0;
 	j = 0;
 	k = 0;
-	while (i < new_length)
+	printf("str[idx] == [%c]\n", str[idx]);
+	while ((unsigned)i < ft_strlen(str) + ft_strlen(replace) - ft_strlen(find))
 	{
-		if (ft_strnstr(str + j, find, ft_strlen(find)))
+		if (j == idx)
 		{
 			while (replace[k])
 			{

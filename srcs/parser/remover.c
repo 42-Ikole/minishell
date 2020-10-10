@@ -19,27 +19,28 @@ char *remover(char *str)
 	de[1] = '\0';
 	while (str[i])
 	{
+	    printf("str[i] == [%c]\n", str[i]);
 		if (str[i] == '\"' && ((i > 0 && str[i - 1] != '\\') || i == 0) && (!(even % 2) || state == dq))
 		{
 			state = dq;
-			str = ft_replace_occur(str, "\"", "", ft_strlen(str) - 1);
+			str = ft_replace_occur(str, "\"", "", i);
 			even++;
 			if (!(even % 2))
 				state = space;
 		}
-		else if (str[i] == '\'' && ((i > 0 && str[i - 1] != '\\') || i == 0) && (!(even % 2 || state == sq)))
+		else if (str[i] == '\'' && (!(even % 2) || state == sq))
 		{
+		    printf("str + i == [%s]\n", str + i);
 			state = sq;
-			str = ft_replace_occur(str, "\'", "", ft_strlen(str) - 1);
+			str = ft_replace_occur(str, "\'", "", i);
 			even++;
 			if (!(even % 2))
 				state = space;
 		}
 		if (str[i] == '$' && ((i > 0 && str[i - 1] != '\\') || i == 0) && state != sq)
 			str = expansion(str, &i);
-		if (str[i] == (char)-1)
-			str = ft_replace_occur(str, de, "\\", ft_strlen(str));
-		i++;
+		else
+			i++;
 	}
 	return (str);
 }
