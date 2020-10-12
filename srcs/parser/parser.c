@@ -74,14 +74,13 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 		errors("malloc failed");
 	commands->type = 0;
 	i = 0;
-	int cmds = command_size(tokens); //alleen voor test purposes
+	int cmds = command_size(tokens);
 	while (tokens)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
 		{
-			if (tokens->next && ft_ismeta((tokens->next)->token[0]))
-				errors("syntax error.");
 			commands = set_type(commands, tokens->token);
+			free(tokens->token); // free node
 			break ;
 		}
 		commands->arg[i] = tokens->token; 
@@ -90,10 +89,12 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	}
 	*tk = free_tokens(tokens);
 	commands->arg[i] = NULL;
-	for (int j = 0; j < cmds; j++)
+	i = 0;
+	while (i < cmds)
 	{
-		commands->arg[j] = remover(commands->arg[j]);
-		printf("cmd[%d] = [%s]\n", j, commands->arg[j]);
+		commands->arg[i] = remover(commands->arg[i]);
+		printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
+		i++;
 	}
 	printf("type = %d\n", commands->type);
 	return (commands);
@@ -101,8 +102,8 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 
 t_cmd	*parser(t_tokens *tokens)
 {
-	t_cmd		*head;
 	t_cmd		*commands;
+	t_cmd		*head;
 
 	commands = cmd_splitting(&tokens);
 	head = commands;
@@ -114,9 +115,10 @@ t_cmd	*parser(t_tokens *tokens)
 		commands->next = NULL;
 	}
 	free(tokens);
+	meta_check(head);
 	// for (int i = 0; g_vars->envp[i]; i++) {
 	// 	for (int j = 0; g_vars->envp[i][j]; j++)
 	// 		printf("%s\n")
 	// }
-	return (commands);
+	return (head);
 }

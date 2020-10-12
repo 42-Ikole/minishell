@@ -14,10 +14,13 @@ ERROR = $(addprefix error/, $(ERROR_))
 TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
-PARSER_ = parser.c find_replace.c environment.c remover.c expansion.c
+PARSER_ = parser.c find_replace.c environment.c remover.c expansion.c meta_check.c
 PARSER = $(addprefix parser/, $(PARSER_))
 
-SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER))
+EXECUTE_ = exit.c
+EXECUTE = $(addprefix execute/, $(EXECUTE_))
+
+SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER) $(EXECUTE))
 
 
 OBJ = $(SRC:.c=.o)
@@ -29,7 +32,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) -L. -lft -fsanitize=address -o $(NAME) $(OBJ)
+	$(CC) -L. -lft -o $(NAME) $(OBJ)
 
 $(LIBFT):
 	@printf "\e[0;34mCompiling LIBFT $<\n\e[0;35m"

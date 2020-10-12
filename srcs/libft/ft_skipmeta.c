@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 12:59:14 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/07 16:46:31 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/12 12:59:37 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	ft_skipmeta(char *str, int i)
 		i++;
 	if (str[i] == '>' && str[i - 1] == '>')
 		i++;
-	if (ft_ismeta(str[i]) && str[i])
+	else if (str[i] == str[i - 1])
 		errors("syntax error.");
+	// if (ft_ismeta(str[i]) && str[i])
+	// 	errors("syntax error.");
 	return (i);
 }

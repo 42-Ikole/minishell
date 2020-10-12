@@ -67,6 +67,8 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
+void		prompt(void);
+
 /*
 **	ERROR
 */
@@ -101,5 +103,11 @@ char		*ft_replace_occur(char *str, char *find, char *replace, int idx);
 void		parse_env(char **env);
 char		*expansion(char *str, int *i);
 char		*remover(char *str);
+void		meta_check(t_cmd *commands);
+
+/*
+** Execute
+*/
+void		ft_exit(void);
 
 #endif

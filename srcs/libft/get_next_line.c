@@ -5,13 +5,14 @@
 /*                                                     +:+                    */
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/01/08 15:00:47 by ikole          #+#    #+#                */
-/*   Updated: 2020/03/11 20:00:17 by ikole         ########   odam.nl         */
+/*   Created: 2020/01/08 15:00:47 by ikole         #+#    #+#                 */
+/*   Updated: 2020/10/12 14:05:48 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <unistd.h>
+#include "../../includes/minishell.h"
 
 static int	ft_nllen(char *str)
 {
@@ -75,6 +76,7 @@ static int	ft_readline(int fd, char **line, char *buf)
 {
 	int ret;
 
+	write(1, "  \b\b", 4);
 	if (buf[0] == '\0')
 	{
 		ret = read(fd, buf, 128);
@@ -83,8 +85,8 @@ static int	ft_readline(int fd, char **line, char *buf)
 			free(*line);
 			return (-1);
 		}
-		if (ret == 0)
-			return (0);
+		if (ret == 0 && **line == '\0')
+			ft_exit();
 		buf[ret] = '\0';
 	}
 	*line = gnl_strjoin(*line, buf);
