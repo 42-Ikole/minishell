@@ -12,9 +12,7 @@ void	sig_handler(int signum)
 		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 	}
 	else
-	{
 		write(1, "\b\b  \b\b", 6);
-	}
 }
 
 void	prompt(void)
@@ -32,6 +30,7 @@ void	prompt(void)
 			errors("Unable to read line!\n");
 		tokens = tokenizer(line);
 		commands = parser(tokens);
+		commands = select_commands(commands);
 		free(line);
 	}
 }

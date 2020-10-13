@@ -108,6 +108,8 @@ void		meta_check(t_cmd *commands);
 /*
 ** Execute
 */
+t_cmd		*select_commands(t_cmd *cmd);
 void		ft_exit(void);
+void		change_dir(t_cmd *cmd);
 
 #endif
