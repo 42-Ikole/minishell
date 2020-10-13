@@ -6,7 +6,7 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/05 09:13:14 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/07 16:19:14 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/13 13:11:44 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ t_list				*ft_lstmap
 int					get_next_line(int fd, char **line);
 int					ft_skip_space(char *line, int i);
 int					ft_skipmeta(char *str, int i);
+int					ft_cmdcmp(const char *s1, const char *s2);
 
 #endif
