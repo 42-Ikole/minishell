@@ -17,7 +17,8 @@ TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 PARSER_ = parser.c find_replace.c environment.c remover.c expansion.c meta_check.c
 PARSER = $(addprefix parser/, $(PARSER_))
 
-EXECUTE_ = execute.c exit.c change_dir.c
+EXECUTE_ = execute.c exit.c change_dir.c path_dir.c print_echo.c builtin_exit.c \
+			builtin_export.c builtin_unset.c builtin_env.c
 EXECUTE = $(addprefix execute/, $(EXECUTE_))
 
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER) $(EXECUTE))

@@ -111,5 +111,12 @@ void		meta_check(t_cmd *commands);
 t_cmd		*select_commands(t_cmd *cmd);
 void		ft_exit(void);
 void		change_dir(t_cmd *cmd);
+void		path_dir(t_cmd *cmd);
+void		print_echo(t_cmd *cmd);
+void		builtin_exit(t_cmd *cmd);
+void		builtin_export(t_cmd *cmd);
+void		builtin_unset(t_cmd *cmd);
+void		builtin_env(t_cmd *cmd);
+
 
 #endif
