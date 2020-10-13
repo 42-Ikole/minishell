@@ -6,7 +6,7 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/05 09:13:14 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/13 13:06:38 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/13 13:17:56 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char				*ft_strrchr(const char *s, int c);
 char				*ft_strnstr
 					(const char *haystack, const char *needle, size_t len);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-int					ft_cmdcmp(const char *s1, const char *s2);
 
 int					ft_atoi(const char *str);
 
@@ -81,5 +80,6 @@ t_list				*ft_lstmap
 int					get_next_line(int fd, char **line);
 
 int					ft_skip_space(char *line, int i);
+int					ft_cmdcmp(const char *s1, const char *s2);
 
 #endif

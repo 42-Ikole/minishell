@@ -1,7 +1,20 @@
+
 #include "minishell.h"
+#include "unistd.h"
+#include "libft.h"
 
 void	builtin_env(t_cmd *cmd)
 {
-	(void) cmd;
-	printf("doe env dingen\n");
+	int i;
+
+	i = 0;
+	if (cmd->arg[1])
+		errors("no arguments allowed for env");
+	while (g_vars->envp[i])
+	{
+		ft_putstr_fd(g_vars->envp[i][0], 1);
+		ft_putchar_fd('=', 1);
+		ft_putendl_fd(g_vars->envp[i][1], 1);
+		i++;
+	}
 }

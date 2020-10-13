@@ -45,9 +45,6 @@ int     main(int ac, char **av, char **env)
 	g_vars->envp = NULL;
 	g_vars->ret = 42;
 	parse_env(env);
-	for (int i = 0; g_vars->envp[i]; i++) {
-		printf("%s = %s\n", g_vars->envp[i][0], g_vars->envp[i][1]);
-	}
 	prompt();
 	return (0);
 }
