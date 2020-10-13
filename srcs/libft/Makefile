@@ -6,7 +6,7 @@
 #    By: ivan-tol <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/10/28 14:18:51 by ivan-tol      #+#    #+#                  #
-#    Updated: 2020/10/07 16:19:35 by ikole         ########   odam.nl          #
+#    Updated: 2020/10/13 11:46:21 by ikole         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC =   	ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c \
 			ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
 			ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 			get_next_line.c ft_skipspace.c ft_iswhitespace.c ft_skipmeta.c \
-			ft_ismeta.c
+			ft_ismeta.c ft_cmdcmp.c
 
 OBJ = $(SRC:.c=.o)
 
