@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 15:00:47 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/12 14:05:48 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/14 17:18:19 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	ft_readline(int fd, char **line, char *buf)
 			return (-1);
 		}
 		if (ret == 0 && **line == '\0')
-			ft_exit();
+			do_exit(1);
 		buf[ret] = '\0';
 	}
 	*line = gnl_strjoin(*line, buf);

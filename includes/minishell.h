@@ -110,14 +110,14 @@ void		meta_check(t_cmd *commands);
 ** Execute
 */
 t_cmd		*select_commands(t_cmd *cmd);
-void		ft_exit(void);
+void		ft_exit(t_cmd	*cmd);
 void		change_dir(t_cmd *cmd);
 int			ft_get_env(char *str);
 void		path_dir(void);
 void		print_echo(t_cmd *cmd);
-void		builtin_exit(t_cmd *cmd);
 void		builtin_export(t_cmd *cmd);
 void		builtin_unset(t_cmd *cmd);
 void		builtin_env(t_cmd *cmd);
+void		do_exit(int code);
 
 #endif

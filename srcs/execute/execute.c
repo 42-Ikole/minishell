@@ -13,7 +13,7 @@ t_cmd	*select_commands(t_cmd *cmd)
 	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
 		print_echo(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "exit")))
-		builtin_exit(cmd);
+		ft_exit(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "export")))
 		builtin_export(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "unset")))
