@@ -9,7 +9,7 @@ t_cmd	*select_commands(t_cmd *cmd)
 	if (!(ft_cmdcmp(cmd->arg[0], "cd")))
 		change_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))
-		path_dir(cmd);
+		path_dir();
 	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
 		print_echo(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "exit")))

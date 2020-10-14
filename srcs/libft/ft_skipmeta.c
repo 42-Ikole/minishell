@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/07 12:59:14 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/12 12:59:37 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/14 12:43:05 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	errors(char *msg);
 
-int	ft_skipmeta(char *str, int i)
+int		ft_skipmeta(char *str, int i)
 {
 	if (ft_ismeta(str[i]))
 		i++;

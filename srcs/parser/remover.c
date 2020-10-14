@@ -2,10 +2,10 @@
 #include "libft.h"
 #include "minishell.h"
 
-char *remover(char *str)
+char	*remover(char *str)
 {
 	int				i;
-	int 			even;
+	int				even;
 	enum e_state	state;
 
 	i = 0;
@@ -13,7 +13,8 @@ char *remover(char *str)
 	state = space;
 	while (str[i])
 	{
-		if (str[i] == '\"' && ((i > 0 && str[i - 1] != '\\') || i == 0) && (!(even % 2) || state == dq))
+		if (str[i] == '\"' && ((i > 0 && str[i - 1] != '\\') ||
+			i == 0) && (!(even % 2) || state == dq))
 		{
 			state = dq;
 			str = ft_replace_occur(str, "\"", "", i);
@@ -21,7 +22,8 @@ char *remover(char *str)
 			if (!(even % 2))
 				state = space;
 		}
-		else if (str[i] == '\'' && ((!(even % 2) && ((i > 0 && str[i - 1] != '\\') || i == 0)) || state == sq))
+		else if (str[i] == '\'' && ((!(even % 2) &&
+			((i > 0 && str[i - 1] != '\\') || i == 0)) || state == sq))
 		{
 			state = sq;
 			str = ft_replace_occur(str, "\'", "", i);
@@ -29,7 +31,8 @@ char *remover(char *str)
 			if (!(even % 2))
 				state = space;
 		}
-		else if (str[i] == '$' && ((i > 0 && str[i - 1] != '\\') || i == 0) && state != sq)
+		else if (str[i] == '$' && ((i > 0 && str[i - 1] != '\\') ||
+			i == 0) && state != sq)
 			str = expansion(str, &i);
 		else if (str[i - 1] == '\\' && state != sq)
 			str = ft_replace_occur(str, "\\", "", i - 1);

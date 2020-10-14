@@ -8,7 +8,7 @@ void		sort_env(void)
     int 	i;
     int		j;
     int		k;
-    char    *tmp;
+    char    **tmp;
 
     i = 0;
     while (g_vars->envp[i + 1])
@@ -21,9 +21,9 @@ void		sort_env(void)
 				j++;
 			if (g_vars->envp[i][0][j] > g_vars->envp[k][0][j])
 			{
-				tmp = g_vars->envp[i][0];
-				g_vars->envp[i][0] = g_vars->envp[k][0];
-				g_vars->envp[k][0] = tmp;
+				tmp = g_vars->envp[i];
+				g_vars->envp[i] = g_vars->envp[k];
+				g_vars->envp[k] = tmp;
 			}
     		k++;
 		}

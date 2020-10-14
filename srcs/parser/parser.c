@@ -3,7 +3,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-int		command_size(t_tokens *tokens)
+int			command_size(t_tokens *tokens)
 {
 	int i;
 
@@ -20,7 +20,7 @@ int		command_size(t_tokens *tokens)
 	return (i);
 }
 
-t_cmd	*set_type(t_cmd *commands, char *token)
+t_cmd		*set_type(t_cmd *commands, char *token)
 {
 	if (!token)
 		commands->type = semicolon;
@@ -47,12 +47,12 @@ t_tokens	*free_tokens(t_tokens *tokens)
 		{
 			tmp = tokens;
 			tokens = tokens->next;
-			free (tmp);
+			free(tmp);
 			return (tokens);
 		}
 		tmp = tokens;
 		tokens = tokens->next;
-		free (tmp);
+		free(tmp);
 	}
 	return (tokens);
 }
@@ -62,10 +62,11 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	t_tokens	*head;
 	t_cmd		*commands;
 	t_tokens	*tokens;
+	int			i;
+	int			cmd;
 
 	tokens = *tk;
 	head = tokens;
-	int		i;
 	commands = malloc(sizeof(t_cmd));
 	if (!commands)
 		errors("malloc failed!");
@@ -74,7 +75,7 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 		errors("malloc failed");
 	commands->type = 0;
 	i = 0;
-	int cmds = command_size(tokens);
+	cmd = command_size(tokens);
 	while (tokens)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
@@ -83,14 +84,14 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 			free(tokens->token); // free node
 			break ;
 		}
-		commands->arg[i] = tokens->token; 
+		commands->arg[i] = tokens->token;
 		tokens = tokens->next;
 		i++;
 	}
 	*tk = free_tokens(tokens);
 	commands->arg[i] = NULL;
 	i = 0;
-	while (i < cmds)
+	while (i < cmd)
 	{
 		commands->arg[i] = remover(commands->arg[i]);
 		printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
@@ -100,7 +101,7 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	return (commands);
 }
 
-t_cmd	*parser(t_tokens *tokens)
+t_cmd		*parser(t_tokens *tokens)
 {
 	t_cmd		*commands;
 	t_cmd		*head;
