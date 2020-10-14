@@ -57,8 +57,8 @@ typedef struct s_cmd
 
 typedef struct s_nodes
 {
-	t_cmd			*cmd;
-	struct s_nodes	*next;
+    t_cmd			*cmd;
+    struct s_nodes	*next;
 }	t_nodes;
 
 typedef struct s_tokens
@@ -91,6 +91,7 @@ int			fsm_sq(t_tokens *token, char *line, int start, int i);
 ** Formatter
 */
 char		*format_de(char *str, int i);
+void		sort_env(void);
 
 /*
 ** Parser

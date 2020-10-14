@@ -3,6 +3,34 @@
 #include "minishell.h"
 #include "stdlib.h"
 
+void		sort_env(void)
+{
+    int 	i;
+    int		j;
+    int		k;
+    char    *tmp;
+
+    i = 0;
+    while (g_vars->envp[i + 1])
+    {
+    	k = i + 1;
+    	while (g_vars->envp[k])
+		{
+			j = 0;
+			while (g_vars->envp[i][0][j] == g_vars->envp[k][0][j])
+				j++;
+			if (g_vars->envp[i][0][j] > g_vars->envp[k][0][j])
+			{
+				tmp = g_vars->envp[i][0];
+				g_vars->envp[i][0] = g_vars->envp[k][0];
+				g_vars->envp[k][0] = tmp;
+			}
+    		k++;
+		}
+        i++;
+    }
+}
+
 static char **split_id(char *env)
 {
 	char	**split;
@@ -42,4 +70,5 @@ void	parse_env(char **env)
 		i++;
 	}
 	g_vars->envp[i] = NULL;
+	sort_env();
 }
