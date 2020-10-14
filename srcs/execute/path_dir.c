@@ -3,9 +3,8 @@
 #include <limits.h>
 #include <unistd.h>
 
-void	path_dir(t_cmd *cmd)
+void	path_dir(void)
 {
-	(void) cmd;
 	char	buf[PATH_MAX + 1];
 
 	if (!getcwd(buf, sizeof(buf)))

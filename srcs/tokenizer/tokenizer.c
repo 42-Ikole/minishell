@@ -3,7 +3,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-t_tokens	*token_addback(t_tokens *tokens, char *token)
+t_tokens		*token_addback(t_tokens *tokens, char *token)
 {
 	t_tokens	*new;
 	t_tokens	*head;
@@ -32,10 +32,10 @@ t_tokens	*token_addback(t_tokens *tokens, char *token)
 
 t_tokens		*tokenizer(char *line)
 {
-	int i;
-	int	start;
-	t_tokens *tokens;
-	
+	int			i;
+	int			start;
+	t_tokens	*tokens;
+
 	tokens = malloc(sizeof(t_tokens));
 	if (!tokens)
 		errors("malloc failed ffs\n");
@@ -64,5 +64,5 @@ t_tokens		*tokenizer(char *line)
 	// 	printf("token = [%s]\n", tokens->token);
 	// 	tokens = tokens->next;
 	// }
-	return tokens;
+	return (tokens);
 }
