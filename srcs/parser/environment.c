@@ -3,7 +3,7 @@
 #include "minishell.h"
 #include "stdlib.h"
 
-static void	sort_env(void)
+void	sort_env(void)
 {
     int 	i;
     int		j;
@@ -19,7 +19,7 @@ static void	sort_env(void)
 			j = 0;
 			while (g_vars->envp[i][0][j] == g_vars->envp[k][0][j])
 				j++;
-			if (g_vars->envp[i][0][j] < g_vars->envp[k][0][j])
+			if (g_vars->envp[i][0][j] > g_vars->envp[k][0][j])
 			{
 				tmp = g_vars->envp[i];
 				g_vars->envp[i] = g_vars->envp[k];
