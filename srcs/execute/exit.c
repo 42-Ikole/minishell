@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-stataic int	extoi(const char *str, int *err)
+static int	extoi(const char *str, int *err)
 {
 	int					i;
 	int					nega;
