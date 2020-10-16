@@ -50,8 +50,7 @@ typedef struct s_cmd
 {
 	char			**arg;
 	enum e_types	type;
-	int				input_fd;
-	int				output_fd;
+	int 			fd[2];
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -113,7 +112,7 @@ t_cmd		*select_commands(t_cmd *cmd);
 void		ft_exit(t_cmd	*cmd);
 void		change_dir(t_cmd *cmd);
 int			ft_get_env(char *str);
-void		path_dir(void);
+void		path_dir(t_cmd	*cmd);
 void		print_echo(t_cmd *cmd);
 void		builtin_export(t_cmd *cmd);
 void		builtin_unset(t_cmd *cmd);

@@ -15,6 +15,40 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
+void	exec_type(t_cmd *commands)
+{
+	pid_t pid;
+
+	while (commands)
+	{
+		if (commands->type == pipeline)
+		{
+			pid = fork();
+			if (pid < 0)
+				errors("fork failed");
+			if (pid > 0)
+			{
+				// printf("main process\n");
+				commands = commands->next;
+				if (commands->type != pipeline)
+					wait(&pid);
+			}
+			else
+			{
+				// printf("child process\n");
+				commands = select_commands(commands);
+				commands = free_cmd(commands);
+				exit (0);
+			}
+		}
+		else
+		{
+			commands = select_commands(commands);
+			commands = free_cmd(commands);
+		}
+	}
+}
+
 void	prompt(void)
 {
 	int			ret;
@@ -30,11 +64,7 @@ void	prompt(void)
 			errors("Unable to read line!\n");
 		tokens = tokenizer(line);
 		commands = parser(tokens);
-		while (commands)
-		{
-			commands = select_commands(commands);
-			commands = free_cmd(commands);
-		}
+		exec_type(commands);
 		free(line);
 	}
 }
@@ -47,7 +77,7 @@ int		main(int ac, char **av, char **env)
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	g_vars->envp = NULL;
-	g_vars->ret = 42;
+	g_vars->ret = 0;
 	parse_env(env);
 	prompt();
 	return (0);

@@ -15,7 +15,7 @@ void	meta_check(t_cmd *cmd)
 		else if (cmd->type == trunc && cmd->next &&
 			cmd->next->type == pipeline)
 			return ;
-		else if (cmd->type == pipeline && cmd->next &&
+		else if (cmd->type == pipeline && !cmd->next &&
 			cmd->next->type < pipeline)
 			errors("syntax error 4");
 		// else if (cmd->type != semicolon && (!cmd->next || !cmd->next->arg[0]))

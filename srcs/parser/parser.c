@@ -108,10 +108,14 @@ t_cmd		*parser(t_tokens *tokens)
 
 	commands = cmd_splitting(&tokens);
 	head = commands;
+	commands->fd[0] = 0;
+	commands->fd[1] = 1;
 	commands->next = NULL;
 	while (tokens)
 	{
 		commands->next = cmd_splitting(&tokens);
+		commands->fd[0] = 0;
+		commands->fd[1] = 1;
 		commands = commands->next;
 		commands->next = NULL;
 	}

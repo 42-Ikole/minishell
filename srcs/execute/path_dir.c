@@ -3,7 +3,7 @@
 #include <limits.h>
 #include <unistd.h>
 
-void	path_dir(void)
+void	path_dir(t_cmd	*cmd)
 {
 	char	buf[PATH_MAX + 1];
 
@@ -12,5 +12,5 @@ void	path_dir(void)
 		errors("Command pwd not found.");
 		return ;
 	}
-	ft_putendl_fd(buf, 1);
+	ft_putendl_fd(buf, cmd->fd[1]);
 }
