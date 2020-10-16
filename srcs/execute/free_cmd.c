@@ -8,10 +8,8 @@ t_cmd	*free_cmd(t_cmd *cmd)
 	t_cmd *next;
 
 	i = 0;
-	printf("hier\n");
 	while (cmd->arg[i])
 	{
-		printf("freed [%s]\n", cmd->arg[i]);
 		free (cmd->arg[i]);
 		i++;
 	}
