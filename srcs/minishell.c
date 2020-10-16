@@ -30,7 +30,11 @@ void	prompt(void)
 			errors("Unable to read line!\n");
 		tokens = tokenizer(line);
 		commands = parser(tokens);
-		commands = select_commands(commands);
+		while (commands)
+		{
+			commands = select_commands(commands);
+			commands = free_cmd(commands);
+		}
 		free(line);
 	}
 }

@@ -43,30 +43,29 @@ t_tokens	*free_tokens(t_tokens *tokens)
 
 	while (tokens)
 	{
-		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
+		if (ft_ismeta(tokens->token[0]))
 		{
 			tmp = tokens;
 			tokens = tokens->next;
-			free(tmp);
-			return (tokens);
+			free (tmp->token);
+			free (tmp);
+			break ;
 		}
 		tmp = tokens;
 		tokens = tokens->next;
-		free(tmp);
+		free (tmp);
 	}
 	return (tokens);
 }
 
 t_cmd		*cmd_splitting(t_tokens **tk)
 {
-	t_tokens	*head;
 	t_cmd		*commands;
 	t_tokens	*tokens;
 	int			i;
 	int			cmd;
 
 	tokens = *tk;
-	head = tokens;
 	commands = malloc(sizeof(t_cmd));
 	if (!commands)
 		errors("malloc failed!");
@@ -81,14 +80,15 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
 		{
 			commands = set_type(commands, tokens->token);
-			free(tokens->token); // free node
+			// free(tokens->token); // free node
+			// tokens->token = NULL;
 			break ;
 		}
 		commands->arg[i] = tokens->token;
 		tokens = tokens->next;
 		i++;
 	}
-	*tk = free_tokens(tokens);
+	*tk = free_tokens(*tk);
 	commands->arg[i] = NULL;
 	i = 0;
 	while (i < cmd)

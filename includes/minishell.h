@@ -119,5 +119,6 @@ void		builtin_export(t_cmd *cmd);
 void		builtin_unset(t_cmd *cmd);
 void		builtin_env(t_cmd *cmd);
 void		do_exit(int code);
+t_cmd		*free_cmd(t_cmd *cmd);
 
 #endif

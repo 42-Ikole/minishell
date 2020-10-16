@@ -93,5 +93,6 @@ char	*ft_replace_occur(char *str, char *find, char *replace, int idx)
 		}
 	}
 	ret[i] = '\0';
+	free(str);
 	return (ret);
 }
