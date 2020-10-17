@@ -14,18 +14,16 @@ static char **convert_env(void)
 	while(g_vars->envp[i])
 		i++;
 	ret = malloc(sizeof(char *) * i + 1);
+	malloc_check(ret);
 	i = 0;
 	while (g_vars->envp[i])
 	{
 		ret[i] = ft_strdup(g_vars->envp[i][0]);
-		if (!ret[i])
-			errors("strdup failed", 1); //
+		malloc_check(ret[i]);
 		ret[i] = ft_strjoin(ret[i], "=");
-		if (!ret[i])
-			errors("strjoin failed", 1); // 
+		malloc_check(ret[i]); 
 		ret[i] = ft_strjoin(ret[i], g_vars->envp[i][1]);
-		if (!ret[i])
-			errors("ft_strjoin failed", 1); //
+		malloc_check(ret[i]);
 		i++;
 	}
 	ret[i] = NULL;
@@ -42,16 +40,13 @@ char	*get_path(char	*path, char *exec)
 	i = 0;
 	ret = NULL;
 	locations = ft_split(path, ':');
-	if (!locations)
-		errors("split failed", 1); //
+	malloc_check(locations);
 	while (locations[i])
 	{
 		locations[i] = ft_strjoin(locations[i], "/");
-		if (!locations[i])
-			errors("ft_strjoin failed", 1); //
+		malloc_check(locations[i]);
 		locations[i] = ft_strjoin(locations[i], exec);
-		if (!locations[i])
-			errors("strjoin failed", 1); //
+		malloc_check(locations[i]);
 		stat(locations[i], &buf);
 		if (S_ISREG(buf.st_mode) == true)
 		{
@@ -60,10 +55,12 @@ char	*get_path(char	*path, char *exec)
 		}
 		i++;
 	}
-	while (i > 0)
+	i = 0;
+	while (locations[i])
 	{
-		i--;
-		free(locations[i]);
+		if (ft_strncmp(locations[i], ret, ft_strlen(locations[i])))
+			free(locations[i]);
+		i++;
 	}
 	free(locations);
 	return (ret);
@@ -82,9 +79,10 @@ int		exec_program(t_cmd *cmd)
 	if (cmd->type != pipeline)
 	{
 		pid = fork();
+		// system("leaks minishell"); watafak
 	}
 	if (pid < 0)
-		return (errors("fork failed", 1));
+		exit (errors("fork failed", pid));
 	else if (pid > 0)
 		wait(&pid);
 	else if (pid == 0 || cmd->type == pipeline)
@@ -93,10 +91,10 @@ int		exec_program(t_cmd *cmd)
 		if (ft_strchr(cmd->arg[0], '/'))
 			ret = execve(cmd->arg[0], cmd->arg, env);
 		if (ret == -1)
-			exit (ret);
+			exit (errors("command not found", ret));
 		path = get_path(g_vars->envp[ft_get_env("PATH")][1], cmd->arg[0]);
 		if (!path)
-			return (errors("command not found", 1));
+			exit (errors("command not found", 1));
 		ret = execve(path, cmd->arg, env);
 		free (path);
 		i = 0;
@@ -107,7 +105,7 @@ int		exec_program(t_cmd *cmd)
 		}
 		free(env);
 		if (ret < 0)
-			return (errors("Command not found", 1));
+			exit (errors("Command not found", ret));
 		exit (ret);
 	}
 	return (0);

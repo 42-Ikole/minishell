@@ -6,14 +6,14 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/04 08:52:01 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2019/11/14 17:14:38 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/17 16:21:23 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
 	char	*str;
 	int		i;
@@ -38,5 +38,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	str[i] = '\0';
+	free (s1);
 	return (str);
 }

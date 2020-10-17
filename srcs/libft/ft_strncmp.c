@@ -6,7 +6,7 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/10/31 11:47:46 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2019/11/20 09:32:47 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/17 17:41:35 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (1);
 	if (n == 0)
 		return (0);
 	while (s1[i] == s2[i] && i < n - 1)
