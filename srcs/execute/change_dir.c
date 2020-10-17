@@ -18,7 +18,7 @@ int		ft_get_env(char *str)
 	return (-1);
 }
 
-void	change_dir(t_cmd *cmd)
+int		change_dir(t_cmd *cmd)
 {
 
 	if (!cmd->arg[1] || cmd->arg[1][0] == '~')
@@ -29,17 +29,18 @@ void	change_dir(t_cmd *cmd)
 			{
 				cmd->arg[1] = ft_replace_occur(cmd->arg[1], "~", g_vars->envp[ft_get_env("HOME")][1], 0);
 				if (chdir(cmd->arg[1]))
-					errors("Path HOME not valide");
+					return (errors("Path HOME not valid", -1));
 				else
-					return ;
+					return (0);
 			}
 			else if (chdir(g_vars->envp[ft_get_env("HOME")][1]))
-				errors("Path HOME not valide");
+				return (errors("Path HOME not valid", -1));
 			else
-				return ;
+				return (0);
 		}
-		errors("HOME is not found.");
+		return (errors("HOME is not found.", -1));
 	}
 	else if (chdir(cmd->arg[1]))
-		errors("Is not a directory");
+		return (errors("Is not a directory", -1));
+	return (0);
 }

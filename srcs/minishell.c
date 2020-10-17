@@ -25,7 +25,7 @@ int		exec_type(t_cmd *commands)
 		{
 			pid = fork();
 			if (pid < 0)
-				return (errors("fork failed", 1));
+				do_exit(1);
 			if (pid > 0)
 			{
 				commands = commands->next;
@@ -35,6 +35,8 @@ int		exec_type(t_cmd *commands)
 			else
 			{
 				commands = select_commands(commands);
+				if (!commands)
+					exit (1);
 				commands = free_cmd(commands);
 				exit (0);
 			}
@@ -42,32 +44,39 @@ int		exec_type(t_cmd *commands)
 		else
 		{
 			commands = select_commands(commands);
+			if (!commands)
+				return (1);
 			commands = free_cmd(commands);
 		}
 	}
 	return (0);
 }
 
-void	prompt(void)
+int		prompt(void)
 {
 	int			ret;
 	char		*line;
 	t_tokens	*tokens;
 	t_cmd		*commands;
 
+	line = NULL;
 	while (1)
 	{
+		if (line)
+			free(line);
 		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
-		{
-			errors("Unable to read line!\n", 1);
-			continue ;
-		}
+			return (errors("Unable to read line!\n", 1));
 		tokens = tokenizer(line);
+		if (!tokens)
+			continue ;
 		commands = parser(tokens);
+		if (!commands)
+			continue ;
 		exec_type(commands);
 		free(line);
+		line = NULL;
 	}
 }
 

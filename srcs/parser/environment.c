@@ -38,16 +38,13 @@ static char **split_id(char *env)
 
 	i = 0;
 	split = malloc(sizeof(char *) * 2);
-	if (!split)
-		errors("malloc failed", 1); //
+	malloc_check(split);
 	while (env[i] && env[i] != '=')
 		i++;
 	split[0] = malloc(sizeof(char) * i + 1);
-	if (!split[0])
-		errors("malloc failed", 1); //
+	malloc_check(split[0]);
 	split[1] = malloc(sizeof(char) * ft_strlen(env) - i);
-	if (!split[1])
-		errors("malloc failed", 1); //
+	malloc_check(split[1]);
 	ft_strlcpy(split[0], env, i + 1);
 	ft_strlcpy(split[1], env + i + 1, ft_strlen(env) - i);
 	return (split);
@@ -61,11 +58,7 @@ void	parse_env(char **env)
 	while (env[i])
 		i++;
 	g_vars->envp = malloc(sizeof(char **) * i + 1);
-	if (!g_vars->envp)
-	{
-		errors("malloc for environemt failed", 1);
-		return ;
-	}
+	malloc_check(g_vars->envp);
 	i = 0;
 	while (env[i])
 	{

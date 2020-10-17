@@ -8,14 +8,12 @@ t_tokens		*token_addback(t_tokens *tokens, char *token)
 	t_tokens	*new;
 	t_tokens	*head;
 
-	if (!token)
-		errors("substring for token failed!\n", 1); //
+	malloc_check(tokens);
 	head = tokens;
 	if (head->token)
 	{
 		new = malloc(sizeof(t_tokens));
-		if (!new)
-			errors("malloc failed!\n", 1); //
+		malloc_check(new);
 		new->token = token;
 		new->next = NULL;
 		while (tokens && tokens->next)
@@ -37,8 +35,7 @@ t_tokens		*tokenizer(char *line)
 	t_tokens	*tokens;
 
 	tokens = malloc(sizeof(t_tokens));
-	if (!tokens)
-		errors("malloc failed ffs\n", 1); //
+	malloc_check(tokens);
 	tokens->next = NULL;
 	tokens->token = NULL;
 	i = ft_skip_space(line, 0);
@@ -56,6 +53,8 @@ t_tokens		*tokenizer(char *line)
 			start = fsm_sq(tokens, line, start, i);
 		else
 			i++;
+		if (start < 0)
+			return (tokens);
 		if (start > i)
 			i = start;
 	}

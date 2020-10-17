@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/01/08 15:00:47 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/14 17:18:19 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/17 15:28:43 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,7 @@ static char	*gnl_strjoin(char *line, char *buf)
 	i = 0;
 	j = 0;
 	str = malloc(sizeof(char) * (ft_nllen(line) + ft_nllen(buf) + 1));
-	if (!str)
-	{
-		free(line);
-		return (NULL);
-	}
+	malloc_check(str);
 	while (line[i])
 	{
 		str[i] = line[i];
@@ -108,8 +104,7 @@ int			get_next_line(int fd, char **line)
 	if (fd < 0 || read(fd, 0, 0) < 0 || !line)
 		return (-1);
 	*line = malloc(sizeof(char));
-	if (!*line)
-		return (-1);
+	malloc_check(line);
 	**line = '\0';
 	return (ft_readline(fd, line, buf));
 }

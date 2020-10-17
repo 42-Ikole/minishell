@@ -2,7 +2,7 @@
 #include "minishell.h"
 #include "libft.h"
 
-void	print_echo(t_cmd *cmd)
+int	print_echo(t_cmd *cmd)
 {
 	int			i;
 	enum e_bool	nl;
@@ -23,4 +23,5 @@ void	print_echo(t_cmd *cmd)
 	}
 	if (nl == true)
 		ft_putchar_fd('\n', cmd->fd[1]);
+	return (0);
 }

@@ -115,23 +115,32 @@ int		exec_program(t_cmd *cmd)
 
 t_cmd	*select_commands(t_cmd *cmd)
 {
+	int	ret;
+
+	ret = 0;
 	if (!cmd->arg[0])
 		return (cmd);
 	if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
-		change_dir(cmd);
+		ret = change_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))
-		path_dir(cmd);
+		ret = path_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
-		print_echo(cmd);
+		ret = print_echo(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "exit", 5)))
-		ft_exit(cmd);
+		ret = ft_exit(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "export", 7)))
-		builtin_export(cmd);
+		ret = builtin_export(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "unset", 6)))
-		builtin_unset(cmd);
+		ret = builtin_unset(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "env")))
-		builtin_env(cmd);
+		ret = builtin_env(cmd);
 	else
-		exec_program(cmd);
+		ret = exec_program(cmd);
+	if (ret != 0)
+	{
+		while (cmd)
+			cmd = free_cmd(cmd);
+		return (NULL);
+	}
 	return (cmd);
 }

@@ -67,11 +67,9 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 
 	tokens = *tk;
 	commands = malloc(sizeof(t_cmd));
-	if (!commands)
-		errors("malloc failed!", 1); //
+	malloc_check(commands);
 	commands->arg = malloc(sizeof(char*) * command_size(tokens) + 1);
-	if (!commands->arg)
-		errors("malloc failed", 1); // 
+	malloc_check(commands->arg);
 	commands->type = 0;
 	i = 0;
 	cmd = command_size(tokens);
@@ -106,6 +104,8 @@ t_cmd		*parser(t_tokens *tokens)
 	t_cmd		*commands;
 	t_cmd		*head;
 
+	if (!tokens->token)
+		return (NULL);
 	commands = cmd_splitting(&tokens);
 	head = commands;
 	commands->fd[0] = 0;
@@ -120,7 +120,12 @@ t_cmd		*parser(t_tokens *tokens)
 		commands->next = NULL;
 	}
 	free(tokens);
-	meta_check(head);
+	if (meta_check(head) < 0)
+	{
+		while (head)
+			head = free_cmd(head);
+		return (NULL);
+	}
 	// for (int i = 0; g_vars->envp[i]; i++) {
 	// 	for (int j = 0; g_vars->envp[i][j]; j++)
 	// 		printf("%s\n")

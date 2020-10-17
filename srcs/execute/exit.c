@@ -39,7 +39,7 @@ void 		do_exit(int code)
 	exit(code);
 }
 
-void		ft_exit(t_cmd	*cmd)
+int			ft_exit(t_cmd	*cmd)
 {
 	int i;
 	int	code;
@@ -64,4 +64,5 @@ void		ft_exit(t_cmd	*cmd)
 			do_exit(ft_atoi(cmd->arg[i]));
 		i++;
 	}
+	return (-1);
 }

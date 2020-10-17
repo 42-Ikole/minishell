@@ -11,3 +11,12 @@ int		errors(char *msg, int	status)
 	g_vars->ret = status;
 	return (status);
 }
+
+int		malloc_check(void *check)
+{
+	if (check)
+		return (0);
+	write(2, "\e[0;31mError\e[0m\n\e[0;33m malloc failed!\n", 41);
+	g_vars->ret = 1;
+	exit (g_vars->ret);
+}

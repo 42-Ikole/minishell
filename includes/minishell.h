@@ -66,12 +66,13 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
-void		prompt(void);
+int			prompt(void);
 
 /*
 **	ERROR
 */
 int			errors(char *msg, int status);
+int			malloc_check(void *check);
 
 /*
 **	Tokenizer
@@ -103,20 +104,20 @@ char		*ft_replace_occur(char *str, char *find, char *replace, int idx);
 void		parse_env(char **env);
 char		*expansion(char *str, int *i);
 char		*remover(char *str);
-void		meta_check(t_cmd *commands);
+int			meta_check(t_cmd *commands);
 
 /*
 ** Execute
 */
 t_cmd		*select_commands(t_cmd *cmd);
-void		ft_exit(t_cmd	*cmd);
-void		change_dir(t_cmd *cmd);
+int			ft_exit(t_cmd	*cmd);
+int			change_dir(t_cmd *cmd);
 int			ft_get_env(char *str);
-void		path_dir(t_cmd	*cmd);
-void		print_echo(t_cmd *cmd);
-void		builtin_export(t_cmd *cmd);
-void		builtin_unset(t_cmd *cmd);
-void		builtin_env(t_cmd *cmd);
+int			path_dir(t_cmd	*cmd);
+int			print_echo(t_cmd *cmd);
+int			builtin_export(t_cmd *cmd);
+int			builtin_unset(t_cmd *cmd);
+int			builtin_env(t_cmd *cmd);
 void		do_exit(int code);
 t_cmd		*free_cmd(t_cmd *cmd);
 
