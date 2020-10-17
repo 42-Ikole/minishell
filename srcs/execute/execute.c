@@ -3,6 +3,7 @@
 #include "minishell.h"
 #include <unistd.h>
 #include <limits.h>
+#include <sys/stat.h>
 
 static char **convert_env(void)
 {
@@ -17,11 +18,54 @@ static char **convert_env(void)
 	while (g_vars->envp[i])
 	{
 		ret[i] = ft_strdup(g_vars->envp[i][0]);
+		if (!ret[i])
+			errors("strdup failed"); //
 		ret[i] = ft_strjoin(ret[i], "=");
+		if (!ret[i])
+			errors("strjoin failed"); // 
 		ret[i] = ft_strjoin(ret[i], g_vars->envp[i][1]);
+		if (!ret[i])
+			errors("ft_strjoin failed"); //
 		i++;
 	}
 	ret[i] = NULL;
+	return (ret);
+}
+
+char	*get_path(char	*path, char *exec)
+{
+	char		**locations;
+	char		*ret;
+	int			i;
+	struct stat	buf;
+
+	i = 0;
+	ret = NULL;
+	locations = ft_split(path, ':');
+	if (!locations)
+		errors("split failed"); //
+	while (locations[i])
+	{
+		locations[i] = ft_strjoin(locations[i], "/");
+		if (!locations[i])
+			errors("ft_strjoin failed"); //
+		locations[i] = ft_strjoin(locations[i], exec);
+		if (!locations[i])
+			errors("strjoin failed"); //
+		stat(locations[i], &buf);
+		if (S_ISREG(buf.st_mode) == true)
+		{
+			ret = locations[i];
+			break ;
+		}
+		i++;
+	}
+	while (i > 0)
+	{
+		i--;
+		free(locations[i]);
+	}
+	free(locations);
 	return (ret);
 }
 
@@ -29,23 +73,32 @@ void	exec_program(t_cmd *cmd)
 {
 	pid_t	pid;
 	char	**env;
+	char	*path;
 	int		i;
 	int		ret;
 
 	pid = 0;
+	ret = 0;
 	if (cmd->type != pipeline)
 	{
 		pid = fork();
-		if (pid < 0)
-			errors("fork failed");
-		else if (pid > 0)
-			wait(&pid);
 	}
-	if (pid == 0 || cmd->type == pipeline)
+	if (pid < 0)
+		errors("fork failed");
+	else if (pid > 0)
+		wait(&pid);
+	else if (pid == 0 || cmd->type == pipeline)
 	{
 		env = convert_env();
-		// printf("%s\n", env[ft_get_env("PATH")]);
-		ret = execve("/bin/ls", cmd->arg, env);
+		if (ft_strchr(cmd->arg[0], '/'))
+			ret = execve(cmd->arg[0], cmd->arg, env);
+		if (ret == -1)
+			exit (ret);
+		path = get_path(g_vars->envp[ft_get_env("PATH")][1], cmd->arg[0]);
+		if (!path)
+			errors("command not found");
+		ret = execve(path, cmd->arg, env);
+		free (path);
 		i = 0;
 		while (env[i])
 		{
