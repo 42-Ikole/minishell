@@ -57,8 +57,7 @@ int	fsm_dq(t_tokens *token, char *line, int start, int i)
 			return (fsm_space(token, line, start, i + 1));
 		i++;
 	}
-	errors("string expantion!\n");
-	return (i);
+	return (errors("string expantion!\n", i));
 }
 
 int	fsm_sq(t_tokens *token, char *line, int start, int i)
@@ -80,6 +79,5 @@ int	fsm_sq(t_tokens *token, char *line, int start, int i)
 			return (fsm_space(token, line, start, i + 1));
 		i++;
 	}
-	errors("string expantion!\n");
-	return (i);
+	return (errors("string expantion!\n", i));
 }

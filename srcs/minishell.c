@@ -15,7 +15,7 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
-void	exec_type(t_cmd *commands)
+int		exec_type(t_cmd *commands)
 {
 	pid_t pid;
 
@@ -25,17 +25,15 @@ void	exec_type(t_cmd *commands)
 		{
 			pid = fork();
 			if (pid < 0)
-				errors("fork failed");
+				return (errors("fork failed", 1));
 			if (pid > 0)
 			{
-				// printf("main process\n");
 				commands = commands->next;
 				if (commands->type != pipeline)
 					wait(&pid);
 			}
 			else
 			{
-				// printf("child process\n");
 				commands = select_commands(commands);
 				commands = free_cmd(commands);
 				exit (0);
@@ -47,6 +45,7 @@ void	exec_type(t_cmd *commands)
 			commands = free_cmd(commands);
 		}
 	}
+	return (0);
 }
 
 void	prompt(void)
@@ -61,7 +60,10 @@ void	prompt(void)
 		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
-			errors("Unable to read line!\n");
+		{
+			errors("Unable to read line!\n", 1);
+			continue ;
+		}
 		tokens = tokenizer(line);
 		commands = parser(tokens);
 		exec_type(commands);
@@ -73,7 +75,7 @@ int		main(int ac, char **av, char **env)
 {
 	(void)av;
 	if (ac > 1)
-		errors("arguments not allowed :(");
+		return (errors("arguments not allowed :(", 1));
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	g_vars->envp = NULL;

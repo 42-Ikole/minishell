@@ -68,10 +68,10 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	tokens = *tk;
 	commands = malloc(sizeof(t_cmd));
 	if (!commands)
-		errors("malloc failed!");
+		errors("malloc failed!", 1); //
 	commands->arg = malloc(sizeof(char*) * command_size(tokens) + 1);
 	if (!commands->arg)
-		errors("malloc failed");
+		errors("malloc failed", 1); // 
 	commands->type = 0;
 	i = 0;
 	cmd = command_size(tokens);

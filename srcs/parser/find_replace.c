@@ -12,7 +12,7 @@ char	*ft_replace(char *str, char *find, char *replace, int new_length)
 	// printf ("new length = %i\n", new_length);
 	ret = malloc(sizeof(char) * new_length + 1);
 	if (!ret)
-		errors("malloc failed!");
+		errors("malloc failed!", 1); //
 	i = 0;
 	j = 0;
 	while (i < new_length)
@@ -69,7 +69,7 @@ char	*ft_replace_occur(char *str, char *find, char *replace, int idx)
 
 	ret = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(replace) - ft_strlen(find) + 1));
 	if (!ret)
-		errors("malloc failed!");
+		errors("malloc failed!", 1); //
 	i = 0;
 	j = 0;
 	k = 0;

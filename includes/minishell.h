@@ -71,7 +71,7 @@ void		prompt(void);
 /*
 **	ERROR
 */
-void		errors(char *msg);
+int			errors(char *msg, int status);
 
 /*
 **	Tokenizer

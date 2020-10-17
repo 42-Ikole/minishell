@@ -9,7 +9,7 @@ void	path_dir(t_cmd	*cmd)
 
 	if (!getcwd(buf, sizeof(buf)))
 	{
-		errors("Command pwd not found.");
+		errors("pwd failed to get directory", 1);
 		return ;
 	}
 	ft_putendl_fd(buf, cmd->fd[1]);
