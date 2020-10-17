@@ -16,12 +16,12 @@ int	print_echo(t_cmd *cmd)
 	}
 	while(cmd->arg[i])
 	{
-		ft_putstr_fd(cmd->arg[i], cmd->fd[1]);
+		ft_putstr_fd(cmd->arg[i], 1);
 		i++;
 		if (cmd->arg[i])
-			ft_putchar_fd(' ', cmd->fd[1]);
+			ft_putchar_fd(' ', 1);
 	}
 	if (nl == true)
-		ft_putchar_fd('\n', cmd->fd[1]);
+		ft_putchar_fd('\n', 1);
 	return (0);
 }
