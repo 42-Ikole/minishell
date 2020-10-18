@@ -50,7 +50,8 @@ typedef struct s_cmd
 {
 	char			**arg;
 	enum e_types	type;
-	int 			fd[2];
+	int				read_fd;
+	int				write_fd;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -98,8 +99,8 @@ void		sort_env(void);
 */
 t_cmd		*parser(t_tokens *tokens);
 int			command_size(t_tokens *tokens);
-char		*find_replace(char *str, char *find, char *replace);
-char		*ft_replace(char *str, char *find, char *replace, int new_length);
+// char		*find_replace(char *str, char *find, char *replace);
+// char		*ft_replace(char *str, char *find, char *replace, int new_length);
 char		*ft_replace_occur(char *str, char *find, char *replace, int idx);
 void		parse_env(char **env);
 char		*expansion(char *str, int *i);
@@ -120,5 +121,6 @@ int			builtin_unset(t_cmd *cmd);
 int			builtin_env(t_cmd *cmd);
 void		do_exit(int code);
 t_cmd		*free_cmd(t_cmd *cmd);
+int			exec_type(t_cmd *commands);
 
 #endif

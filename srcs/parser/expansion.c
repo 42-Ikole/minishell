@@ -12,8 +12,7 @@ char	*expansion(char *str, int *i)
 
 	start = *i;
 	ret = ft_itoa(g_vars->ret);
-	if (!ret)
-		errors("malloc failed", 1); //
+	malloc_check(ret);
 	(*i)++;
 	if (str[*i] == '?')
 	{
@@ -25,8 +24,7 @@ char	*expansion(char *str, int *i)
 	while (str[*i] && !ft_iswhitespace(str[*i]) && str[*i] != '\"' && str[*i] != '\'' && str[*i] != '$' && str[*i] != '\\')
 		(*i)++;
 	find = malloc(sizeof(char) * *i - start + 2);
-	if (!find)
-		errors("malloc failed", 1); //
+	malloc_check(find);
 	ft_strlcpy(find, str + start, *i - start + 1);
 	j = 0;
 	while (g_vars->envp[j] && g_vars->envp[j][0] && ft_strncmp(g_vars->envp[j][0], find + 1, *i - start))

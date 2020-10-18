@@ -15,62 +15,6 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
-int		exec_type(t_cmd *commands)
-{
-	pid_t	pid;
-	int		fd[2];
-
-	while (commands)
-	{
-		if (commands->type == pipeline)
-		{
-			if (pipe(fd) < 0)
-				exit (errors("pipe could not be initialized", 1));
-			commands->fd[0] = dup(STDIN_FILENO);
-			commands->fd[1] = dup(STDOUT_FILENO);
-			if (commands->fd[0] < 0 || commands->fd[1] < 0)
-				exit (errors("dup failed!", 1));
-			pid = fork();
-			if (pid < 0)
-				do_exit(1);
-			if (pid > 0)
-			{
-				close(fd[1]);
-				dup2(fd[0], STDIN_FILENO); 
-				close(fd[0]); 
-				commands = commands->next;
-				if (commands->type == pipeline)
-					wait(&pid);
-				dup2(STDOUT_FILENO, commands->fd[1]);
-				dup2(STDIN_FILENO, commands->fd[0]);
-				if (STDOUT_FILENO < 0 || STDIN_FILENO < 0)
-					exit (errors("dup2 failed", 1));
-			}
-			else
-			{
-				close (fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
-				if (fd[1] < 0)
-					exit (errors("dup2 failed", 1));
-				close(fd[1]); 
-				commands = select_commands(commands);
-				if (!commands)
-					exit (1);
-				commands = free_cmd(commands);
-				exit (0);
-			}
-		}
-		else
-		{
-			commands = select_commands(commands);
-			if (!commands)
-				return (1);
-			commands = free_cmd(commands);
-		}
-	}
-	return (0);
-}
-
 int		prompt(void)
 {
 	int			ret;

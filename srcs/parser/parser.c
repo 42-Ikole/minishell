@@ -2,6 +2,7 @@
 #include "minishell.h"
 #include "libft.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 int			command_size(t_tokens *tokens)
 {
@@ -108,14 +109,14 @@ t_cmd		*parser(t_tokens *tokens)
 		return (NULL);
 	commands = cmd_splitting(&tokens);
 	head = commands;
-	commands->fd[0] = 0;
-	commands->fd[1] = 1;
+	commands->read_fd = STDIN_FILENO;
+	commands->write_fd = STDOUT_FILENO;
 	commands->next = NULL;
 	while (tokens)
 	{
 		commands->next = cmd_splitting(&tokens);
-		commands->fd[0] = 0;
-		commands->fd[1] = 1;
+		commands->read_fd = STDIN_FILENO;
+		commands->write_fd = STDOUT_FILENO;
 		commands = commands->next;
 		commands->next = NULL;
 	}
