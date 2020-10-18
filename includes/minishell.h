@@ -122,5 +122,6 @@ int			builtin_env(t_cmd *cmd);
 void		do_exit(int code);
 t_cmd		*free_cmd(t_cmd *cmd);
 int			exec_type(t_cmd *commands);
+t_cmd		*pipe_stuff(t_cmd *commands);
 
 #endif
