@@ -83,8 +83,8 @@ static int	ft_readline(int fd, char **line, char *buf)
 		}
 		if (ret == 0 && **line == '\0')
 			do_exit(1);
-		if (ret == 0)
-			return (0);
+		// if (ret == 0)
+		// 	return (0);
 		buf[ret] = '\0';
 	}
 	*line = gnl_strjoin(*line, buf);

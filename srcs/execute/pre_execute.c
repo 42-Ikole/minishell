@@ -15,15 +15,15 @@ int		exec_type(t_cmd *commands)
 			backup_fd[1] = dup(STDOUT_FILENO);
 			commands = pipe_stuff(commands);
 			if (dup2(backup_fd[0], STDIN_FILENO) == -1)
-				exit (errors("dup2 failed 5", 1));
+				exit (errors("dup2 failed", 1));
 			if (dup2(backup_fd[1], STDOUT_FILENO) == -1)
-				exit (errors("dup2 failed 6", 1));
+				exit (errors("dup2 failed", 1));
 			close(backup_fd[0]);
 			close(backup_fd[1]);
 		}
 		else
 		{
-			commands = select_commands(commands);
+			commands = select_commands(commands, false);
 			if (!commands)
 				return (1);
 			commands = free_cmd(commands);

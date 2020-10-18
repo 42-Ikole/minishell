@@ -110,7 +110,7 @@ int			meta_check(t_cmd *commands);
 /*
 ** Execute
 */
-t_cmd		*select_commands(t_cmd *cmd);
+t_cmd		*select_commands(t_cmd *cmd, enum e_bool child);
 int			ft_exit(t_cmd	*cmd);
 int			change_dir(t_cmd *cmd);
 int			ft_get_env(char *str);

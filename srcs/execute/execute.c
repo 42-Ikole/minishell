@@ -66,7 +66,7 @@ char	*get_path(char	*path, char *exec)
 	return (ret);
 }
 
-int		exec_program(t_cmd *cmd)
+int		exec_program(t_cmd *cmd, enum e_bool child)
 {
 	pid_t	pid;
 	char	**env;
@@ -106,12 +106,13 @@ int		exec_program(t_cmd *cmd)
 		free(env);
 		if (ret < 0)
 			exit (errors("Command not found", ret));
-		exit (ret);
+		if (child == false)
+			exit (ret);
 	}
 	return (0);
 }
 
-t_cmd	*select_commands(t_cmd *cmd)
+t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 {
 	int	ret;
 
@@ -133,7 +134,7 @@ t_cmd	*select_commands(t_cmd *cmd)
 	else if (!(ft_cmdcmp(cmd->arg[0], "env")))
 		ret = builtin_env(cmd);
 	else
-		ret = exec_program(cmd);
+		ret = exec_program(cmd, child);
 	if (ret != 0)
 	{
 		while (cmd)

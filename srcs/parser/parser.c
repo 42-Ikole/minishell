@@ -93,10 +93,10 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	while (i < cmd)
 	{
 		commands->arg[i] = remover(commands->arg[i]);
-		printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
+		// printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
 		i++;
 	}
-	printf("type = %d\n", commands->type);
+	// printf("type = %d\n", commands->type);
 	return (commands);
 }
 
