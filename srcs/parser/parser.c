@@ -26,11 +26,11 @@ t_cmd		*set_type(t_cmd *commands, char *token)
 	if (!token)
 		commands->type = semicolon;
 	else if (token[0] == '>' && token[1] == '>')
-		commands->type = input;
+		commands->type = append;
 	else if (token[0] == '>')
 		commands->type = trunc;
 	else if (token[0] == '<')
-		commands->type = append;
+		commands->type = input;
 	else if (token[0] == '|')
 		commands->type = pipeline;
 	else if (token[0] == ';')
@@ -93,10 +93,10 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	while (i < cmd)
 	{
 		commands->arg[i] = remover(commands->arg[i]);
-		// printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
+		printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
 		i++;
 	}
-	// printf("type = %d\n", commands->type);
+	printf("type = %d\n", commands->type);
 	return (commands);
 }
 

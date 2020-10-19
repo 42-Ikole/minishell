@@ -19,7 +19,7 @@ PARSER = $(addprefix parser/, $(PARSER_))
 
 EXECUTE_ = execute.c exit.c change_dir.c path_dir.c print_echo.c \
 			builtin_export.c builtin_unset.c builtin_env.c \
-			free_cmd.c pre_execute.c pipe.c
+			free_cmd.c pre_execute.c pipe.c redirect.c
 EXECUTE = $(addprefix execute/, $(EXECUTE_))
 
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER) $(EXECUTE))
