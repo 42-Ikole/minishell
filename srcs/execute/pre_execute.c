@@ -20,6 +20,7 @@ int		exec_type(t_cmd *commands)
 				exit (errors("dup2 failed", 1));
 			close(backup_fd[0]);
 			close(backup_fd[1]);
+			commands = free_cmd(commands);
 		}
 		else
 		{

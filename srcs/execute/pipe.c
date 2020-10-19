@@ -1,15 +1,16 @@
 
 #include "minishell.h"
+#include "libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 void	fork_child(t_cmd *commands, int	*fd)
 {
 	close (fd[0]);
-	dup2(fd[1], STDOUT_FILENO);
-	if (fd[1] < 0)
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		exit (errors("dup2 failed", 1));
-	close(fd[1]); 
+	close(fd[1]);
 	commands = select_commands(commands, true);
 	if (!commands)
 		exit (1);
@@ -27,11 +28,10 @@ t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
 	close(fd[0]);
 	commands = commands->next;
 	if (commands->type == pipeline)
-	{
-		pipe_stuff(commands);
-		wait(&pid);
-	}
-	commands = select_commands(commands, false);
+		commands = pipe_stuff(commands);
+	else
+		commands = select_commands(commands, false);
+	wait(&pid);
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
 	if (!commands)
