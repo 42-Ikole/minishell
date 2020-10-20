@@ -1,7 +1,8 @@
 
-#include "libft.h"
-#include "minishell.h"
+#include "../includes/libft.h"
+#include "../includes/minishell.h"
 #include <unistd.h>
+#include <stdlib.h>
 #include <signal.h>
 
 void	sig_handler(int signum)
@@ -48,10 +49,10 @@ int		main(int ac, char **av, char **env)
 	(void)av;
 	if (ac > 1)
 		return (errors("arguments not allowed :(", 1));
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
 	g_vars->envp = NULL;
 	g_vars->ret = 0;
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	parse_env(env);
 	prompt();
 	return (0);

@@ -53,7 +53,7 @@ int		exec_type(t_cmd *commands)
 			restore_io(backup_fd);
 		}
 		else
-			commands = select_commands(commands, true);
+			commands = select_commands(commands, false);
 		if (!commands)
 			return (1);
 		commands = free_cmd(commands);
