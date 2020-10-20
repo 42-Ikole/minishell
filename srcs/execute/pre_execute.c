@@ -23,11 +23,7 @@ int		exec_type(t_cmd *commands)
 			close(backup_fd[0]);
 			close(backup_fd[1]);
 		}
-		else if (commands->type == input)
-		{
-			commands = redir_input(commands);
-		}
-		else if (commands->type == trunc || commands->type == append)
+		else if (commands->type == trunc || commands->type == append || commands->type == input)
 		{
 			commands = redir_output(commands);
 		}

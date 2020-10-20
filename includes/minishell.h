@@ -123,7 +123,6 @@ void		do_exit(int code);
 t_cmd		*free_cmd(t_cmd *cmd);
 int			exec_type(t_cmd *commands);
 t_cmd		*pipe_stuff(t_cmd *commands);
-t_cmd		*redir_input(t_cmd *cmd);
 t_cmd		*redir_output(t_cmd *cmd);
 
 #endif
