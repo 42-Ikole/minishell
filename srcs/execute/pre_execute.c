@@ -4,6 +4,12 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
+void 	sig_skop(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+}
+
 void	backup_io(int	*backup_in, int *backup_out)
 {
 	*backup_in = dup(STDIN_FILENO);
@@ -27,6 +33,8 @@ int		exec_type(t_cmd *commands)
 	int		backup_fd[2];
 	pid_t	pid;
 
+	signal(SIGINT, sig_skop);
+	signal(SIGQUIT, sig_skop);
 	while (commands)
 	{
 		if (commands->type == pipeline)
@@ -58,5 +66,7 @@ int		exec_type(t_cmd *commands)
 			return (1);
 		commands = free_cmd(commands);
 	}
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	return (0);
 }

@@ -67,6 +67,8 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
+void	sig_handler(int signum);
+
 int			prompt(void);
 
 /*
@@ -111,7 +113,7 @@ int			meta_check(t_cmd *commands);
 ** Execute
 */
 t_cmd		*select_commands(t_cmd *cmd, enum e_bool child);
-int			ft_exit(t_cmd	*cmd);
+int			ft_exit(t_cmd	*cmd, enum e_bool child);
 int			change_dir(t_cmd *cmd);
 int			ft_get_env(char *str);
 int			path_dir(t_cmd	*cmd);
@@ -119,7 +121,7 @@ int			print_echo(t_cmd *cmd);
 int			builtin_export(t_cmd *cmd);
 int			builtin_unset(t_cmd *cmd);
 int			builtin_env(t_cmd *cmd);
-void		do_exit(int code);
+void		do_exit(int code, enum e_bool child);
 t_cmd		*free_cmd(t_cmd *cmd);
 int			exec_type(t_cmd *commands);
 t_cmd		*pipe_stuff(t_cmd *commands);

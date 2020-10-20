@@ -82,7 +82,7 @@ static int	ft_readline(int fd, char **line, char *buf)
 			return (-1);
 		}
 		if (ret == 0 && **line == '\0')
-			do_exit(1);
+			do_exit(1, false);
 		// if (ret == 0)
 		// 	return (0);
 		buf[ret] = '\0';

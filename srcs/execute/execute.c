@@ -79,7 +79,7 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 	if (child == false)
 	{
 		pid = fork();
-		// system("leaks minishell"); watafak
+//		 system("leaks minishell"); //watafak
 	}
 	if (pid < 0)
 		exit (errors("fork failed", pid));
@@ -126,7 +126,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
 		ret = print_echo(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "exit", 5)))
-		ret = ft_exit(cmd);
+		ret = ft_exit(cmd, child);
 	else if (!(ft_strncmp(cmd->arg[0], "export", 7)))
 		ret = builtin_export(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "unset", 6)))

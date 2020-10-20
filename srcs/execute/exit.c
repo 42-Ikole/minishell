@@ -1,8 +1,8 @@
 
 //do stuff
 
-#include "minishell.h"
-#include "libft.h"
+#include "../../includes/minishell.h"
+#include "../../includes/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -33,13 +33,14 @@ static int	extoi(const char *str, int *err)
 	return (ret * nega);
 }
 
-void 		do_exit(int code)
+void 		do_exit(int code, enum e_bool child)
 {
-	write(1, "exit\n", 5);
+	if (child == false)
+		write(1, "exit\n", 5);
 	exit(code);
 }
 
-int			ft_exit(t_cmd	*cmd)
+int			ft_exit(t_cmd	*cmd, enum e_bool child)
 {
 	int i;
 	int	code;
@@ -49,7 +50,7 @@ int			ft_exit(t_cmd	*cmd)
 	code = 0;
 	err = 0;
 	if (!cmd->arg[i])
-		do_exit(code);
+		do_exit(code, child);
 	while (cmd->arg[i])
 	{
 		code = extoi(cmd->arg[i], &err);
@@ -61,7 +62,7 @@ int			ft_exit(t_cmd	*cmd)
 			exit(255);
 		}
 		else if (!cmd->arg[i + 1])
-			do_exit(ft_atoi(cmd->arg[i]));
+			do_exit(ft_atoi(cmd->arg[i]), child);
 		i++;
 	}
 	return (-1);

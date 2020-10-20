@@ -29,7 +29,7 @@ t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
 	commands = commands->next;
 	if (commands->type == pipeline)
 		commands = pipe_stuff(commands);
-	else
+	else if (commands->type == semicolon)
 		commands = select_commands(commands, true);
 	wait(&pid);
 	close (STDIN_FILENO);
@@ -48,7 +48,7 @@ t_cmd	*pipe_stuff(t_cmd *commands)
 		exit (errors("pipe could not be initialized", 1));
 	pid = fork();
 	if (pid < 0)
-		do_exit(1);
+		do_exit(1, false);
 	if (pid > 0)
 		commands = fork_parent(commands, fd, pid);
 	else
