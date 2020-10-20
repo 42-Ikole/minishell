@@ -1,7 +1,25 @@
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
+
+void	backup_io(int	*backup_in, int *backup_out)
+{
+	*backup_in = dup(STDIN_FILENO);
+	*backup_out = dup(STDOUT_FILENO);
+	if (*backup_in < 0 || *backup_out < 0)
+		exit (errors("dup failed", 1));
+}
+
+void	restore_io(int	*backup_fd)
+{
+	if (dup2(backup_fd[0], STDIN_FILENO) == -1)
+		exit (errors("dup2 failed", 1));
+	if (dup2(backup_fd[1], STDOUT_FILENO) == -1)
+		exit (errors("dup2 failed", 1));
+	close(backup_fd[0]);
+	close(backup_fd[1]);
+}
 
 int		exec_type(t_cmd *commands)
 {
@@ -11,21 +29,15 @@ int		exec_type(t_cmd *commands)
 	{
 		if (commands->type == pipeline)
 		{
-			backup_fd[0] = dup(STDIN_FILENO);
-			backup_fd[1] = dup(STDOUT_FILENO);
-			if (backup_fd[0] < 0 || backup_fd[1] < 0)
-				exit (errors("dup failed", 1));
+			backup_io(&backup_fd[0], &backup_fd[1]);
 			commands = pipe_stuff(commands);
-			if (dup2(backup_fd[0], STDIN_FILENO) == -1)
-				exit (errors("dup2 failed", 1));
-			if (dup2(backup_fd[1], STDOUT_FILENO) == -1)
-				exit (errors("dup2 failed", 1));
-			close(backup_fd[0]);
-			close(backup_fd[1]);
+			restore_io(backup_fd);
 		}
 		else if (commands->type == trunc || commands->type == append || commands->type == input)
 		{
-			commands = redir_output(commands);
+			backup_io(&backup_fd[0], &backup_fd[1]);
+			commands = redirect(commands);
+			restore_io(backup_fd);
 		}
 		else
 			commands = select_commands(commands, false);
