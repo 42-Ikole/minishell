@@ -1,6 +1,7 @@
 
 #include "../../includes/minishell.h"
 #include <unistd.h>
+#include <fcntl.h>
 #include <stdlib.h>
 
 void	backup_io(int	*backup_in, int *backup_out)
@@ -24,14 +25,26 @@ void	restore_io(int	*backup_fd)
 int		exec_type(t_cmd *commands)
 {
 	int		backup_fd[2];
+	pid_t	pid;
 
 	while (commands)
 	{
 		if (commands->type == pipeline)
 		{
 			backup_io(&backup_fd[0], &backup_fd[1]);
-			commands = pipe_stuff(commands);
+			pid = fork();
+			if (pid < 0)
+				exit (1);
+			if (pid == 0)
+			{
+				commands = pipe_stuff(commands);
+				exit (0);
+			}
+			else
+				wait (&pid);
 			restore_io(backup_fd);
+			while (commands->type == pipeline)
+				commands = free_cmd (commands);
 		}
 		else if (commands->type == trunc || commands->type == append || commands->type == input)
 		{
@@ -40,7 +53,7 @@ int		exec_type(t_cmd *commands)
 			restore_io(backup_fd);
 		}
 		else
-			commands = select_commands(commands, false);
+			commands = select_commands(commands, true);
 		if (!commands)
 			return (1);
 		commands = free_cmd(commands);

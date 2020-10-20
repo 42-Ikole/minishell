@@ -76,7 +76,7 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 
 	pid = 0;
 	ret = 0;
-	if (cmd->type != pipeline)
+	if (child == false)
 	{
 		pid = fork();
 		// system("leaks minishell"); watafak

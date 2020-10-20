@@ -30,7 +30,7 @@ t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
 	if (commands->type == pipeline)
 		commands = pipe_stuff(commands);
 	else
-		commands = select_commands(commands, false);
+		commands = select_commands(commands, true);
 	wait(&pid);
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
@@ -53,5 +53,6 @@ t_cmd	*pipe_stuff(t_cmd *commands)
 		commands = fork_parent(commands, fd, pid);
 	else
 		fork_child(commands, fd);
+//	exit (0);
 	return (commands);
 }
