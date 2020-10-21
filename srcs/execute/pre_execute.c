@@ -51,7 +51,7 @@ int		exec_type(t_cmd *commands)
 			else
 				wait (&pid);
 			restore_io(backup_fd);
-			while (commands->type == pipeline)
+			while (commands->type >= pipeline)
 				commands = free_cmd (commands);
 		}
 		else if (commands->type == trunc || commands->type == append || commands->type == input)

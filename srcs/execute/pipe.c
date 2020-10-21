@@ -29,7 +29,9 @@ t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
 	commands = commands->next;
 	if (commands->type == pipeline)
 		commands = pipe_stuff(commands);
-	else if (commands->type == semicolon)
+	else if (commands->type >= append)
+		commands = redirect(commands);
+	else
 		commands = select_commands(commands, true);
 	wait(&pid);
 	close (STDIN_FILENO);
