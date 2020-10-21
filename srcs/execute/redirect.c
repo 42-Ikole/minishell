@@ -46,7 +46,7 @@ t_cmd	*redirect(t_cmd *cmd)
 			cmd = cmd->next;
 			continue ;
 		}
-		printf("cmd->args[0] = %s\n", cmd->arg[0]);
+//		printf("cmd->args[0] = %s\n", cmd->arg[0]);
 		if (cmd->type == input)
 			fd = open(cmd->next->arg[0], O_RDONLY);
 		else if (cmd->type == trunc)

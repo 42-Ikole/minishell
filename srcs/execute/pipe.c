@@ -20,7 +20,7 @@ void	fork_child(t_cmd *commands, int	*fd)
 	exit (0);
 }
 
-t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
+t_cmd	*fork_parent(t_cmd *commands, int	*fd)
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
@@ -33,7 +33,6 @@ t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t	pid)
 		commands = redirect(commands);
 	else
 		commands = select_commands(commands, true);
-	wait(&pid);
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
 	if (!commands)
@@ -50,9 +49,9 @@ t_cmd	*pipe_stuff(t_cmd *commands)
 		exit (errors("pipe could not be initialized", 1));
 	pid = fork();
 	if (pid < 0)
-		do_exit(1, false);
+		do_exit(1, true);
 	if (pid > 0)
-		commands = fork_parent(commands, fd, pid);
+		commands = fork_parent(commands, fd);
 	else
 		fork_child(commands, fd);
 //	exit (0);
