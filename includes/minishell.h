@@ -27,14 +27,18 @@ enum e_state
 	dq
 }	t_state;
 
-enum e_types
-{
+enum e_types {
 	semicolon = 0,
 	pipeline = 1,
-	append = 2,
-	trunc = 3,
-	input = 4
 }	t_types;
+
+enum e_special
+{
+	escaped = -1,
+	append = -2,
+	trunc = -3,
+	input = -4
+}	t_special;
 
 enum e_bool
 {
@@ -93,8 +97,9 @@ int			fsm_sq(t_tokens *token, char *line, int start, int i);
 /*
 ** Formatter
 */
-char		*format_de(char *str, int i);
+void		format_de(char *str, int i);
 void		sort_env(void);
+void 		format_redirect(char *str, int i);
 
 /*
 ** Parser

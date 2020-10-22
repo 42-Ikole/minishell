@@ -1,6 +1,6 @@
 
-#include "minishell.h"
-#include "libft.h"
+#include "../../includes/minishell.h"
+#include "../../includes/libft.h"
 #include <stdlib.h>
 
 t_tokens		*token_addback(t_tokens *tokens, char *token)
@@ -45,7 +45,8 @@ t_tokens		*tokenizer(char *line)
 		// printf("i = %d| start = %d| line %s\n", i, start, line + start);
 		// if (line[i] == '$')
 		// 	line = expansion(line, i, '\0');
-		line = format_de(line, i);
+		format_de(line, i);
+		format_redirect(line, i);
 		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
 			i += 2;
 		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) || !line[i + 1])

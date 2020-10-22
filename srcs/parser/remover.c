@@ -1,6 +1,6 @@
 
-#include "libft.h"
-#include "minishell.h"
+#include "../../includes/libft.h"
+#include "../../includes/minishell.h"
 
 char	*remover(char *str)
 {
@@ -48,7 +48,7 @@ char	*remover(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == (char)-1)
+		if (str[i] == escaped)
 			str[i] = '\\';
 		i++;
 	}
