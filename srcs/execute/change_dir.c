@@ -1,8 +1,8 @@
 
-#include "minishell.h"
-#include "libft.h"
+#include "../../includes/minishell.h"
+#include "../../includes/libft.h"
 #include <limits.h>
-#include "unistd.h"
+#include <unistd.h>
 
 int		ft_get_env(char *str)
 {
@@ -11,7 +11,7 @@ int		ft_get_env(char *str)
 	i = 0;
 	while (g_vars->envp[i])
 	{
-		if (!ft_strncmp(g_vars->envp[i][0], str, ft_strlen(str)))
+		if (!ft_strncmp(g_vars->envp[i][0], str, ft_strlen(str) + 1))
 			return (i);
 		i++;
 	}
@@ -21,24 +21,17 @@ int		ft_get_env(char *str)
 int		change_dir(t_cmd *cmd)
 {
 
-	if (!cmd->arg[1] || cmd->arg[1][0] == '~')
+	if (!cmd->arg[1])
 	{
 		if (ft_get_env("HOME") >= 0)
 		{
-			if (cmd->arg[1])
-			{
-				cmd->arg[1] = ft_replace_occur(cmd->arg[1], "~", g_vars->envp[ft_get_env("HOME")][1], 0);
-				if (chdir(cmd->arg[1]))
-					return (errors("Path HOME not valid", -1));
-				else
-					return (0);
-			}
-			else if (chdir(g_vars->envp[ft_get_env("HOME")][1]))
-				return (errors("Path HOME not valid", -1));
+			printf("%s\n", g_vars->envp[ft_get_env("HOME")][1]);
+			if (chdir(g_vars->envp[ft_get_env("HOME")][1]))
+				return (errors("HOME is not valid", -1));
 			else
 				return (0);
 		}
-		return (errors("HOME is not found.", -1));
+		return (errors("HOME is not set", -1));
 	}
 	else if (chdir(cmd->arg[1]))
 		return (errors("Is not a directory", -1));
