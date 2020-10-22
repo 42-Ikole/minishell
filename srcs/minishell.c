@@ -57,5 +57,5 @@ int		main(int ac, char **av, char **env)
 	signal(SIGQUIT, sig_handler);
 	parse_env(env);
 	prompt();
-	return (0);
+	return (g_vars->ret);
 }

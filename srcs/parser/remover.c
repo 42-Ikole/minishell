@@ -13,6 +13,8 @@ char	*remover(char *str)
 	state = space;
 	while (str[i])
 	{
+		// if (str[i] == '\\' && state == space)
+		// 	str = ft_replace_occur(str, "\"", "", i);
 		if (str[i] == '\"' && ((i > 0 && str[i - 1] != '\\') ||
 			i == 0) && (!(even % 2) || state == dq))
 		{
@@ -32,9 +34,11 @@ char	*remover(char *str)
 				state = space;
 		}
 		else if (str[i] == '$' && ((i > 0 && str[i - 1] != '\\') ||
-			i == 0) && state != sq)
+			i == 0) && state != sq && str[i + 1] != '\\')
 			str = expansion(str, &i);
-		else if (str[i - 1] == '\\' && state != sq)
+		else if (str[i - 1] == '\\' && state == space)
+			str = ft_replace_occur(str, "\\", "", i - 1);
+		else if (str[i - 1] == '\\' && str[i] == '$' && state == dq)
 			str = ft_replace_occur(str, "\\", "", i - 1);
 		else
 			i++;

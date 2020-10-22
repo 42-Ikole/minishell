@@ -15,7 +15,7 @@ int	print_echo(t_cmd *cmd)
 		j = 1;
 		while (cmd->arg[i][j] == 'n')
 			j++;
-		if (!cmd->arg[i][j])
+		if (!cmd->arg[i][j] && j > 1)
 			nl = false;
 		else
 		{

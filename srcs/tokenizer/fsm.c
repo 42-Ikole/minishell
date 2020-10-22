@@ -7,6 +7,8 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 	while (line[i])
 	{
 		line = format_de(line, i);
+		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
+			i += 2;
 		// if (line[i] == '$')
 		// 	line = expansion(line, i, '\0');
 		if (ft_iswhitespace(line[i]))
