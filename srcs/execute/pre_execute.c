@@ -54,12 +54,12 @@ int		exec_type(t_cmd *commands)
 			while (commands->type >= pipeline)
 				commands = free_cmd (commands);
 		}
-		else if (commands->type == trunc || commands->type == append || commands->type == input)
-		{
-			backup_io(&backup_fd[0], &backup_fd[1]);
-			commands = redirect(commands);
-			restore_io(backup_fd);
-		}
+//		else if (commands->type == trunc || commands->type == append || commands->type == input)
+//		{
+//			backup_io(&backup_fd[0], &backup_fd[1]);
+//			commands = redirect(commands);
+//			restore_io(backup_fd);
+//		}
 		else
 			commands = select_commands(commands, false);
 		if (!commands)

@@ -117,9 +117,11 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	int	ret;
 
 	ret = 0;
-	if (!cmd->arg[0])
+	if (!cmd->arg || !cmd->arg[0])
 		return (cmd);
-	if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
+	if (is_redirect(cmd))
+		ret = redirect(cmd, child);
+	else if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
 		ret = change_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))
 		ret = path_dir(cmd);

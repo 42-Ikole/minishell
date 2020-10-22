@@ -130,7 +130,10 @@ void		do_exit(int code, enum e_bool child);
 t_cmd		*free_cmd(t_cmd *cmd);
 int			exec_type(t_cmd *commands);
 t_cmd		*pipe_stuff(t_cmd *commands);
-t_cmd		*redirect(t_cmd *cmd);
+int			redirect(t_cmd *cmd, enum e_bool child);
+enum e_bool	is_redirect(t_cmd *cmd);
 char		*get_path(char	*path, char *exec);
+void		backup_io(int	*backup_in, int *backup_out);
+void		restore_io(int	*backup_fd);
 
 #endif

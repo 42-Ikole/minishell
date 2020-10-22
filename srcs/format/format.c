@@ -6,11 +6,14 @@ void 	format_redirect(char *str, int i)
 	if (str[i - 1] == '\\')
 		return ;
 	else if (str[i] == '>' && str[i + 1] == '>')
-		str[i] = append;
+	{
+		str[i] = (char)append;
+		str[i + 1] = (char)append;
+	}
 	else if (str[i] == '>')
-		str[i] = trunc;
+		str[i] = (char)trunc;
 	else if (str[i] == '<')
-		str[i] = input;
+		str[i] = (char)input;
 }
 
 void	format_de(char *str, int i)

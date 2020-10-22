@@ -33,46 +33,88 @@ enum e_bool is_exec(char *exec)
 	return (true);
 }
 
-t_cmd	*redirect(t_cmd *cmd)
+enum e_bool	is_redirect(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->arg[i])
+	{
+		if (cmd->arg[i][0] <= append)
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+int 	redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		fd;
-	t_cmd	*head;
+	int		i;
+	int 	j;
+	int 	prev;
+	t_cmd	exec;
+	int 	backup_fd[2];
 
-	head = cmd;
-	while (cmd->type >= append)
+	i = 0;
+	backup_io(&backup_fd[0], &backup_fd[1]);
+	while (cmd->arg && cmd->arg[i + 1])
 	{
-		if (cmd != head && is_exec(cmd->next->arg[0]))
-		{
-			cmd = cmd->next;
-			continue ;
-		}
-//		printf("cmd->args[0] = %s\n", cmd->arg[0]);
-		if (cmd->type == input)
-			fd = open(cmd->next->arg[0], O_RDONLY);
-		else if (cmd->type == trunc)
-			fd = open(cmd->next->arg[0], O_CREAT | O_TRUNC | O_RDWR, 0644);
+		while (cmd->arg[i][0] > append)
+			i++;
+		if (cmd->arg[i][0] == input)
+			fd = open(cmd->arg[i + 1], O_RDONLY);
+		else if (cmd->arg[i][0] == trunc)
+			fd = open(cmd->arg[i + 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
 		else
-			fd = open(cmd->next->arg[0], O_CREAT | O_APPEND | O_RDWR, 0644);
+			fd = open(cmd->arg[i + 1], O_CREAT | O_APPEND | O_RDWR, 0644);
 		if (fd < 0)
 			errors("Error opening file or directory", 1); //
-		if (cmd->type == input)
+		if (cmd->arg[i][0] == input)
 		{
+			close (STDIN_FILENO);
 			if (dup2(fd, STDIN_FILENO) == -1)
 				exit (errors("dup2 failed", 1));
 		}
 		else
 		{
+			close (STDOUT_FILENO);
 			if (dup2(fd, STDOUT_FILENO) == -1)
 				exit (errors("dup2 failed", 1));
 		}
 		close(fd);
-		cmd = cmd->next;
+		i++;
 	}
-	while (head->type >= append)
+	i = 0;
+	prev = 0;
+	while (cmd->arg[i])
 	{
-		if (is_exec(head->arg[0]))
-			head = select_commands(head, false);
-		head = free_cmd(head);
+		if (is_exec(cmd->arg[i]))
+		{
+			j = prev;
+			while (cmd->arg[j][0] > 0)
+				j++;
+			exec.arg = malloc(sizeof(char*) * j + 1);
+			malloc_check(exec.arg);
+			j = prev;
+			while(cmd->arg[j][0] > 0)
+			{
+				exec.arg[j] = cmd->arg[j];
+				j++;
+			}
+			exec.arg[j] = NULL;
+			exec.type = semicolon;
+			exec.next = NULL;
+			i++;
+			prev = i;
+		}
+		select_commands(&exec, child);
+		free(exec.arg);
+		exec.arg = NULL;
+		i++;
 	}
-	return (head);
+	close (STDIN_FILENO);
+	close (STDOUT_FILENO);
+	restore_io(backup_fd);
+	return (0);
 }

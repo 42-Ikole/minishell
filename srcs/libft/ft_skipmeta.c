@@ -18,7 +18,9 @@ int		ft_skipmeta(char *str, int i)
 {
 	if (ft_ismeta(str[i]))
 		i++;
-	if (str[i] == '>' && str[i - 1] == '>')
+	if (str[i] <= -2)
+		i++;
+	if (str[i] == -2)
 		i++;
 	else if (str[i] == str[i - 1])
 		errors("syntax error.");
