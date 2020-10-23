@@ -38,7 +38,7 @@ enum e_bool	is_redirect(t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	while (cmd->arg[i])
+	while (cmd->arg && cmd->arg[i])
 	{
 		if (cmd->arg[i][0] <= append)
 			return (true);
@@ -62,6 +62,11 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 	{
 		while (cmd->arg[i][0] > append)
 			i++;
+		if (is_exec(cmd->arg[i]))
+		{
+			i++;
+			continue ;
+		}
 		if (cmd->arg[i][0] == input)
 			fd = open(cmd->arg[i + 1], O_RDONLY);
 		else if (cmd->arg[i][0] == trunc)
@@ -87,6 +92,7 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 	}
 	i = 0;
 	prev = 0;
+	exec.arg = NULL;
 	while (cmd->arg[i])
 	{
 		if (is_exec(cmd->arg[i]))
@@ -99,6 +105,7 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 			j = prev;
 			while(cmd->arg[j][0] > 0)
 			{
+				printf("arg = %s\n", cmd->arg[j]);
 				exec.arg[j] = cmd->arg[j];
 				j++;
 			}

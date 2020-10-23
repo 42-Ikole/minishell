@@ -117,7 +117,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	int	ret;
 
 	ret = 0;
-	if (!cmd->arg || !cmd->arg[0])
+	if (!cmd || !cmd->arg || !cmd->arg[0])
 		return (cmd);
 	if (is_redirect(cmd))
 		ret = redirect(cmd, child);
