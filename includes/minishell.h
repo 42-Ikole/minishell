@@ -3,7 +3,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>//
-
+# include <sys/wait.h>
 /*
 ** Globals
 */
@@ -80,6 +80,7 @@ int			prompt(void);
 */
 int			errors(char *msg, int status);
 int			malloc_check(void *check);
+void		wait_status(pid_t pid);
 
 /*
 **	Tokenizer

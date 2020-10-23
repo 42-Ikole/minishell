@@ -76,27 +76,24 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 
 	pid = 0;
 	ret = 0;
+	path = get_path(g_vars->envp[ft_get_env("PATH")][1], cmd->arg[0]);
+	if (!path && !ft_strchr(cmd->arg[0], '/'))
+		return (errors("command not found", 127));
 	if (child == false)
-	{
 		pid = fork();
-//		 system("leaks minishell"); //watafak
-	}
 	if (pid < 0)
 		exit (errors("fork failed", pid));
 	else if (pid > 0)
-		wait(&pid);
-	else if (pid == 0 || cmd->type == pipeline)
+		wait_status(pid);
+	else if (pid == 0)
 	{
 		env = convert_env();
 		if (ft_strchr(cmd->arg[0], '/'))
 			ret = execve(cmd->arg[0], cmd->arg, env);
 		if (ret == -1)
-			exit (errors("command not found", ret));
-		path = get_path(g_vars->envp[ft_get_env("PATH")][1], cmd->arg[0]);
-		if (!path)
-			exit (errors("command not found", 1));
+			exit (errors("command not found", 127));
 		ret = execve(path, cmd->arg, env);
-		free (path);
+			free (path);
 		i = 0;
 		while (env[i])
 		{
@@ -105,9 +102,7 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 		}
 		free(env);
 		if (ret < 0)
-			exit (errors("Command not found", ret));
-		if (child == false)
-			exit (ret);
+			exit (errors("Command not found", 127));
 	}
 	return (0);
 }
@@ -143,7 +138,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	else
 		ret = exec_program(cmd, child);
 	g_vars->ret = ret;
-	if (ret != 0)
+	if (ret != 0 && child == false)
 	{
 		while (cmd)
 			cmd = free_cmd(cmd);

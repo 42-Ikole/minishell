@@ -1,7 +1,8 @@
 
 #include <unistd.h>
-#include "minishell.h"
-#include "libft.h"
+#include <sys/wait.h>
+#include "../../includes/minishell.h"
+#include "../../includes/libft.h"
 
 int		errors(char *msg, int	status)
 {
@@ -19,4 +20,15 @@ int		malloc_check(void *check)
 	write(2, "\e[0;31mError\e[0m\n\e[0;33m malloc failed!\n", 41);
 	g_vars->ret = 1;
 	exit (g_vars->ret);
+}
+
+void		wait_status(pid_t pid)
+{
+	int status;
+
+	waitpid(pid, &status, WUNTRACED);
+	if (WIFEXITED(status))
+		g_vars->ret = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		g_vars->ret = WTERMSIG(status) + 128;
 }

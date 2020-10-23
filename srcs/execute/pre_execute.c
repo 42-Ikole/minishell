@@ -45,21 +45,15 @@ int		exec_type(t_cmd *commands)
 				exit (1);
 			if (pid == 0)
 			{
-				commands = pipe_stuff(commands);
+				pipe_stuff(commands);
 				exit (0);
 			}
 			else
-				wait (&pid);
+				wait_status(pid);
 			restore_io(backup_fd);
 			while (commands->type >= pipeline)
 				commands = free_cmd (commands);
 		}
-//		else if (commands->type == trunc || commands->type == append || commands->type == input)
-//		{
-//			backup_io(&backup_fd[0], &backup_fd[1]);
-//			commands = redirect(commands);
-//			restore_io(backup_fd);
-//		}
 		else
 			commands = select_commands(commands, false);
 		if (!commands)
