@@ -115,12 +115,17 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 {
 	int	ret;
+	int	backup_fd[2];
 
 	ret = 0;
 	if (!cmd || !cmd->arg || !cmd->arg[0])
 		return (cmd);
-	if (is_redirect(cmd))
+	if (is_redirect(cmd, 0))
+	{
+		backup_io(&backup_fd[0], &backup_fd[1]);
 		ret = redirect(cmd, child);
+		restore_io(backup_fd);
+	}
 	else if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
 		ret = change_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))

@@ -11,6 +11,8 @@ enum e_bool is_exec(char *exec)
 
 	if (!exec)
 		return (false);
+//	if (exec[0] == trunc)
+//		printf("exec = %s\n", exec);
 	if (!(ft_strncmp(exec, "cd", 3)))
 		return (true);
 	else if (!(ft_cmdcmp(exec, "pwd")))
@@ -33,12 +35,9 @@ enum e_bool is_exec(char *exec)
 	return (true);
 }
 
-enum e_bool	is_redirect(t_cmd *cmd)
+enum e_bool	is_redirect(t_cmd *cmd, int i)
 {
-	int	i;
-
-	i = 0;
-	while (cmd->arg && cmd->arg[i])
+	while (cmd && cmd->arg && cmd->arg[i])
 	{
 		if (cmd->arg[i][0] <= append)
 			return (true);
@@ -47,26 +46,49 @@ enum e_bool	is_redirect(t_cmd *cmd)
 	return (false);
 }
 
+int 	swap_arguments(t_cmd *cmd, int i)
+{
+	int		j;
+	char	*tmp;
+	int 	reset;
+
+	j = 0;
+	while (cmd->arg[j] && cmd->arg[j][0] > 0)
+		j++;
+	i++;
+	reset = i;
+	while (cmd->arg[i] && cmd->arg[i][0] > 0)
+	{
+		while (i > j)
+		{
+			tmp = cmd->arg[i];
+			cmd->arg[i] = cmd->arg[i - 1];
+			cmd->arg[i - 1] = tmp;
+			i--;
+		}
+		reset++;
+		i = reset;
+		j++;
+	}
+	return (i);
+}
+
 int 	redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		fd;
 	int		i;
-	int 	j;
-	int 	prev;
+	int		j;
 	t_cmd	exec;
-	int 	backup_fd[2];
 
 	i = 0;
-	backup_io(&backup_fd[0], &backup_fd[1]);
-	while (cmd->arg && cmd->arg[i + 1])
+	j = 0;
+
+	while (cmd->arg && cmd->arg[i] && cmd->arg[i + 1])
 	{
-		while (cmd->arg[i][0] > append)
+		while (cmd->arg[i] && cmd->arg[i + 1] && cmd->arg[i][0] > 0)
 			i++;
-		if (is_exec(cmd->arg[i]))
-		{
-			i++;
-			continue ;
-		}
+		if (!cmd->arg[i + 1])
+			break ;
 		if (cmd->arg[i][0] == input)
 			fd = open(cmd->arg[i + 1], O_RDONLY);
 		else if (cmd->arg[i][0] == trunc)
@@ -74,7 +96,7 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 		else
 			fd = open(cmd->arg[i + 1], O_CREAT | O_APPEND | O_RDWR, 0644);
 		if (fd < 0)
-			errors("Error opening file or directory", 1); //
+			return (errors("Error opening file or directory", 1));
 		if (cmd->arg[i][0] == input)
 		{
 			close (STDIN_FILENO);
@@ -88,40 +110,33 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 				exit (errors("dup2 failed", 1));
 		}
 		close(fd);
-		i++;
+		i = swap_arguments(cmd, i + 1);
+//		i++;
 	}
 	i = 0;
-	prev = 0;
 	exec.arg = NULL;
-	while (cmd->arg[i])
+	if (is_exec(cmd->arg[i]))
 	{
-		if (is_exec(cmd->arg[i]))
+		while (cmd->arg[i][0] > 0)
 		{
-			j = prev;
-			while (cmd->arg[j][0] > 0)
-				j++;
-			exec.arg = malloc(sizeof(char*) * j + 1);
-			malloc_check(exec.arg);
-			j = prev;
-			while(cmd->arg[j][0] > 0)
-			{
-				printf("arg = %s\n", cmd->arg[j]);
-				exec.arg[j] = cmd->arg[j];
-				j++;
-			}
-			exec.arg[j] = NULL;
-			exec.type = semicolon;
-			exec.next = NULL;
+//			printf("dit = %s\n", cmd->arg[i]);
 			i++;
-			prev = i;
 		}
+		exec.arg = malloc(sizeof(char*) * i + 1);
+		malloc_check(exec.arg);
+		i = 0;
+		while(cmd->arg[i][0] > 0)
+		{
+			exec.arg[i] = cmd->arg[i];
+			i++;
+		}
+		exec.arg[i] = NULL;
+		exec.type = semicolon;
+		exec.next = NULL;
 		select_commands(&exec, child);
 		free(exec.arg);
-		exec.arg = NULL;
-		i++;
 	}
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
-	restore_io(backup_fd);
 	return (0);
 }
