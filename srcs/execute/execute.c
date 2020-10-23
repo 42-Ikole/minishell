@@ -118,7 +118,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	int	backup_fd[2];
 
 	ret = 0;
-	if (!cmd || !cmd->arg || !cmd->arg[0])
+	if (!cmd || !cmd->arg || !cmd->arg[0] || !cmd->arg[0][0])
 		return (cmd);
 	if (is_redirect(cmd, 0))
 	{
@@ -142,6 +142,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 		ret = builtin_env(cmd);
 	else
 		ret = exec_program(cmd, child);
+	g_vars->ret = ret;
 	if (ret != 0)
 	{
 		while (cmd)

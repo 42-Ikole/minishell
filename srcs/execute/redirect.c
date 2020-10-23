@@ -11,8 +11,6 @@ enum e_bool is_exec(char *exec)
 
 	if (!exec)
 		return (false);
-//	if (exec[0] == trunc)
-//		printf("exec = %s\n", exec);
 	if (!(ft_strncmp(exec, "cd", 3)))
 		return (true);
 	else if (!(ft_cmdcmp(exec, "pwd")))
@@ -73,55 +71,17 @@ int 	swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
-int 	redirect(t_cmd *cmd, enum e_bool child)
+static void	execute_redirect(t_cmd *cmd, enum e_bool child)
 {
-	int		fd;
-	int		i;
-	int		j;
+	int i;
 	t_cmd	exec;
 
-	i = 0;
-	j = 0;
-
-	while (cmd->arg && cmd->arg[i] && cmd->arg[i + 1])
-	{
-		while (cmd->arg[i] && cmd->arg[i + 1] && cmd->arg[i][0] > 0)
-			i++;
-		if (!cmd->arg[i + 1])
-			break ;
-		if (cmd->arg[i][0] == input)
-			fd = open(cmd->arg[i + 1], O_RDONLY);
-		else if (cmd->arg[i][0] == trunc)
-			fd = open(cmd->arg[i + 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
-		else
-			fd = open(cmd->arg[i + 1], O_CREAT | O_APPEND | O_RDWR, 0644);
-		if (fd < 0)
-			return (errors("Error opening file or directory", 1));
-		if (cmd->arg[i][0] == input)
-		{
-			close (STDIN_FILENO);
-			if (dup2(fd, STDIN_FILENO) == -1)
-				exit (errors("dup2 failed", 1));
-		}
-		else
-		{
-			close (STDOUT_FILENO);
-			if (dup2(fd, STDOUT_FILENO) == -1)
-				exit (errors("dup2 failed", 1));
-		}
-		close(fd);
-		i = swap_arguments(cmd, i + 1);
-//		i++;
-	}
 	i = 0;
 	exec.arg = NULL;
 	if (is_exec(cmd->arg[i]))
 	{
 		while (cmd->arg[i][0] > 0)
-		{
-//			printf("dit = %s\n", cmd->arg[i]);
 			i++;
-		}
 		exec.arg = malloc(sizeof(char*) * i + 1);
 		malloc_check(exec.arg);
 		i = 0;
@@ -138,5 +98,50 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 	}
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
+}
+
+int 	dup_fd(t_cmd *cmd, int i, int fd)
+{
+	if (fd < 0)
+		return (errors("Error opening file or directory", 1));
+	if (cmd->arg[i][0] == input)
+	{
+		close (STDIN_FILENO);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			exit (errors("dup2 failed", 1));
+	}
+	else
+	{
+		close (STDOUT_FILENO);
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			exit (errors("dup2 failed", 1));
+	}
+	close(fd);
+	return (0);
+}
+
+int 	redirect(t_cmd *cmd, enum e_bool child)
+{
+	int		fd;
+	int		i;
+
+	i = 0;
+	while (cmd->arg && cmd->arg[i] && cmd->arg[i + 1])
+	{
+		while (cmd->arg[i] && cmd->arg[i + 1] && cmd->arg[i][0] > 0)
+			i++;
+		if (!cmd->arg[i + 1])
+			break ;
+		if (cmd->arg[i][0] == input)
+			fd = open(cmd->arg[i + 1], O_RDONLY);
+		else if (cmd->arg[i][0] == trunc)
+			fd = open(cmd->arg[i + 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
+		else
+			fd = open(cmd->arg[i + 1], O_CREAT | O_APPEND | O_RDWR, 0644);
+		if (dup_fd(cmd, i, fd))
+			return (1);
+		i = swap_arguments(cmd, i + 1);
+	}
+	execute_redirect(cmd, child);
 	return (0);
 }
