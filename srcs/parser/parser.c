@@ -121,7 +121,7 @@ t_cmd		*parser(t_tokens *tokens)
 		commands->next = NULL;
 	}
 	free(tokens);
-	if (meta_check(head) < 0)
+	if (meta_check(head) != 0)
 	{
 		while (head)
 			head = free_cmd(head);
