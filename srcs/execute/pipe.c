@@ -20,12 +20,13 @@ void	fork_child(t_cmd *commands, int	*fd)
 	exit (0);
 }
 
-t_cmd	*fork_parent(t_cmd *commands, int	*fd)
+t_cmd	*fork_parent(t_cmd *commands, int	*fd, pid_t pid)
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		exit (errors("dup2 failed 4", 1));
 	close(fd[0]);
+	wait_status(pid);
 	commands = commands->next;
 	if (commands->type == pipeline)
 		commands = pipe_stuff(commands);
@@ -49,7 +50,7 @@ t_cmd	*pipe_stuff(t_cmd *commands)
 	if (pid < 0)
 		do_exit(1, true);
 	if (pid > 0)
-		commands = fork_parent(commands, fd);
+		commands = fork_parent(commands, fd, pid);
 	else
 		fork_child(commands, fd);
 //	exit (0);

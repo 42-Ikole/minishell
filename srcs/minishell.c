@@ -16,8 +16,6 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
-
-
 int		prompt(void)
 {
 	int			ret;
