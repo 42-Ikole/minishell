@@ -58,7 +58,6 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	t_cmd		*commands;
 	t_tokens	*tokens;
 	int			i;
-	int			cmd;
 
 	tokens = *tk;
 	commands = malloc(sizeof(t_cmd));
@@ -67,7 +66,6 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	malloc_check(commands->arg);
 	commands->type = 0;
 	i = 0;
-	cmd = command_size(tokens);
 	while (tokens)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
@@ -81,12 +79,7 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	}
 	*tk = free_tokens(*tk);
 	commands->arg[i] = NULL;
-	i = 0;
-	while (i < cmd)
-	{
-		commands->arg[i] = remover(commands->arg[i]);
-		i++;
-	}
+	commands->arg = remover(commands->arg);
 	return (commands);
 }
 

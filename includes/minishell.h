@@ -107,12 +107,11 @@ void 		format_redirect(char *str, int i);
 */
 t_cmd		*parser(t_tokens *tokens);
 int			command_size(t_tokens *tokens);
-// char		*find_replace(char *str, char *find, char *replace);
-// char		*ft_replace(char *str, char *find, char *replace, int new_length);
 char		*ft_replace_occur(char *str, char *find, char *replace, int idx);
 void		parse_env(char **env);
 char		*expansion(char *str, int *i);
-char		*remover(char *str);
+char		**expansion_dq(char **str, int *i, int *j);
+char		**remover(char **str);
 int			meta_check(t_cmd *commands);
 
 /*

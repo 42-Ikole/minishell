@@ -1,6 +1,6 @@
 
-#include "libft.h"
-#include "minishell.h"
+#include "../../includes/libft.h"
+#include "../../includes/minishell.h"
 
 char	*ft_replace_occur(char *str, char *find, char *replace, int idx)
 {

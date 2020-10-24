@@ -142,7 +142,6 @@ t_cmd		*select_commands(t_cmd *cmd, enum e_bool child)
 	{
 		while (cmd)
 			cmd = free_cmd(cmd);
-		write(2, "doei\n", 4);
 		return (NULL);
 	}
 	return (cmd);
