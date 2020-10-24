@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-enum e_bool is_exec(char *exec)
+enum e_bool	is_exec(char *exec)
 {
 	char *path;
 
@@ -28,8 +28,8 @@ enum e_bool is_exec(char *exec)
 	else
 		path = get_path(g_vars->envp[ft_get_env("PATH")][1], exec);
 	if (!path)
-		return false;
-	free (path);
+		return (false);
+	free(path);
 	return (true);
 }
 
@@ -44,11 +44,11 @@ enum e_bool	is_redirect(t_cmd *cmd, int i)
 	return (false);
 }
 
-int 	swap_arguments(t_cmd *cmd, int i)
+int			swap_arguments(t_cmd *cmd, int i)
 {
 	int		j;
 	char	*tmp;
-	int 	reset;
+	int		reset;
 
 	j = 0;
 	while (cmd->arg[j] && cmd->arg[j][0] > 0)
@@ -71,9 +71,9 @@ int 	swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
-static void	execute_redirect(t_cmd *cmd, enum e_bool child)
+static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 {
-	int i;
+	int		i;
 	t_cmd	exec;
 
 	i = 0;
@@ -85,7 +85,7 @@ static void	execute_redirect(t_cmd *cmd, enum e_bool child)
 		exec.arg = malloc(sizeof(char*) * i + 1);
 		malloc_check(exec.arg);
 		i = 0;
-		while(cmd->arg[i][0] > 0)
+		while (cmd->arg[i][0] > 0)
 		{
 			exec.arg[i] = cmd->arg[i];
 			i++;
@@ -96,31 +96,34 @@ static void	execute_redirect(t_cmd *cmd, enum e_bool child)
 		select_commands(&exec, child);
 		free(exec.arg);
 	}
-	close (STDIN_FILENO);
-	close (STDOUT_FILENO);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	if (!is_exec(cmd->arg[0]) && cmd->arg[0][0] > 0)
+		return (errors("Command not found", 127));
+	return (0);
 }
 
-int 	dup_fd(t_cmd *cmd, int i, int fd)
+int			dup_fd(t_cmd *cmd, int i, int fd)
 {
 	if (fd < 0)
 		return (errors("Error opening file or directory", 1));
 	if (cmd->arg[i][0] == input)
 	{
-		close (STDIN_FILENO);
+		close(STDIN_FILENO);
 		if (dup2(fd, STDIN_FILENO) == -1)
-			exit (errors("dup2 failed", 1));
+			exit(errors("dup2 failed", 1));
 	}
 	else
 	{
-		close (STDOUT_FILENO);
+		close(STDOUT_FILENO);
 		if (dup2(fd, STDOUT_FILENO) == -1)
-			exit (errors("dup2 failed", 1));
+			exit(errors("dup2 failed", 1));
 	}
 	close(fd);
 	return (0);
 }
 
-int 	redirect(t_cmd *cmd, enum e_bool child)
+int			redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		fd;
 	int		i;
@@ -142,6 +145,5 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 			return (1);
 		i = swap_arguments(cmd, i + 1);
 	}
-	execute_redirect(cmd, child);
-	return (0);
+	return (execute_redirect(cmd, child));
 }

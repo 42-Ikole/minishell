@@ -24,7 +24,7 @@ int	print_echo(t_cmd *cmd)
 		}
 		i++;
 	}
-	while(cmd->arg[i])
+	while (cmd->arg[i])
 	{
 		ft_putstr_fd(cmd->arg[i], 1);
 		i++;

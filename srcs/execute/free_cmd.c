@@ -4,17 +4,17 @@
 
 t_cmd	*free_cmd(t_cmd *cmd)
 {
-	int i;
-	t_cmd *next;
+	int		i;
+	t_cmd	*next;
 
 	i = 0;
 	while (cmd->arg[i])
 	{
-		free (cmd->arg[i]);
+		free(cmd->arg[i]);
 		i++;
 	}
 	free(cmd->arg);
 	next = cmd->next;
-	free (cmd);
+	free(cmd);
 	return (next);
 }

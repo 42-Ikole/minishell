@@ -9,7 +9,7 @@ int		builtin_env(t_cmd *cmd)
 
 	i = 0;
 	if (cmd->arg[1])
-		return (errors("no arguments allowed for env", 1));
+		return (errors("no arguments allowed for env", 127));
 	while (g_vars->envp[i])
 	{
 		if (g_vars->envp[i][1])

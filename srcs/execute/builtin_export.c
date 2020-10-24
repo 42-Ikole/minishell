@@ -2,10 +2,10 @@
 #include "../../includes/libft.h"
 #include <stdlib.h>
 
-static char **export_split(char *str)
+static char	**export_split(char *str)
 {
 	unsigned int	i;
-	unsigned int 	j;
+	unsigned int	j;
 	char			**ret;
 
 	ret = malloc(sizeof(char *) * 2);
@@ -41,7 +41,7 @@ static char **export_split(char *str)
 	return (ret);
 }
 
-static int 	check_name(char *str)
+static int	check_name(char *str)
 {
 	int	i;
 
@@ -61,8 +61,8 @@ static int	add_env(char **to_add)
 {
 	int		i;
 	char	**new;
-	int 	size;
-	char 	***env;
+	int		size;
+	char	***env;
 
 	i = 1;
 	while (to_add[i])
@@ -98,7 +98,7 @@ static int	add_env(char **to_add)
 	return (0);
 }
 
-int		builtin_export(t_cmd *cmd)
+int			builtin_export(t_cmd *cmd)
 {
 	int i;
 

@@ -1,6 +1,4 @@
 
-//do stuff
-
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
 #include <stdlib.h>
@@ -15,7 +13,7 @@ static int	extoi(const char *str, int *err)
 	i = 0;
 	nega = 1;
 	ret = 0;
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
+	while (str[i] >= '\t' || str[i] == ' ')
 		i++;
 	if (str[i] == '-')
 		nega = -1;
@@ -33,14 +31,14 @@ static int	extoi(const char *str, int *err)
 	return (ret * nega);
 }
 
-void 		do_exit(int code, enum e_bool child)
+void		do_exit(int code, enum e_bool child)
 {
 	if (child == false)
 		write(1, "exit\n", 5);
 	exit(code);
 }
 
-int			ft_exit(t_cmd	*cmd, enum e_bool child)
+int			ft_exit(t_cmd *cmd, enum e_bool child)
 {
 	int i;
 	int	code;
@@ -62,7 +60,7 @@ int			ft_exit(t_cmd	*cmd, enum e_bool child)
 			exit(255);
 		}
 		else if (!cmd->arg[i + 1])
-			do_exit(ft_atoi(cmd->arg[i]), child);
+			do_exit(code, child);
 		i++;
 	}
 	return (-1);

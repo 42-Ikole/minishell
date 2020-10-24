@@ -4,7 +4,7 @@
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
 
-int		errors(char *msg, int	status)
+int		errors(char *msg, int status)
 {
 	write(2, "\e[0;31mError\e[0m\n\e[0;33m", 25);
 	write(2, msg, ft_strlen(msg));
@@ -19,10 +19,10 @@ int		malloc_check(void *check)
 		return (0);
 	write(2, "\e[0;31mError\e[0m\n\e[0;33m malloc failed!\n", 41);
 	g_vars->ret = 1;
-	exit (g_vars->ret);
+	exit(g_vars->ret);
 }
 
-void		wait_status(pid_t pid)
+void	wait_status(pid_t pid)
 {
 	int status;
 

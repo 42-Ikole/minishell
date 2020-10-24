@@ -6,7 +6,7 @@
 /*   By: ivan-tol <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/04 08:52:01 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/17 16:21:23 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/24 10:25:24 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ char	*ft_strjoin(char *s1, char const *s2)
 		j++;
 	}
 	str[i] = '\0';
-	free (s1);
+	free(s1);
 	return (str);
 }

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fsm.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/10/24 10:33:19 by ivan-tol      #+#    #+#                 */
+/*   Updated: 2020/10/24 16:03:06 by ivan-tol      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
@@ -21,6 +32,11 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 				token_addback(token, ft_substr(line, start, i - start));
 			start = i;
 			i = ft_skipmeta(line, i);
+			if (i == -1)
+			{
+				errors("Syntax error", 258);
+				return (-1);
+			}
 			token_addback(token, ft_substr(line, start, i - start));
 			return (ft_skip_space(line, i));
 		}

@@ -25,12 +25,6 @@ t_cmd		*set_type(t_cmd *commands, char *token)
 {
 	if (!token)
 		commands->type = semicolon;
-//	else if (token[0] == '>' && token[1] == '>')
-//		commands->type = append;
-//	else if (token[0] == '>')
-//		commands->type = trunc;
-//	else if (token[0] == '<')
-//		commands->type = input;
 	else if (token[0] == '|')
 		commands->type = pipeline;
 	else if (token[0] == ';')
@@ -48,13 +42,13 @@ t_tokens	*free_tokens(t_tokens *tokens)
 		{
 			tmp = tokens;
 			tokens = tokens->next;
-			free (tmp->token);
-			free (tmp);
+			free(tmp->token);
+			free(tmp);
 			break ;
 		}
 		tmp = tokens;
 		tokens = tokens->next;
-		free (tmp);
+		free(tmp);
 	}
 	return (tokens);
 }
@@ -79,8 +73,6 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
 		{
 			commands = set_type(commands, tokens->token);
-			// free(tokens->token); // free node
-			// tokens->token = NULL;
 			break ;
 		}
 		commands->arg[i] = tokens->token;
@@ -93,10 +85,8 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	while (i < cmd)
 	{
 		commands->arg[i] = remover(commands->arg[i]);
-//		 printf("cmd[%d] = [%s]\n", i, commands->arg[i]);
 		i++;
 	}
-//	 printf("type = %d\n", commands->type);
 	return (commands);
 }
 
@@ -127,9 +117,5 @@ t_cmd		*parser(t_tokens *tokens)
 			head = free_cmd(head);
 		return (NULL);
 	}
-	// for (int i = 0; g_vars->envp[i]; i++) {
-	// 	for (int j = 0; g_vars->envp[i][j]; j++)
-	// 		printf("%s\n")
-	// }
 	return (head);
 }

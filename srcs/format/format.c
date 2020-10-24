@@ -1,7 +1,7 @@
 
 #include "../../includes/minishell.h"
 
-void 	format_redirect(char *str, int i)
+void	format_redirect(char *str, int i)
 {
 	if (str[i - 1] == '\\')
 		return ;
@@ -19,7 +19,7 @@ void 	format_redirect(char *str, int i)
 void	format_de(char *str, int i)
 {
 	if (str[i] == '\\' && str[i - 1] == '\\')
-			str[i] = escaped;
+		str[i] = escaped;
 	if (str[i] == '\\' && str[i + 1] == '\0')
-		errors("string format faulty", 1); //
+		errors("Multi line commants not supported.", 1);
 }

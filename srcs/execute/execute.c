@@ -5,13 +5,13 @@
 #include <limits.h>
 #include <sys/stat.h>
 
-static char **convert_env(void)
+static char	**convert_env(void)
 {
 	char	**ret;
 	int		i;
 
 	i = 0;
-	while(g_vars->envp[i])
+	while (g_vars->envp[i])
 		i++;
 	ret = malloc(sizeof(char *) * i + 1);
 	malloc_check(ret);
@@ -21,7 +21,7 @@ static char **convert_env(void)
 		ret[i] = ft_strdup(g_vars->envp[i][0]);
 		malloc_check(ret[i]);
 		ret[i] = ft_strjoin(ret[i], "=");
-		malloc_check(ret[i]); 
+		malloc_check(ret[i]);
 		ret[i] = ft_strjoin(ret[i], g_vars->envp[i][1]);
 		malloc_check(ret[i]);
 		i++;
@@ -30,7 +30,7 @@ static char **convert_env(void)
 	return (ret);
 }
 
-char	*get_path(char	*path, char *exec)
+char		*get_path(char *path, char *exec)
 {
 	char		**locations;
 	char		*ret;
@@ -66,7 +66,7 @@ char	*get_path(char	*path, char *exec)
 	return (ret);
 }
 
-int		exec_program(t_cmd *cmd, enum e_bool child)
+int			exec_program(t_cmd *cmd, enum e_bool child)
 {
 	pid_t	pid;
 	char	**env;
@@ -82,7 +82,7 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 	if (child == false)
 		pid = fork();
 	if (pid < 0)
-		exit (errors("fork failed", pid));
+		exit(errors("fork failed", pid));
 	else if (pid > 0)
 		wait_status(pid);
 	else if (pid == 0)
@@ -91,9 +91,9 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 		if (ft_strchr(cmd->arg[0], '/'))
 			ret = execve(cmd->arg[0], cmd->arg, env);
 		if (ret == -1)
-			exit (errors("command not found", 127));
+			exit(errors("command not found", 127));
 		ret = execve(path, cmd->arg, env);
-			free (path);
+		free(path);
 		i = 0;
 		while (env[i])
 		{
@@ -101,13 +101,13 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 			i++;
 		}
 		free(env);
-		if (ret < 0)
-			exit (errors("Command not found", 127));
+		if (ret == -1)
+			exit(errors("Command not found", 127));
 	}
 	return (0);
 }
 
-t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
+t_cmd		*select_commands(t_cmd *cmd, enum e_bool child)
 {
 	int	ret;
 	int	backup_fd[2];
@@ -124,7 +124,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	else if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
 		ret = change_dir(cmd);
 	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))
-		ret = path_dir(cmd);
+		ret = path_dir();
 	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
 		ret = print_echo(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "exit", 5)))
@@ -138,7 +138,7 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	else
 		ret = exec_program(cmd, child);
 	g_vars->ret = ret;
-	if (ret != 0 && child == false)
+	if (ret != 0)
 	{
 		while (cmd)
 			cmd = free_cmd(cmd);

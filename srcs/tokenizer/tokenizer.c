@@ -1,7 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   tokenizer.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/10/24 10:33:11 by ivan-tol      #+#    #+#                 */
+/*   Updated: 2020/10/24 16:06:19 by ivan-tol      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
 #include <stdlib.h>
+
+static void		*free_tokens(t_tokens *tokens)
+{
+	t_tokens *tmp;
+
+	while (tokens)
+	{
+		tmp = tokens;
+		free(tokens->token);
+		tokens = tokens->next;
+		free(tmp);
+	}
+	return (NULL);
+}
 
 t_tokens		*token_addback(t_tokens *tokens, char *token)
 {
@@ -42,14 +67,12 @@ t_tokens		*tokenizer(char *line)
 	start = i;
 	while (line[i])
 	{
-		// printf("i = %d| start = %d| line %s\n", i, start, line + start);
-		// if (line[i] == '$')
-		// 	line = expansion(line, i, '\0');
 		format_de(line, i);
 		format_redirect(line, i);
 		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
 			i += 2;
-		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) || !line[i + 1] || line[i] <= append)
+		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) ||
+			!line[i + 1] || line[i] <= append)
 			start = fsm_space(tokens, line, start, i);
 		else if (line[i] == '\"' && ((i > 0 && line[i - 1] != '\\') || i == 0))
 			start = fsm_dq(tokens, line, start, i);
@@ -57,15 +80,10 @@ t_tokens		*tokenizer(char *line)
 			start = fsm_sq(tokens, line, start, i);
 		else
 			i++;
-		if (start < 0)
-			return (tokens);
+		if (start == -1)
+			return (free_tokens(tokens));
 		if (start > i)
 			i = start;
 	}
-	// while (tokens)
-	// {
-	// 	printf("token = [%s]\n", tokens->token);
-	// 	tokens = tokens->next;
-	// }
 	return (tokens);
 }

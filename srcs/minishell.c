@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/10/24 10:32:45 by ivan-tol      #+#    #+#                 */
+/*   Updated: 2020/10/24 15:59:20 by ivan-tol      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/libft.h"
 #include "../includes/minishell.h"
@@ -31,7 +42,7 @@ int		prompt(void)
 		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
-			return (errors("Unable to read line!\n", 1));
+			return (errors("Unable to read line!\n", 127));
 		tokens = tokenizer(line);
 		if (!tokens)
 			continue ;
@@ -48,7 +59,7 @@ int		main(int ac, char **av, char **env)
 {
 	(void)av;
 	if (ac > 1)
-		return (errors("arguments not allowed :(", 1));
+		return (errors("arguments not allowed :(", 127));
 	g_vars->envp = NULL;
 	g_vars->ret = 0;
 	signal(SIGINT, sig_handler);
