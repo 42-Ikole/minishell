@@ -5,13 +5,18 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+<<<<<<< HEAD
 static void	fork_child(t_cmd *commands, int *fd)
+=======
+static void	fork_child(t_cmd *commands, int	*fd)
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 {
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
 		exit(errors("dup2 failed", 1));
 	close(fd[1]);
 	commands = select_commands(commands, true);
+<<<<<<< HEAD
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	if (!commands)
@@ -20,6 +25,16 @@ static void	fork_child(t_cmd *commands, int *fd)
 }
 
 static void	fork_parent(t_cmd *commands, int *fd)
+=======
+	close (STDIN_FILENO);
+	close (STDOUT_FILENO);
+	if (!commands)
+		exit (1);
+	exit (0);
+}
+
+static void fork_parent(t_cmd *commands, int *fd)
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
@@ -28,11 +43,21 @@ static void	fork_parent(t_cmd *commands, int *fd)
 	if (commands->type == pipeline)
 		commands = pipe_stuff(commands);
 	else
+	{
+		write(2, "hoi\n", 4);
 		commands = select_commands(commands, true);
+<<<<<<< HEAD
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	if (!commands)
 		exit(1);
+=======
+	}
+	close (STDIN_FILENO);
+	close (STDOUT_FILENO);
+	if (!commands)
+		exit (1);
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 }
 
 t_cmd		*pipe_stuff(t_cmd *commands)

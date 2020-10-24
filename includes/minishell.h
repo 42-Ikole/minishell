@@ -130,7 +130,11 @@ int			builtin_env(t_cmd *cmd);
 void		do_exit(int code, enum e_bool child);
 t_cmd		*free_cmd(t_cmd *cmd);
 int			exec_type(t_cmd *commands);
+<<<<<<< HEAD
 enum e_bool	is_exec(char *exec);
+=======
+enum e_bool is_exec(char *exec);
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 t_cmd		*pipe_stuff(t_cmd *commands);
 int			redirect(t_cmd *cmd, enum e_bool child);
 enum e_bool	is_redirect(t_cmd *cmd, int i);

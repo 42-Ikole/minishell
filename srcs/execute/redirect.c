@@ -96,8 +96,13 @@ static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 		select_commands(&exec, child);
 		free(exec.arg);
 	}
+<<<<<<< HEAD
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
+=======
+	close (STDIN_FILENO);
+	close (STDOUT_FILENO);
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 	if (!is_exec(cmd->arg[0]) && cmd->arg[0][0] > 0)
 		return (errors("Command not found", 127));
 	return (0);

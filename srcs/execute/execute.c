@@ -102,7 +102,11 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 		}
 		free(env);
 		if (ret == -1)
+<<<<<<< HEAD
 			exit(errors("Command not found", 127));
+=======
+			exit (errors("Command not found", 127));
+>>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 	}
 	return (0);
 }
@@ -142,6 +146,7 @@ t_cmd		*select_commands(t_cmd *cmd, enum e_bool child)
 	{
 		while (cmd)
 			cmd = free_cmd(cmd);
+		write(2, "doei\n", 4);
 		return (NULL);
 	}
 	return (cmd);
