@@ -15,7 +15,7 @@ static int	extoi(const char *str, int *err)
 	i = 0;
 	nega = 1;
 	ret = 0;
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == ' ')
+	while (str[i] == '\t' || str[i] == ' ')
 		i++;
 	if (str[i] == '-')
 		nega = -1;
@@ -62,7 +62,7 @@ int			ft_exit(t_cmd	*cmd, enum e_bool child)
 			exit(255);
 		}
 		else if (!cmd->arg[i + 1])
-			do_exit(ft_atoi(cmd->arg[i]), child);
+			do_exit(code, child);
 		i++;
 	}
 	return (-1);

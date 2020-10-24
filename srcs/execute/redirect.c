@@ -71,7 +71,7 @@ int 	swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
-static void	execute_redirect(t_cmd *cmd, enum e_bool child)
+static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 {
 	int i;
 	t_cmd	exec;
@@ -98,6 +98,9 @@ static void	execute_redirect(t_cmd *cmd, enum e_bool child)
 	}
 	close (STDIN_FILENO);
 	close (STDOUT_FILENO);
+	if (!is_exec(cmd->arg[0]) && cmd->arg[0][0] > 0)
+		return (errors("Command not found", 127));
+	return (0);
 }
 
 int 	dup_fd(t_cmd *cmd, int i, int fd)
@@ -142,6 +145,5 @@ int 	redirect(t_cmd *cmd, enum e_bool child)
 			return (1);
 		i = swap_arguments(cmd, i + 1);
 	}
-	execute_redirect(cmd, child);
-	return (0);
+	return (execute_redirect(cmd, child));
 }

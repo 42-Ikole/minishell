@@ -101,7 +101,7 @@ int		exec_program(t_cmd *cmd, enum e_bool child)
 			i++;
 		}
 		free(env);
-		if (ret < 0)
+		if (ret == -1)
 			exit (errors("Command not found", 127));
 	}
 	return (0);
@@ -138,10 +138,11 @@ t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 	else
 		ret = exec_program(cmd, child);
 	g_vars->ret = ret;
-	if (ret != 0 && child == false)
+	if (ret != 0)
 	{
 		while (cmd)
 			cmd = free_cmd(cmd);
+		write(2, "doei\n", 4);
 		return (NULL);
 	}
 	return (cmd);
