@@ -13,11 +13,7 @@ static int	extoi(const char *str, int *err)
 	i = 0;
 	nega = 1;
 	ret = 0;
-<<<<<<< HEAD
 	while (str[i] >= '\t' || str[i] == ' ')
-=======
-	while (str[i] == '\t' || str[i] == ' ')
->>>>>>> afcee9e0121c938e6682f9cd9e5287fb954b8e68
 		i++;
 	if (str[i] == '-')
 		nega = -1;
