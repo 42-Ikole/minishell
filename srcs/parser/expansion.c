@@ -3,13 +3,28 @@
 #include "../../includes/minishell.h"
 #include <stdlib.h>
 
+static int	copy_string(char **ret, char **str, int i, int length)
+{
+	int j;
+
+	j = 0;
+	if (i == -1)
+		j++;
+	while (str[i] && (i < 0 || i < length))
+	{
+		ret[i] = str[j];
+		i++;
+		j++;
+	}
+	return (i);
+}
+
 static char	**split_space(char **str, int *j, int *i, int start, int k)
 {
 	char	**ret;
 	char	**tmp;
-	int		size;
-	int		l;
 	char	*join;
+	int		size;
 
 	tmp = ft_split(g_vars->envp[k][1], ' ');
 	malloc_check(tmp);
@@ -23,28 +38,18 @@ static char	**split_space(char **str, int *j, int *i, int start, int k)
 		size++;
 	ret = malloc(sizeof(char *) * (k + size + 1));
 	malloc_check(ret);
-	k = 0;
-	while (k < *j)
-	{
-		ret[k] = str[k];
-		k++;
-	}
+	k = copy_string(ret, str, 0, *j);
 	ret[k] = ft_strjoin(join, tmp[0]);
 	malloc_check(ret[k]);
 	join = ft_substr(str[*j], *i, ft_strlen(str[*j]));
 	malloc_check(ret[k]);
 	free(str[*j]);
+	size = k;
 	k++;
 	(*j)++;
-	l = 1;
-	while (tmp[l])
-	{
-		ret[k] = tmp[l];
-		l++;
-		k++;
-	}
+	k = copy_string(ret, tmp, k, -1);
 	ret[k - 1] = ft_strjoin(ret[k - 1], join);
-	malloc_check(ret[k -1]);
+	malloc_check(ret[k - 1]);
 	free(join);
 	free(tmp);
 	while (str[*j])
@@ -55,16 +60,27 @@ static char	**split_space(char **str, int *j, int *i, int start, int k)
 	}
 	ret[k] = NULL;
 	free(str);
-	if ((*j) > l)
-		(*j) = (*j) - l;
+	if ((*j) > size)
+		(*j) = (*j) - size;
 	else
-		(*j) = l - 1;
+		(*j) = size - 1;
 	return (ret);
+}
+
+static char **expand_returnval(char **str, int *i, int *j, int start)
+{
+	char	*ret_val;
+
+	ret_val = ft_itoa(g_vars->ret);
+	malloc_check(ret_val);
+	str[*j] = ft_replace_occur(str[*j], "$?", ret_val, start);
+	(*i) = start + 2;
+	free(ret_val);
+	return (str);
 }
 
 char	**expansion_space(char **str, int *i, int *j)
 {
-	char	*ret_val;
 	int		start;
 	int		k;
 	char	*find;
@@ -72,14 +88,7 @@ char	**expansion_space(char **str, int *i, int *j)
 	start = *i;
 	(*i)++;
 	if (str[*j][*i] == '?')
-	{
-		ret_val = ft_itoa(g_vars->ret);
-		malloc_check(ret_val);
-		str[*j] = ft_replace_occur(str[*j], "$?", ret_val, start);
-		(*i) = start + 2;
-		free(ret_val);
-		return (str);
-	}
+		return (expand_returnval(str, i, j, start));
 	while (str[*j][*i] && !ft_iswhitespace(str[*j][*i]) && str[*j][*i] != '\"' &&
 		str[*j][*i] != '\'' && str[*j][*i] != '$' && str[*j][*i] != '\\')
 		(*i)++;

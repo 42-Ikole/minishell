@@ -37,7 +37,10 @@ static char	**export_split(char *str)
 		ret[1][j] = '\0';
 	}
 	else
-		ret[1] = NULL;
+	{
+		ret[1] = ft_strdup("");
+		malloc_check(ret[1]);
+	}
 	return (ret);
 }
 
@@ -109,8 +112,9 @@ int			builtin_export(t_cmd *cmd)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(g_vars->envp[i][0], 1);
-			ft_putchar_fd('=', 1);
-			ft_putendl_fd(g_vars->envp[i][1], 1);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(g_vars->envp[i][1], 1);
+			ft_putendl_fd("\"", 1);
 			i++;
 		}
 	}
