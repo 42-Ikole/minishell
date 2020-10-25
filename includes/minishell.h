@@ -4,6 +4,7 @@
 
 # include <stdio.h>//
 # include <sys/wait.h>
+
 /*
 ** Globals
 */
@@ -98,7 +99,7 @@ int			fsm_sq(t_tokens *token, char *line, int start, int i);
 /*
 ** Formatter
 */
-void		format_de(char *str, int i);
+int			format_de(char *str, int i);
 void		sort_env(void);
 void 		format_redirect(char *str, int i);
 
@@ -110,7 +111,7 @@ int			command_size(t_tokens *tokens);
 char		*ft_replace_occur(char *str, char *find, char *replace, int idx);
 void		parse_env(char **env);
 char		*expansion(char *str, int *i);
-char		**expansion_dq(char **str, int *i, int *j);
+char		**expansion_space(char **str, int *i, int *j);
 char		**remover(char **str);
 int			meta_check(t_cmd *commands);
 

@@ -3,7 +3,7 @@
 #include "../../includes/minishell.h"
 #include <stdlib.h>
 
-static char	**split_space_dq(char **str, int *j, int start, int k)
+static char	**split_space(char **str, int *j, int *i, int start, int k)
 {
 	char	**ret;
 	char	**tmp;
@@ -28,21 +28,25 @@ static char	**split_space_dq(char **str, int *j, int start, int k)
 	{
 		ret[k] = str[k];
 		k++;
-		printf("str[*j] = %s\n", str[k]);
 	}
-	l = 0;
+	ret[k] = ft_strjoin(join, tmp[0]);
+	malloc_check(ret[k]);
+	join = ft_substr(str[*j], *i, ft_strlen(str[*j]));
+	malloc_check(ret[k]);
+	free(str[*j]);
+	k++;
+	(*j)++;
+	l = 1;
 	while (tmp[l])
 	{
 		ret[k] = tmp[l];
 		l++;
 		k++;
 	}
+	ret[k - 1] = ft_strjoin(ret[k - 1], join);
+	malloc_check(ret[k -1]);
+	free(join);
 	free(tmp);
-	ret[k] = ft_strjoin(join, str[*j]);
-	malloc_check(ret[k]);
-	free(str[*j]);
-	k++;
-	(*j)++;
 	while (str[*j])
 	{
 		ret[k] = str[*j];
@@ -58,7 +62,7 @@ static char	**split_space_dq(char **str, int *j, int start, int k)
 	return (ret);
 }
 
-char	**expansion_dq(char **str, int *i, int *j)
+char	**expansion_space(char **str, int *i, int *j)
 {
 	char	*ret_val;
 	int		start;
@@ -92,7 +96,7 @@ char	**expansion_dq(char **str, int *i, int *j)
 		(*i) = start;
 	}
 	else
-		str = split_space_dq(str, j, start, k);
+		str = split_space(str, j, i, start, k);
 	(*i) = 0;
 	free(find);
 	return (str);

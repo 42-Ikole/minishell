@@ -46,10 +46,10 @@ char	**remover(char **str)
 				continue ;
 			else if (str[j][i] == '$' && state == space && ((i > 0 && str[j][i - 1] != '\\') ||
 				i == 0) && str[j][i + 1] != '\\')
-				str[j] = expansion(str[j], &i);
+					str = expansion_space(str, &i, &j);
 			else if (str[j][i] == '$' && state == dq && ((i > 0 && str[j][i - 1] != '\\') ||
 				i == 0) && str[j][i + 1] != '\\')
-					str = expansion_dq(str, &i, &j);
+				str[j] = expansion(str[j], &i);
 			else if (str[j][i] == '~' && i == 0 && state == space &&
 				(ft_iswhitespace(str[j][i + 1]) || !str[j][i + 1] || str[j][i + 1] == '/'))
 				str[j] = ft_replace_occur(str[j], "~",

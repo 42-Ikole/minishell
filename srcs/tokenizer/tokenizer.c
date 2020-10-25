@@ -67,7 +67,8 @@ t_tokens		*tokenizer(char *line)
 	start = i;
 	while (line[i])
 	{
-		format_de(line, i);
+		if (format_de(line, i))
+			return (free_tokens(tokens));
 		format_redirect(line, i);
 		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
 			i += 2;

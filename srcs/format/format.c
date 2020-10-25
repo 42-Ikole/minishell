@@ -16,10 +16,11 @@ void	format_redirect(char *str, int i)
 		str[i] = (char)input;
 }
 
-void	format_de(char *str, int i)
+int		format_de(char *str, int i)
 {
 	if (str[i] == '\\' && str[i - 1] == '\\')
 		str[i] = escaped;
 	if (str[i] == '\\' && str[i + 1] == '\0')
-		errors("Multi line commants not supported.", 1);
+		return (errors("Multi line commands not supported.", 1));
+	return (0);
 }

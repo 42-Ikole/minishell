@@ -17,7 +17,8 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 {
 	while (line[i])
 	{
-		format_de(line, i);
+		if (format_de(line, i))
+			return (-1);
 		format_redirect(line, i);
 		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
 			i += 2;
@@ -57,7 +58,8 @@ int	fsm_dq(t_tokens *token, char *line, int start, int i)
 	check = i;
 	while (line[i])
 	{
-		format_de(line, i);
+		if (format_de(line, i))
+			return (-1);
 		if (line[i] == '\"' && line[i - 1] != '\\' && (!line[i + 1] ||
 			ft_iswhitespace(line[i + 1])) && i != check)
 		{
