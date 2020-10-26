@@ -8,9 +8,9 @@ static int	copy_string(char **ret, char **str, int i, int length)
 	int j;
 
 	j = 0;
-	if (i == -1)
+	if (length == -1)
 		j++;
-	while (str[i] && (i < 0 || i < length))
+	while (str[i] && (length < 0 || i < length))
 	{
 		ret[i] = str[j];
 		i++;
