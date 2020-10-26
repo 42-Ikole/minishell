@@ -31,6 +31,25 @@ static int	copy_string(char **ret, char **str, int i, int length)
 	return (i);
 }
 
+void set_size(int *j, int size)
+{
+	if ((*j) > size)
+		(*j) = (*j) - size;
+	else
+		(*j) = size - 1;
+}
+
+void copy_end(char **str, int *j, int k, char **ret) {
+	while (str[*j])
+	{
+		ret[k] = str[*j];
+		(*j)++;
+		k++;
+	}
+	ret[k] = NULL;
+	free(str);
+}
+
 static char	**split_space(char **str, int *j, int *i, int start, int k)
 {
 	char	**ret;
@@ -64,18 +83,8 @@ static char	**split_space(char **str, int *j, int *i, int start, int k)
 	malloc_check(ret[k - 1]);
 	free(join);
 	free(tmp);
-	while (str[*j])
-	{
-		ret[k] = str[*j];
-		(*j)++;
-		k++;
-	}
-	ret[k] = NULL;
-	free(str);
-	if ((*j) > size)
-		(*j) = (*j) - size;
-	else
-		(*j) = size - 1;
+	copy_end(str, j, k, ret);
+	set_size(j, size);
 	return (ret);
 }
 
