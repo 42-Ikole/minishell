@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   error.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ikole <ikole@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/10/26 14:07:20 by ikole         #+#    #+#                 */
+/*   Updated: 2020/10/26 14:07:25 by ikole         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/wait.h>
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 int		errors(char *msg, int status)
 {
