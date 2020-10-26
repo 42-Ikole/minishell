@@ -137,5 +137,6 @@ enum e_bool	is_redirect(t_cmd *cmd, int i);
 char		*get_path(char	*path, char *exec);
 void		backup_io(int	*backup_in, int *backup_out);
 void		restore_io(int	*backup_fd);
+int			check_name(char *str);
 
 #endif

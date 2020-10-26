@@ -38,25 +38,30 @@ static char	**export_split(char *str)
 	}
 	else
 	{
-		ret[1] = ft_strdup("");
-		malloc_check(ret[1]);
+		if (str[i] == '=')
+		{
+			ret[1] = ft_strdup("");
+			malloc_check(ret[1]);
+		}
+		else
+			ret[1] = NULL;
 	}
 	return (ret);
 }
 
-static int	check_name(char *str)
+int	check_name(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '?')
-			return (false);
-		if (ft_isdigit(str[i]) == true)
-			return (false);
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' &&
+		str[i] <= 'Z') || str[i] == '_'))
+		return (false);
+	i++;
+	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
-	}
+	if (str[i])
+		return (false);
 	return (true);
 }
 
@@ -73,9 +78,23 @@ static int	add_env(char **to_add)
 		new = export_split(to_add[i]);
 		if (check_name(new[0]) == false)
 		{
-			ft_putendl_fd("invalid identifier", 1);
+			errors("Not a valid identifier", 1);
 			free(new[0]);
 			free(new[1]);
+			free(new);
+			i++;
+			continue ;
+		}
+		if (ft_get_env(new[0]) >= 0)
+		{
+			if (new[1])
+			{
+				free(g_vars->envp[ft_get_env(new[0])][1]);
+				g_vars->envp[ft_get_env(new[0])][1] = new[1];
+			}
+			else
+				free(new[1]);
+			free(new[0]);
 			free(new);
 			i++;
 			continue ;
@@ -112,13 +131,18 @@ int			builtin_export(t_cmd *cmd)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(g_vars->envp[i][0], 1);
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(g_vars->envp[i][1], 1);
-			ft_putendl_fd("\"", 1);
+			if (g_vars->envp[i][1])
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(g_vars->envp[i][1], 1);
+				ft_putchar_fd('\"', 1);
+			}
+			ft_putchar_fd('\n', 1);
 			i++;
 		}
+		g_vars->ret = 0;
 	}
 	else
 		add_env(cmd->arg);
-	return (0);
+	return (g_vars->ret);
 }
