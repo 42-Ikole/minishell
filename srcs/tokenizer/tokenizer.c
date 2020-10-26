@@ -53,6 +53,21 @@ t_tokens		*token_addback(t_tokens *tokens, char *token)
 	return (head);
 }
 
+static void		choose_state(char *line, t_tokens *tokens, int *i, int *start)
+{
+	if (ft_iswhitespace(line[(*i)]) || ft_ismeta(line[(*i)]) ||
+		!line[(*i) + 1] || line[(*i)] <= append)
+		(*start) = fsm_space(tokens, line, (*start), (*i));
+	else if (line[(*i)] == '\"' && (((*i) > 0 && line[(*i) - 1] != '\\')
+		|| (*i) == 0))
+		(*start) = fsm_dq(tokens, line, (*start), (*i));
+	else if (line[(*i)] == '\'' && (((*i) > 0 && line[(*i) - 1] != '\\')
+		|| (*i) == 0))
+		(*start) = fsm_sq(tokens, line, (*start), (*i));
+	else
+		(*i)++;
+}
+
 t_tokens		*tokenizer(char *line)
 {
 	int			i;
@@ -72,15 +87,7 @@ t_tokens		*tokenizer(char *line)
 		format_redirect(line, i);
 		if (line[i] == '\\' && ft_iswhitespace(line[i + 1]))
 			i += 2;
-		if (ft_iswhitespace(line[i]) || ft_ismeta(line[i]) ||
-			!line[i + 1] || line[i] <= append)
-			start = fsm_space(tokens, line, start, i);
-		else if (line[i] == '\"' && ((i > 0 && line[i - 1] != '\\') || i == 0))
-			start = fsm_dq(tokens, line, start, i);
-		else if (line[i] == '\'' && ((i > 0 && line[i - 1] != '\\') || i == 0))
-			start = fsm_sq(tokens, line, start, i);
-		else
-			i++;
+		choose_state(line, tokens, &i, &start);
 		if (start == -1)
 			return (free_tokens(tokens));
 		if (start > i)

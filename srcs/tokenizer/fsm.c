@@ -13,7 +13,22 @@
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
 
-int	fsm_space(t_tokens *token, char *line, int start, int i)
+static int	token_meta(t_tokens *token, char *line, int start, int i)
+{
+	if (start < i)
+		token_addback(token, ft_substr(line, start, i - start));
+	start = i;
+	i = ft_skipmeta(line, i);
+	if (i == -1)
+	{
+		errors("Syntax error", 258);
+		return (-1);
+	}
+	token_addback(token, ft_substr(line, start, i - start));
+	return (ft_skip_space(line, i));
+}
+
+int			fsm_space(t_tokens *token, char *line, int start, int i)
 {
 	while (line[i])
 	{
@@ -28,19 +43,7 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 			return (ft_skip_space(line, i));
 		}
 		else if (ft_ismeta(line[i]) || line[i] <= append)
-		{
-			if (start < i)
-				token_addback(token, ft_substr(line, start, i - start));
-			start = i;
-			i = ft_skipmeta(line, i);
-			if (i == -1)
-			{
-				errors("Syntax error", 258);
-				return (-1);
-			}
-			token_addback(token, ft_substr(line, start, i - start));
-			return (ft_skip_space(line, i));
-		}
+			return (token_meta(token, line, start, i));
 		else if (line[i] == '\"' && line[i - 1] != '\\')
 			return (fsm_dq(token, line, start, i));
 		else if (line[i] == '\'' && line[i - 1] != '\\')
@@ -51,7 +54,7 @@ int	fsm_space(t_tokens *token, char *line, int start, int i)
 	return (i);
 }
 
-int	fsm_dq(t_tokens *token, char *line, int start, int i)
+int			fsm_dq(t_tokens *token, char *line, int start, int i)
 {
 	int check;
 
@@ -77,7 +80,7 @@ int	fsm_dq(t_tokens *token, char *line, int start, int i)
 	return (errors("string expantion!", -1));
 }
 
-int	fsm_sq(t_tokens *token, char *line, int start, int i)
+int			fsm_sq(t_tokens *token, char *line, int start, int i)
 {
 	int check;
 

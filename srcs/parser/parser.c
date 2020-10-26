@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int			command_size(t_tokens *tokens)
+int				command_size(t_tokens *tokens)
 {
 	int i;
 
@@ -32,7 +32,7 @@ int			command_size(t_tokens *tokens)
 	return (i);
 }
 
-t_cmd		*set_type(t_cmd *commands, char *token)
+t_cmd			*set_type(t_cmd *commands, char *token)
 {
 	if (!token)
 		commands->type = semicolon;
@@ -43,7 +43,7 @@ t_cmd		*set_type(t_cmd *commands, char *token)
 	return (commands);
 }
 
-t_tokens	*free_tokens(t_tokens *tokens)
+t_tokens		*free_tokens(t_tokens *tokens)
 {
 	t_tokens *tmp;
 
@@ -64,11 +64,10 @@ t_tokens	*free_tokens(t_tokens *tokens)
 	return (tokens);
 }
 
-t_cmd		*cmd_splitting(t_tokens **tk)
+static t_cmd	*cmd_splitting(t_tokens **tk, int i)
 {
 	t_cmd		*commands;
 	t_tokens	*tokens;
-	int			i;
 
 	tokens = *tk;
 	commands = malloc(sizeof(t_cmd));
@@ -76,7 +75,6 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	commands->arg = malloc(sizeof(char*) * command_size(tokens) + 1);
 	malloc_check(commands->arg);
 	commands->type = 0;
-	i = 0;
 	while (tokens)
 	{
 		if (tokens->token == NULL || ft_ismeta(tokens->token[0]))
@@ -94,26 +92,30 @@ t_cmd		*cmd_splitting(t_tokens **tk)
 	return (commands);
 }
 
-t_cmd		*parser(t_tokens *tokens)
+t_cmd			*get_commands(t_tokens **tokens, t_cmd *commands)
+{
+	commands->next = cmd_splitting(tokens, 0);
+	commands->read_fd = STDIN_FILENO;
+	commands->write_fd = STDOUT_FILENO;
+	commands = commands->next;
+	commands->next = NULL;
+	return (commands);
+}
+
+t_cmd			*parser(t_tokens *tokens)
 {
 	t_cmd		*commands;
 	t_cmd		*head;
 
 	if (!tokens->token)
 		return (NULL);
-	commands = cmd_splitting(&tokens);
+	commands = cmd_splitting(&tokens, 0);
 	head = commands;
 	commands->read_fd = STDIN_FILENO;
 	commands->write_fd = STDOUT_FILENO;
 	commands->next = NULL;
 	while (tokens)
-	{
-		commands->next = cmd_splitting(&tokens);
-		commands->read_fd = STDIN_FILENO;
-		commands->write_fd = STDOUT_FILENO;
-		commands = commands->next;
-		commands->next = NULL;
-	}
+		commands = get_commands(&tokens, commands);
 	free(tokens);
 	if (meta_check(head) != 0)
 	{

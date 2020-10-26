@@ -14,30 +14,12 @@
 #include "../../includes/libft.h"
 #include <stdlib.h>
 
-static char	**export_split(char *str)
+char		**get_string(char *str, unsigned int i, unsigned int j, char **ret)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			**ret;
-
-	ret = malloc(sizeof(char *) * 2);
-	malloc_check(ret);
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	ret[0] = malloc(sizeof(char) * i + 1);
-	malloc_check(ret[0]);
-	j = 0;
-	while (j < i)
-	{
-		ret[0][j] = str[j];
-		j++;
-	}
-	ret[0][j] = '\0';
 	if (ft_strlen(str) - i > 0)
 	{
 		ret[1] = malloc(sizeof(char) * ft_strlen(str) - i + 1);
-		malloc_check(str);
+		malloc_check(ret[1]);
 		i = j + 1;
 		j = 0;
 		while (str[i])
@@ -61,6 +43,29 @@ static char	**export_split(char *str)
 	return (ret);
 }
 
+static char	**export_split(char *str)
+{
+	unsigned int	i;
+	unsigned int	j;
+	char			**ret;
+
+	ret = malloc(sizeof(char *) * 2);
+	malloc_check(ret);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	ret[0] = malloc(sizeof(char) * i + 1);
+	malloc_check(ret[0]);
+	j = 0;
+	while (j < i)
+	{
+		ret[0][j] = str[j];
+		j++;
+	}
+	ret[0][j] = '\0';
+	return (get_string(str, i, j, ret));
+}
+
 int			check_name(char *str)
 {
 	int	i;
@@ -77,12 +82,34 @@ int			check_name(char *str)
 	return (true);
 }
 
+int 		copy_env(int i, char **new)
+{
+	int		size;
+	char 	***env;
+
+	size = 0;
+	while (g_vars->envp[size])
+		size++;
+	env = malloc(sizeof(char **) * size + 2);
+	malloc_check(env);
+	size = 0;
+	while (g_vars->envp[size])
+	{
+		env[size] = g_vars->envp[size];
+		size++;
+	}
+	env[size] = new;
+	env[size + 1] = NULL;
+	free(g_vars->envp);
+	g_vars->envp = env;
+	i++;
+	return i;
+}
+
 static int	add_env(char **to_add)
 {
 	int		i;
 	char	**new;
-	int		size;
-	char	***env;
 
 	i = 1;
 	while (to_add[i])
@@ -111,24 +138,8 @@ static int	add_env(char **to_add)
 			i++;
 			continue ;
 		}
-		size = 0;
-		while (g_vars->envp[size])
-			size++;
-		env = malloc(sizeof(char **) * size + 2);
-		malloc_check(env);
-		size = 0;
-		while (g_vars->envp[size])
-		{
-			env[size] = g_vars->envp[size];
-			size++;
-		}
-		env[size] = new;
-		env[size + 1] = NULL;
-		free(g_vars->envp);
-		g_vars->envp = env;
-		i++;
+		i = copy_env(i, new);
 	}
-	sort_env();
 	return (0);
 }
 
@@ -155,6 +166,9 @@ int			builtin_export(t_cmd *cmd)
 		g_vars->ret = 0;
 	}
 	else
+	{
 		add_env(cmd->arg);
+		sort_env();
+	}
 	return (g_vars->ret);
 }

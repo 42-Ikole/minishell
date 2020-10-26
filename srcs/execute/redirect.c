@@ -82,6 +82,23 @@ int			swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
+void		copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->arg[i][0] > 0)
+	{
+		exec->arg[i] = cmd->arg[i];
+		i++;
+	}
+	exec->arg[i] = NULL;
+	exec->type = semicolon;
+	exec->next = NULL;
+	select_commands(exec, child);
+	free(exec->arg);
+}
+
 static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		i;
@@ -95,17 +112,7 @@ static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 			i++;
 		exec.arg = malloc(sizeof(char*) * i + 1);
 		malloc_check(exec.arg);
-		i = 0;
-		while (cmd->arg[i][0] > 0)
-		{
-			exec.arg[i] = cmd->arg[i];
-			i++;
-		}
-		exec.arg[i] = NULL;
-		exec.type = semicolon;
-		exec.next = NULL;
-		select_commands(&exec, child);
-		free(exec.arg);
+		copy_redirect(cmd, child, &exec);
 	}
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);

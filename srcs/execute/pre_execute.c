@@ -39,32 +39,36 @@ void	restore_io(int *backup_fd)
 	close(backup_fd[1]);
 }
 
-int		exec_type(t_cmd *commands)
+t_cmd	*pre_pipe_stuff(t_cmd *commands)
 {
 	int		backup_fd[2];
 	pid_t	pid;
 
+	backup_io(&backup_fd[0], &backup_fd[1]);
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
+	{
+		pipe_stuff(commands);
+		exit(0);
+	}
+	else
+		wait_status(pid);
+	restore_io(backup_fd);
+	while (commands->type >= pipeline)
+		commands = free_cmd(commands);
+	return (commands);
+}
+
+int		exec_type(t_cmd *commands)
+{
 	signal(SIGINT, sig_skop);
 	signal(SIGQUIT, sig_skop);
 	while (commands)
 	{
 		if (commands->type == pipeline)
-		{
-			backup_io(&backup_fd[0], &backup_fd[1]);
-			pid = fork();
-			if (pid < 0)
-				exit(1);
-			if (pid == 0)
-			{
-				pipe_stuff(commands);
-				exit(0);
-			}
-			else
-				wait_status(pid);
-			restore_io(backup_fd);
-			while (commands->type >= pipeline)
-				commands = free_cmd(commands);
-		}
+			commands = pre_pipe_stuff(commands);
 		else
 			commands = select_commands(commands, false);
 		if (!commands)

@@ -13,7 +13,20 @@
 #include "minishell.h"
 #include "libft.h"
 
-int	print_echo(t_cmd *cmd)
+void	actual_echo(t_cmd *cmd, int i, enum e_bool nl)
+{
+	while (cmd->arg[i])
+	{
+		ft_putstr_fd(cmd->arg[i], 1);
+		i++;
+		if (cmd->arg[i])
+			ft_putchar_fd(' ', 1);
+	}
+	if (nl == true)
+		ft_putchar_fd('\n', 1);
+}
+
+int		print_echo(t_cmd *cmd)
 {
 	int			i;
 	int			j;
@@ -35,14 +48,6 @@ int	print_echo(t_cmd *cmd)
 		}
 		i++;
 	}
-	while (cmd->arg[i])
-	{
-		ft_putstr_fd(cmd->arg[i], 1);
-		i++;
-		if (cmd->arg[i])
-			ft_putchar_fd(' ', 1);
-	}
-	if (nl == true)
-		ft_putchar_fd('\n', 1);
+	actual_echo(cmd, i, nl);
 	return (0);
 }
