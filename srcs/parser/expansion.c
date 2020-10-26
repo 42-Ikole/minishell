@@ -6,10 +6,9 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:18 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:06:21 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/26 15:48:50 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
@@ -79,7 +78,7 @@ static char	**split_space(char **str, int *j, int *i, int start, int k)
 	return (ret);
 }
 
-static char **expand_returnval(char **str, int *i, int *j, int start)
+static char	**expand_returnval(char **str, int *i, int *j, int start)
 {
 	char	*ret_val;
 
@@ -91,7 +90,7 @@ static char **expand_returnval(char **str, int *i, int *j, int start)
 	return (str);
 }
 
-char	**expansion_space(char **str, int *i, int *j)
+char		**expansion_space(char **str, int *i, int *j)
 {
 	int		start;
 	int		k;
@@ -101,8 +100,9 @@ char	**expansion_space(char **str, int *i, int *j)
 	(*i)++;
 	if (str[*j][*i] == '?')
 		return (expand_returnval(str, i, j, start));
-	while (str[*j][*i] && !ft_iswhitespace(str[*j][*i]) && str[*j][*i] != '\"' &&
-		str[*j][*i] != '\'' && str[*j][*i] != '$' && str[*j][*i] != '\\')
+	while (str[*j][*i] && !ft_iswhitespace(str[*j][*i]) &&
+		str[*j][*i] != '\"' && str[*j][*i] != '\'' && str[*j][*i] != '$' &&
+		str[*j][*i] != '\\')
 		(*i)++;
 	find = malloc(sizeof(char) * (*i) - start + 2);
 	malloc_check(find);
@@ -123,7 +123,7 @@ char	**expansion_space(char **str, int *i, int *j)
 	return (str);
 }
 
-char	*expansion(char *str, int *i)
+char		*expansion(char *str, int *i)
 {
 	char	*ret;
 	int		start;

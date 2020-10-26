@@ -6,10 +6,9 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:05:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:05:58 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/26 14:22:10 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "libft.h"
 #include "minishell.h"
