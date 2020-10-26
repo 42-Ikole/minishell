@@ -14,7 +14,8 @@ ERROR = $(addprefix error/, $(ERROR_))
 TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
-PARSER_ = parser.c find_replace.c environment.c remover.c expansion.c meta_check.c
+PARSER_ = parser.c find_replace.c environment.c remover.c \
+			expansion.c meta_check.c
 PARSER = $(addprefix parser/, $(PARSER_))
 
 EXECUTE_ = execute.c exit.c change_dir.c path_dir.c print_echo.c \
@@ -22,7 +23,8 @@ EXECUTE_ = execute.c exit.c change_dir.c path_dir.c print_echo.c \
 			free_cmd.c pre_execute.c pipe.c redirect.c
 EXECUTE = $(addprefix execute/, $(EXECUTE_))
 
-SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) $(PARSER) $(EXECUTE))
+SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) \
+		$(PARSER) $(EXECUTE))
 
 
 OBJ = $(SRC:.c=.o)

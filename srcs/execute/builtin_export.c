@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   builtin_export.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/10/26 14:20:44 by ivan-tol      #+#    #+#                 */
+/*   Updated: 2020/10/26 15:26:23 by ivan-tol      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 #include "../../includes/libft.h"
 #include <stdlib.h>
@@ -49,7 +61,7 @@ static char	**export_split(char *str)
 	return (ret);
 }
 
-int	check_name(char *str)
+int			check_name(char *str)
 {
 	int	i;
 

@@ -6,10 +6,9 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:37 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:06:40 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/26 14:21:50 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
