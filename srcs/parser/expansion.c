@@ -120,6 +120,7 @@ static char	**expand_tokens(char **str, char *find, int *i, int *j)
 	}
 	(*j) -= len;
 	free (str);
+	free (tmp);
 	return (new);
 }
 

@@ -128,6 +128,7 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 		wait_status(pid);
 	else if (pid == 0)
 		exec_child(cmd, path);
+	free (path);
 	return (0);
 }
 
