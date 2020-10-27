@@ -172,9 +172,9 @@ t_cmd		*select_commands(t_cmd *cmd, enum e_bool child)
 	g_vars->ret = ret;
 	if (ret != 0)
 	{
-		while (cmd)
+		while (cmd && cmd->type != semicolon)
 			cmd = free_cmd(cmd);
-		return (NULL);
+		return (cmd);
 	}
 	return (cmd);
 }
