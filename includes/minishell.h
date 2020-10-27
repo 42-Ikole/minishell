@@ -15,6 +15,9 @@
 
 # include <sys/wait.h>
 
+# define PROMPT "\e[0;96mFluffeon \e[0;91m➢\e[0;0m "
+# define PROMPT_LENGTH 34
+
 /*
 ** Globals
 */

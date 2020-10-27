@@ -21,7 +21,7 @@ void	sig_handler(int signum)
 	if (signum == SIGINT)
 	{
 		write(1, "\b\b  \b\b\n", 7);
-		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
+		write(STDERR_FILENO, PROMPT, PROMPT_LENGTH);
 	}
 	else
 		write(1, "\b\b  \b\b", 6);
@@ -39,7 +39,7 @@ int		prompt(void)
 	{
 		if (line)
 			free(line);
-		write(1, "\e[0;96mFluffeon \e[0;91m➢\e[0;0m ", 34);
+		write(STDERR_FILENO, PROMPT, PROMPT_LENGTH);
 		ret = get_next_line(0, &line);
 		if (ret < 0)
 			return (errors("Unable to read line!\n", 127));
