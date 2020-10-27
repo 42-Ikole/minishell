@@ -30,7 +30,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!sub)
 		return (NULL);
 	x = ft_strlen(s);
-	while ((s[i] != '\0') && i < len && x > start)
+	while ((s[i] != '\0') && (i < len || len < 0) && x > start)
 	{
 		sub[i] = s[start];
 		start++;

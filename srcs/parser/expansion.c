@@ -14,12 +14,41 @@
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
 #include <stdlib.h>
-#include <stdio.h> //
 
 static int	is_var(char c)
 {
 	return (c && !ft_iswhitespace(c) && c != '\"' &&
 		c != '\'' && c != '$' && c != '\\');
+}
+
+static char	*ft_tokenjoin(char *s1, char *s2)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!str)
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		i++;
+		j++;
+	}
+	str[i] = '\0';
+	free(s1);
+	free(s2);
+	return (str);
 }
 
 static int	copy_string(char **ret, char **str, int i, int length)
@@ -48,6 +77,22 @@ static char **expand_returnval(char **str, int *i, int *j)
 	return (str);
 }
 
+static char **get_split(char **str, char *find, int *i, int *j)
+{
+	char	**tmp;
+	int		idx;
+
+	tmp = ft_split(g_vars->envp[ft_get_env(find)][1], ' ');
+	malloc_check(tmp);
+	idx = 0;
+	tmp[idx] = ft_tokenjoin(ft_substr(str[*j], idx, *i), tmp[idx]);
+	malloc_check(tmp[idx]);
+	while (tmp[idx + 1])
+		idx++;
+	tmp[idx] = ft_tokenjoin(tmp[idx], ft_substr(str[*j], (*i) + ft_strlen(find) + 1, -1));
+	malloc_check(tmp[idx]);
+	return (tmp);
+}
 static char	**expand_tokens(char **str, char *find, int *i, int *j)
 {
 	int		len;
@@ -55,12 +100,10 @@ static char	**expand_tokens(char **str, char *find, int *i, int *j)
 	char	**new;
 	int		idx;
 
-	(void)i;
 	len = 0;
 	while (str[len])
 		len++;
-	tmp = ft_split(g_vars->envp[ft_get_env(find)][1], ' ');
-	malloc_check(tmp);
+	tmp	= get_split(str, find, i, j);
 	idx = 0;
 	while (tmp[idx])
 		idx++;
@@ -76,6 +119,7 @@ static char	**expand_tokens(char **str, char *find, int *i, int *j)
 		idx++;
 	}
 	(*j) -= len;
+	free (str);
 	return (new);
 }
 
@@ -84,15 +128,26 @@ char	**expansion_space(char **str, int *i, int *j)
 	char	*find;
 	int		len;
 
+	if (!str[*j][*i + 1])
+	{
+		(*i)++;
+		return (str);
+	}
 	if (str[*j][(*i) + 1] == '?')
 		return (expand_returnval(str, i, j));
 	len = *i + 1;
 	while (is_var(str[*j][len]))
 		len++;
-	find = ft_substr(str[*j], (*i + 1), len);
+	find = ft_substr(str[*j], *i, len - *i);
 	malloc_check(find);
-	str = expand_tokens(str, find, i, j);
-	(*i) = 0;
+	if (ft_get_env(find + 1) < 0)
+		str[*j] = ft_replace_occur(str[*j], find, "", (*i));
+	else
+	{
+		str = expand_tokens(str, find + 1, i, j);
+		(*i) = 0;
+	}
+	free (find);
 	return (str);
 }
 
@@ -105,6 +160,8 @@ char	*expansion(char *str, int *i)
 
 	start = *i;
 	(*i)++;
+	if (!str[*i])
+		return (str);
 	if (str[*i] == '?')
 	{
 		ret = ft_itoa(g_vars->ret);
