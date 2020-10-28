@@ -108,7 +108,10 @@ t_cmd			*parser(t_tokens *tokens)
 	t_cmd		*head;
 
 	if (!tokens->token)
+	{
+		free(tokens);
 		return (NULL);
+	}
 	commands = cmd_splitting(&tokens, 0);
 	head = commands;
 	commands->read_fd = STDIN_FILENO;
