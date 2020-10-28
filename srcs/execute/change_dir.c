@@ -22,6 +22,8 @@ int		ft_get_env(char *str, enum e_bool isnull)
 	i = 0;
 	while (g_vars->envp[i])
 	{
+		// printf("[%i]\n", i);
+		// printf("g_vars->envp[i] = %p\n", g_vars->envp[i]);
 		if (!ft_strncmp(g_vars->envp[i][0], str, ft_strlen(str) + 1))
 			if ((isnull == true && g_vars->envp[i][1]) || isnull == false)
 				return (i);

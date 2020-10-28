@@ -108,7 +108,7 @@ void		exec_child(t_cmd *cmd, char *path)
 	if (ft_strchr(cmd->arg[0], '/') || !path)
 		ret = execve(cmd->arg[0], cmd->arg, env);
 	if (ret == -1)
-		exit(errors("command not found2", 127));
+		exit(errors("command not found", 127));
 	ret = execve(path, cmd->arg, env);
 	if (path)
 		free(path);
@@ -120,7 +120,7 @@ void		exec_child(t_cmd *cmd, char *path)
 	}
 	free(env);
 	if (ret == -1)
-		exit(errors("Command not found3", 127));
+		exit(errors("Command not found", 127));
 }
 
 int			exec_program(t_cmd *cmd, enum e_bool child)

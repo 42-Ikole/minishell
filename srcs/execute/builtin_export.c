@@ -81,7 +81,7 @@ void 		copy_env(char **new)
 	size = 0;
 	while (g_vars->envp[size])
 		size++;
-	env = malloc(sizeof(char **) * size + 2);
+	env = malloc(sizeof(char **) * (size + 2));
 	malloc_check(env);
 	size = 0;
 	while (g_vars->envp[size])

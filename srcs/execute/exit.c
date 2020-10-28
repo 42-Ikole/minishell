@@ -44,8 +44,9 @@ static int	extoi(const char *str, int *err)
 
 void		do_exit(int code, enum e_bool child)
 {
+	(void)child;
 	if (child == false)
-		write(1, "exit\n", 5);
+		write(2, "exit\n", 5);
 	exit(code);
 }
 
