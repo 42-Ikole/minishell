@@ -82,7 +82,7 @@ static char **get_split(char **str, char *find, int *i, int *j)
 	char	**tmp;
 	int		idx;
 
-	tmp = ft_split(g_vars->envp[ft_get_env(find)][1], ' ');
+	tmp = ft_split(g_vars->envp[ft_get_env(find, true)][1], ' ');
 	malloc_check(tmp);
 	idx = 0;
 	tmp[idx] = ft_tokenjoin(ft_substr(str[*j], idx, *i), tmp[idx]);
@@ -141,7 +141,7 @@ char	**expansion_space(char **str, int *i, int *j)
 		len++;
 	find = ft_substr(str[*j], *i, len - *i);
 	malloc_check(find);
-	if (ft_get_env(find + 1) < 0)
+	if (ft_get_env(find + 1, true) < 0)
 		str[*j] = ft_replace_occur(str[*j], find, "", (*i));
 	else
 	{

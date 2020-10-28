@@ -18,7 +18,7 @@ static void	unset_elm(int size, int index)
 	int		i;
 	char	***tmp;
 
-	tmp = malloc(sizeof(char **) * size);
+	tmp = malloc(sizeof(char **) * size + 1);
 	malloc_check(tmp);
 	i = 0;
 	while (size > i)
@@ -46,7 +46,7 @@ int			builtin_unset(t_cmd *cmd)
 	{
 		if (check_name(cmd->arg[i]) == false)
 			errors("Not a valid identifier", 1);
-		index = ft_get_env(cmd->arg[i]);
+		index = ft_get_env(cmd->arg[i], false);
 		if (index >= 0)
 		{
 			size = 0;

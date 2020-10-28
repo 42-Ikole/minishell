@@ -15,26 +15,38 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 static char	**convert_env(void)
 {
 	char	**ret;
 	int		i;
+	int		j;
 
 	i = 0;
-	while (g_vars->envp[i])
-		i++;
-	ret = malloc(sizeof(char *) * i + 1);
-	malloc_check(ret);
-	i = 0;
+	j = 0;
 	while (g_vars->envp[i])
 	{
-		ret[i] = ft_strdup(g_vars->envp[i][0]);
-		malloc_check(ret[i]);
-		ret[i] = ft_strjoin(ret[i], "=");
-		malloc_check(ret[i]);
-		ret[i] = ft_strjoin(ret[i], g_vars->envp[i][1]);
-		malloc_check(ret[i]);
+		if (!g_vars->envp[i][1])
+			j++;
+		i++;
+	}
+	ret = malloc(sizeof(char *) * (i - j + 1));
+	malloc_check(ret);
+	i = 0;
+	j = 0;
+	while (g_vars->envp[i])
+	{
+		if (g_vars->envp[i][1])
+		{
+			ret[j] = ft_strdup(g_vars->envp[i][0]);
+			malloc_check(ret[j]);
+			ret[j] = ft_strjoin(ret[j], "=");
+			malloc_check(ret[j]);
+			ret[j] = ft_strjoin(ret[j], g_vars->envp[i][1]);
+			malloc_check(ret[j]);
+			j++;
+		}
 		i++;
 	}
 	ret[i] = NULL;
@@ -97,7 +109,7 @@ void		exec_child(t_cmd *cmd, char *path)
 	if (ft_strchr(cmd->arg[0], '/'))
 		ret = execve(cmd->arg[0], cmd->arg, env);
 	if (ret == -1)
-		exit(errors("command not found", 127));
+		exit(errors("command not found2", 127));
 	ret = execve(path, cmd->arg, env);
 	free(path);
 	i = 0;
@@ -108,7 +120,7 @@ void		exec_child(t_cmd *cmd, char *path)
 	}
 	free(env);
 	if (ret == -1)
-		exit(errors("Command not found", 127));
+		exit(errors("Command not found3", 127));
 }
 
 int			exec_program(t_cmd *cmd, enum e_bool child)
@@ -117,9 +129,11 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 	char	*path;
 
 	pid = 0;
-	path = get_path(g_vars->envp[ft_get_env("PATH")][1], cmd->arg[0]);
+	path = NULL;
+	path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], cmd->arg[0]);
+	// printf("[%s]\n", cmd->arg[0]);
 	if (!path && !ft_strchr(cmd->arg[0], '/'))
-		return (errors("command not found", 127));
+		return (errors("command not found1", 127));
 	if (child == false)
 		pid = fork();
 	if (pid < 0)

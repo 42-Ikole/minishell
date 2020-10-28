@@ -15,7 +15,7 @@
 #include <limits.h>
 #include <unistd.h>
 
-int		ft_get_env(char *str)
+int		ft_get_env(char *str, enum e_bool isnull)
 {
 	int i;
 
@@ -23,7 +23,8 @@ int		ft_get_env(char *str)
 	while (g_vars->envp[i])
 	{
 		if (!ft_strncmp(g_vars->envp[i][0], str, ft_strlen(str) + 1))
-			return (i);
+			if ((isnull == true && g_vars->envp[i][1]) || isnull == false)
+				return (i);
 		i++;
 	}
 	return (-1);
@@ -33,9 +34,9 @@ int		change_dir(t_cmd *cmd)
 {
 	if (!cmd->arg[1])
 	{
-		if (ft_get_env("HOME") >= 0)
+		if (ft_get_env("HOME", true) >= 0)
 		{
-			if (chdir(g_vars->envp[ft_get_env("HOME")][1]))
+			if (chdir(g_vars->envp[ft_get_env("HOME", true)][1]))
 				return (errors("HOME is not valid", 1));
 			else
 				return (0);

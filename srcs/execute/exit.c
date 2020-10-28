@@ -59,7 +59,7 @@ int			ft_exit(t_cmd *cmd, enum e_bool child)
 	code = 0;
 	err = 0;
 	if (!cmd->arg[i])
-		do_exit(code, child);
+		do_exit(g_vars->ret, child);
 	while (cmd->arg[i])
 	{
 		code = extoi(cmd->arg[i], &err);

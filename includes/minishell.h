@@ -136,7 +136,7 @@ int				meta_check(t_cmd *commands);
 t_cmd			*select_commands(t_cmd *cmd, enum e_bool child);
 int				ft_exit(t_cmd	*cmd, enum e_bool child);
 int				change_dir(t_cmd *cmd);
-int				ft_get_env(char *str);
+int				ft_get_env(char *str, enum e_bool isnull);
 int				path_dir(void);
 int				print_echo(t_cmd *cmd);
 int				builtin_export(t_cmd *cmd);

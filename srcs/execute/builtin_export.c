@@ -124,12 +124,13 @@ static int	add_env(char **to_add)
 			i++;
 			continue ;
 		}
-		if (ft_get_env(new[0]) >= 0)
+		if (ft_get_env(new[0], false) >= 0)
 		{
 			if (new[1])
 			{
-				free(g_vars->envp[ft_get_env(new[0])][1]);
-				g_vars->envp[ft_get_env(new[0])][1] = new[1];
+				if (g_vars->envp[ft_get_env(new[0], false)][1])
+					free(g_vars->envp[ft_get_env(new[0], false)][1]);
+				g_vars->envp[ft_get_env(new[0], false)][1] = new[1];
 			}
 			else
 				free(new[1]);

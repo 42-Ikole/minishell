@@ -65,7 +65,7 @@ char		**remover(char **str)
 				(ft_iswhitespace(str[j][i + 1]) || !str[j][i + 1] ||
 				str[j][i + 1] == '/'))
 				str[j] = ft_replace_occur(str[j], "~",
-					g_vars->envp[ft_get_env("HOME")][1], 0);
+					g_vars->envp[ft_get_env("HOME", true)][1], 0);
 			else if (str[j][i - 1] == '\\' && state == space)
 				str[j] = ft_replace_occur(str[j], "\\", "", i - 1);
 			else if (str[j][i - 1] == '\\' && str[j][i] == '$' && state == dq)
