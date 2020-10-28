@@ -106,12 +106,13 @@ void		exec_child(t_cmd *cmd, char *path)
 
 	ret = 0;
 	env = convert_env();
-	if (ft_strchr(cmd->arg[0], '/'))
+	if (ft_strchr(cmd->arg[0], '/') || !path)
 		ret = execve(cmd->arg[0], cmd->arg, env);
 	if (ret == -1)
 		exit(errors("command not found2", 127));
 	ret = execve(path, cmd->arg, env);
-	free(path);
+	if (path)
+		free(path);
 	i = 0;
 	while (env[i])
 	{
@@ -130,10 +131,8 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 
 	pid = 0;
 	path = NULL;
-	path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], cmd->arg[0]);
-	// printf("[%s]\n", cmd->arg[0]);
-	if (!path && !ft_strchr(cmd->arg[0], '/'))
-		return (errors("command not found1", 127));
+	if (ft_get_env("PATH", true) > 0)
+		path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], cmd->arg[0]);
 	if (child == false)
 		pid = fork();
 	if (pid < 0)

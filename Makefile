@@ -26,7 +26,6 @@ EXECUTE = $(addprefix execute/, $(EXECUTE_))
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) \
 		$(PARSER) $(EXECUTE))
 
-
 OBJ = $(SRC:.c=.o)
 
 FLAGS = -Wall -Wextra -Werror
@@ -36,7 +35,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) -fsanitize=address -L. -lft -o $(NAME) $(OBJ)
+	$(CC) -L. -lft -o $(NAME) $(OBJ)
 
 $(LIBFT):
 	@printf "\e[0;34mCompiling LIBFT $<\n\e[0;35m"
