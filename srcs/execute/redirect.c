@@ -20,6 +20,7 @@ enum e_bool	is_exec(char *exec)
 {
 	char *path;
 
+	path = NULL;
 	if (!exec)
 		return (false);
 	if (!(ft_strncmp(exec, "cd", 3)))
@@ -36,7 +37,7 @@ enum e_bool	is_exec(char *exec)
 		return (true);
 	else if (!(ft_cmdcmp(exec, "env")))
 		return (true);
-	else
+	else if (ft_get_env("PATH", true) > 0)
 		path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], exec);
 	if (!path)
 		return (false);

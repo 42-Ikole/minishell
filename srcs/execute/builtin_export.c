@@ -46,7 +46,6 @@ char		**get_string(char *str, unsigned int i, unsigned int j, char **ret)
 static char	**export_split(char *str)
 {
 	unsigned int	i;
-	unsigned int	j;
 	char			**ret;
 
 	ret = malloc(sizeof(char *) * 2);
@@ -54,16 +53,8 @@ static char	**export_split(char *str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
-	ret[0] = malloc(sizeof(char) * i + 1);
-	malloc_check(ret[0]);
-	j = 0;
-	while (j < i)
-	{
-		ret[0][j] = str[j];
-		j++;
-	}
-	ret[0][j] = '\0';
-	return (get_string(str, i, j, ret));
+	ret[0] = ft_substr(str, 0, i);
+	return (get_string(str, i, i, ret));
 }
 
 int			check_name(char *str)
@@ -82,7 +73,7 @@ int			check_name(char *str)
 	return (true);
 }
 
-int 		copy_env(int i, char **new)
+void 		copy_env(char **new)
 {
 	int		size;
 	char 	***env;
@@ -102,8 +93,6 @@ int 		copy_env(int i, char **new)
 	env[size + 1] = NULL;
 	free(g_vars->envp);
 	g_vars->envp = env;
-	i++;
-	return i;
 }
 
 static int	add_env(char **to_add)
@@ -121,10 +110,8 @@ static int	add_env(char **to_add)
 			free(new[0]);
 			free(new[1]);
 			free(new);
-			i++;
-			continue ;
 		}
-		if (ft_get_env(new[0], false) >= 0)
+		else if (ft_get_env(new[0], false) >= 0)
 		{
 			if (new[1])
 			{
@@ -136,10 +123,10 @@ static int	add_env(char **to_add)
 				free(new[1]);
 			free(new[0]);
 			free(new);
-			i++;
-			continue ;
 		}
-		i = copy_env(i, new);
+		else
+			copy_env(new);
+		i++;
 	}
 	return (0);
 }
