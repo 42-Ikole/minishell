@@ -17,9 +17,10 @@ void	actual_echo(t_cmd *cmd, int i, enum e_bool nl)
 {
 	while (cmd->arg[i])
 	{
-		ft_putstr_fd(cmd->arg[i], 1);
+		if (cmd->arg[i][0])
+			ft_putstr_fd(cmd->arg[i], 1);
 		i++;
-		if (cmd->arg[i])
+		if (cmd->arg[i] && cmd->arg[i][0] && !(i == 2 && !cmd->arg[1][0]))
 			ft_putchar_fd(' ', 1);
 	}
 	if (nl == true)

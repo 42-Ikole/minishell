@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/stat.h>
-#include <stdio.h>
 
 static char	**convert_env(void)
 {

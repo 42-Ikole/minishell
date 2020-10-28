@@ -31,6 +31,8 @@ static size_t	ft_end(char const *s, char delim, int i)
 		i++;
 		len++;
 	}
+	if (len == 0)
+		len++;
 	return (len);
 }
 
@@ -94,6 +96,8 @@ char			**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	n = ft_strcount(s, c);
+	if (n == 0)
+		n = 1;
 	array = (char**)malloc((n + 1) * sizeof(char*));
 	if (!array)
 		return (NULL);
