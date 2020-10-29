@@ -63,10 +63,18 @@ t_cmd	*pre_pipe_stuff(t_cmd *commands)
 
 int		exec_type(t_cmd *commands)
 {
+	t_cmd	*format;
 	signal(SIGINT, sig_skop);
 	signal(SIGQUIT, sig_skop);
 	while (commands)
 	{
+		format = commands;
+		while (format->type != semicolon)
+		{
+			format->arg = remover(format->arg);
+			format = format->next;
+		}
+		format->arg = remover(format->arg);
 		if (commands->type == pipeline)
 			commands = pre_pipe_stuff(commands);
 		else

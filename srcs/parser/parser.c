@@ -88,7 +88,6 @@ static t_cmd	*cmd_splitting(t_tokens **tk, int i)
 	}
 	*tk = free_tokens(*tk);
 	commands->arg[i] = NULL;
-	commands->arg = remover(commands->arg);
 	return (commands);
 }
 
