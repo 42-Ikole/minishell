@@ -141,7 +141,7 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 	else if (pid == 0)
 		exec_child(cmd, path);
 	free (path);
-	return (0);
+	return (g_vars->ret);
 }
 
 int			check_builtin(t_cmd *cmd, enum e_bool child)

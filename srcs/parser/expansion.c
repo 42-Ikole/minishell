@@ -71,8 +71,8 @@ static char **expand_returnval(char **str, int *i, int *j)
 
 	ret_val = ft_itoa(g_vars->ret);
 	malloc_check(ret_val);
-	str[*j] = ft_replace_occur(str[*j], "$?", ret_val, (*i) - 1);
-	(*i) += 3;
+	str[*j] = ft_replace_occur(str[*j], "$?", ret_val, (*i));
+	(*i) += ft_strlen(ret_val);
 	free(ret_val);
 	return (str);
 }
@@ -129,7 +129,7 @@ char	**expansion_space(char **str, int *i, int *j)
 	char	*find;
 	int		len;
 
-	if (!str[*j][*i + 1])
+	if (!str[*j][(*i) + 1])
 	{
 		(*i)++;
 		return (str);
@@ -168,7 +168,7 @@ char	*expansion(char *str, int *i)
 		ret = ft_itoa(g_vars->ret);
 		malloc_check(ret);
 		str = ft_replace_occur(str, "$?", ret, start);
-		(*i) = start + 2;
+		(*i) = start + ft_strlen(ret);
 		free(ret);
 		return (str);
 	}
@@ -181,7 +181,7 @@ char	*expansion(char *str, int *i)
 	while (g_vars->envp[j] && g_vars->envp[j][0] &&
 		ft_strncmp(g_vars->envp[j][0], find + 1, *i - start))
 		j++;
-	if (!g_vars->envp[j])
+	if (!g_vars->envp[j] || !g_vars->envp[j][1])
 	{
 		str = ft_replace_occur(str, find, "", start);
 		(*i) = start;
