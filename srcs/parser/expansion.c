@@ -15,10 +15,15 @@
 #include "../../includes/minishell.h"
 #include <stdlib.h>
 
-static int	is_var(char c)
+static int	is_var(char *str, int i)
 {
-	return (c && !ft_iswhitespace(c) && c != '\"' &&
-		c != '\'' && c != '$' && c != '\\');
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' &&
+		str[i] <= 'Z') || str[i] == '_'))
+		return (i);
+	i++;
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	return (i);
 }
 
 static char	*ft_tokenjoin(char *s1, char *s2)
@@ -136,9 +141,7 @@ char	**expansion_space(char **str, int *i, int *j)
 	}
 	if (str[*j][(*i) + 1] == '?')
 		return (expand_returnval(str, i, j));
-	len = *i + 1;
-	while (is_var(str[*j][len]))
-		len++;
+	len = is_var(str[*j], (*i) + 1);
 	find = ft_substr(str[*j], *i, len - *i);
 	malloc_check(find);
 	if (ft_get_env(find + 1, true) < 0)
@@ -172,8 +175,7 @@ char	*expansion(char *str, int *i)
 		free(ret);
 		return (str);
 	}
-	while (is_var(str[*i]))
-		(*i)++;
+	(*i) = is_var(str, *i);
 	find = malloc(sizeof(char) * (*i) - start + 2);
 	malloc_check(find);
 	ft_strlcpy(find, str + start, (*i) - start + 1);

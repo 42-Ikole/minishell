@@ -12,7 +12,7 @@
 
 #include "libft.h"
 #include "minishell.h"
-#include "stdlib.h"
+#include <stdlib.h>
 
 void		sort_env(void)
 {
