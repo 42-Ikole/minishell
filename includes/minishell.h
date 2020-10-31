@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:38:18 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 11:47:15 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef struct	s_tokens
 **	MAIN
 */
 void			sig_handler(int signum);
-int				prompt(void);
 
 /*
 **	ERROR
@@ -115,7 +114,6 @@ void			format_redirect(char *str, int i);
 ** Parser
 */
 t_cmd			*parser(t_tokens *tokens);
-int				command_size(t_tokens *tokens);
 char			*ft_replace_occur
 					(char *str, char *find, char *replace, int idx);
 void			parse_env(char **env);
@@ -139,7 +137,6 @@ int				builtin_env(t_cmd *cmd);
 void			do_exit(int code, enum e_bool child);
 t_cmd			*free_cmd(t_cmd *cmd);
 int				exec_type(t_cmd *commands);
-enum e_bool		is_exec(char *exec);
 t_cmd			*pipe_stuff(t_cmd *commands);
 int				redirect(t_cmd *cmd, enum e_bool child);
 enum e_bool		is_redirect(t_cmd *cmd, int i);

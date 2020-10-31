@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:45 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 10:48:39 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 11:42:26 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int				command_size(t_tokens *tokens)
+static int		command_size(t_tokens *tokens)
 {
 	int i;
 

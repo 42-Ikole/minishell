@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:55 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:07:57 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 11:46:16 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-enum e_bool	is_exec(char *exec)
+static enum e_bool	is_exec(char *exec)
 {
 	char *path;
 
@@ -45,7 +45,7 @@ enum e_bool	is_exec(char *exec)
 	return (true);
 }
 
-enum e_bool	is_redirect(t_cmd *cmd, int i)
+enum e_bool			is_redirect(t_cmd *cmd, int i)
 {
 	while (cmd && cmd->arg && cmd->arg[i])
 	{
@@ -56,7 +56,7 @@ enum e_bool	is_redirect(t_cmd *cmd, int i)
 	return (false);
 }
 
-int			swap_arguments(t_cmd *cmd, int i)
+int					swap_arguments(t_cmd *cmd, int i)
 {
 	int		j;
 	char	*tmp;
@@ -83,7 +83,7 @@ int			swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
-void		copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
+void				copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
 {
 	int	i;
 
@@ -100,7 +100,7 @@ void		copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
 	free(exec->arg);
 }
 
-static int	execute_redirect(t_cmd *cmd, enum e_bool child)
+static int			execute_redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		i;
 	t_cmd	exec;
@@ -122,7 +122,7 @@ static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 	return (0);
 }
 
-int			dup_fd(t_cmd *cmd, int i, int fd)
+int					dup_fd(t_cmd *cmd, int i, int fd)
 {
 	if (fd < 0)
 		return (errors("Error opening file or directory", 1));
@@ -142,7 +142,7 @@ int			dup_fd(t_cmd *cmd, int i, int fd)
 	return (0);
 }
 
-int			redirect(t_cmd *cmd, enum e_bool child)
+int					redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		fd;
 	int		i;

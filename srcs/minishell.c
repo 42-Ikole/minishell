@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/24 10:32:45 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/24 15:59:20 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 11:38:52 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
-int		prompt(void)
+static int		prompt(void)
 {
 	int			ret;
 	char		*line;
