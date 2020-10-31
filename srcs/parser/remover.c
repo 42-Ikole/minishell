@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 10:52:08 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 11:35:02 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,45 @@ static int	remove_quote(char **str, int i, enum e_state *state, int *even)
 	return (0);
 }
 
+static char	**expand_stuff(char **str, int *j, int *i, enum e_state *state)
+{
+	if (str[(*j)][(*i)] == '$' && *state == space && (((*i) > 0 &&
+		str[(*j)][(*i) - 1] != '\\') ||
+		(*i) == 0) && str[(*j)][(*i) + 1] != '\\')
+		str = expansion_space(str, &(*i), j);
+	else if (str[(*j)][(*i)] == '$' && *state == dq && (((*i) > 0 &&
+		str[(*j)][(*i) - 1] != '\\') || (*i) == 0) &&
+		str[(*j)][(*i) + 1] != '\\')
+		str[(*j)] = expansion(str[(*j)], &(*i));
+	else if (str[(*j)][(*i)] == '~' && (*i) == 0 && *state == space &&
+		(ft_iswhitespace(str[(*j)][(*i) + 1]) || !str[(*j)][(*i) + 1] ||
+		str[(*j)][(*i) + 1] == '/'))
+		str[(*j)] = ft_replace_occur(str[(*j)], "~",
+			g_vars->envp[ft_get_env("HOME", true)][1], 0);
+	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' && *state == space)
+		str[(*j)] = ft_replace_occur(str[(*j)], "\\", "", (*i) - 1);
+	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' &&
+		str[(*j)][(*i)] == '$' && *state == dq)
+		str[(*j)] = ft_replace_occur(str[(*j)], "\\", "", (*i) - 1);
+	else
+		(*i)++;
+	return (str);
+}
+
+static char	*remove_escaped(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == escaped)
+			str[i] = '\\';
+		i++;
+	}
+	return (str);
+}
+
 char		**remover(char **str)
 {
 	int				i;
@@ -55,31 +94,10 @@ char		**remover(char **str)
 		{
 			if (remove_quote(str + j, i, &state, &even))
 				continue ;
-			else if (str[j][i] == '$' && state == space && ((i > 0 &&
-				str[j][i - 1] != '\\') || i == 0) && str[j][i + 1] != '\\')
-				str = expansion_space(str, &i, &j);
-			else if (str[j][i] == '$' && state == dq && ((i > 0 &&
-				str[j][i - 1] != '\\') || i == 0) && str[j][i + 1] != '\\')
-				str[j] = expansion(str[j], &i);
-			else if (str[j][i] == '~' && i == 0 && state == space &&
-				(ft_iswhitespace(str[j][i + 1]) || !str[j][i + 1] ||
-				str[j][i + 1] == '/'))
-				str[j] = ft_replace_occur(str[j], "~",
-					g_vars->envp[ft_get_env("HOME", true)][1], 0);
-			else if (i > 0 && str[j][i - 1] == '\\' && state == space)
-				str[j] = ft_replace_occur(str[j], "\\", "", i - 1);
-			else if (i > 0 && str[j][i - 1] == '\\' && str[j][i] == '$' && state == dq)
-				str[j] = ft_replace_occur(str[j], "\\", "", i - 1);
 			else
-				i++;
+				str = expand_stuff(str, &j, &i, &state);
 		}
-		i = 0;
-		while (str[j] && str[j][i])
-		{
-			if (str[j][i] == escaped)
-				str[j][i] = '\\';
-			i++;
-		}
+		str[j] = remove_escaped(str[j]);
 		j++;
 	}
 	return (str);
