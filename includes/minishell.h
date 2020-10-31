@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 12:58:12 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 15:14:43 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <sys/wait.h>
+# include <stdio.h> //
 
 # define PROMPT "\e[0;96mFluffeon \e[0;91m➢\e[0;0m "
 # define PROMPT_LENGTH 34
@@ -109,6 +110,8 @@ int				fsm_sq(t_tokens *token, char *line, int start, int i);
 int				format_de(char *str, int i);
 void			sort_env(void);
 void			format_redirect(char *str, int i);
+char			*expand_de(char *str);
+char			*remove_escape(char *str);
 
 /*
 ** Parser

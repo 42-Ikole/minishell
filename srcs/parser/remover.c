@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:35:02 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 15:14:14 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ static char	**expand_stuff(char **str, int *j, int *i, enum e_state *state)
 		str[(*j)][(*i) - 1] != '\\') || (*i) == 0) &&
 		str[(*j)][(*i) + 1] != '\\')
 		str[(*j)] = expansion(str[(*j)], &(*i));
-	else if (str[(*j)][(*i)] == '~' && (*i) == 0 && *state == space &&
-		(ft_iswhitespace(str[(*j)][(*i) + 1]) || !str[(*j)][(*i) + 1] ||
-		str[(*j)][(*i) + 1] == '/'))
-		str[(*j)] = ft_replace_occur(str[(*j)], "~",
-			g_vars->envp[ft_get_env("HOME", true)][1], 0);
 	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' && *state == space)
 		str[(*j)] = ft_replace_occur(str[(*j)], "\\", "", (*i) - 1);
 	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' &&
@@ -97,6 +92,7 @@ char		**remover(char **str)
 			else
 				str = expand_stuff(str, &j, &i, &state);
 		}
+		str[j] = remove_escape(str[j]);
 		str[j] = remove_escaped(str[j]);
 		j++;
 	}

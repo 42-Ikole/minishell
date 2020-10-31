@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:18 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 12:56:45 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 14:59:57 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ static char	**get_split(char **str, char *find, int *i, int *j)
 
 	tmp = ft_split(g_vars->envp[ft_get_env(find, true)][1], ' ');
 	malloc_check(tmp);
+	idx = 0;
+	while (tmp[idx])
+	{
+		tmp[idx] = expand_de(tmp[idx]);
+		idx++;
+	}
 	idx = 0;
 	tmp[idx] = ft_tokenjoin(ft_substr(str[*j], idx, *i), tmp[idx]);
 	malloc_check(tmp[idx]);
@@ -109,6 +115,7 @@ static char	*expand_string(char *str, int *i, int start)
 	else
 	{
 		str = ft_replace_occur(str, find, g_vars->envp[j][1], start);
+		str = expand_de(str);
 		(*i) = start + ft_strlen(g_vars->envp[j][1]);
 	}
 	free(find);

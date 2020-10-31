@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:14 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 10:46:52 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 15:13:48 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,32 @@ int		format_de(char *str, int i)
 	if (str[i] == '\\' && str[i + 1] == '\0')
 		return (errors("Multi line commands not supported.", 1));
 	return (0);
+}
+
+char	*expand_de(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (i > 0 && str[i] == '\\' && str[i - 1] == '\\')
+			str[i] = escaped;
+		i++;
+	}
+	return (str);
+}
+
+char	*remove_escape(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\')
+			str = ft_replace_occur(str, "\\", "", i);
+		i++;
+	}
+	return (str);
 }

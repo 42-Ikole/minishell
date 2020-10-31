@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:44 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/31 11:47:50 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 15:11:06 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static char	**export_split(char *str)
 	while (str[i] && str[i] != '=')
 		i++;
 	ret[0] = ft_substr(str, 0, i);
-	return (get_string(str, i, i, ret));
+	ret = get_string(str, i, i, ret);
+	return (ret);
 }
 
 static int	add_env(char **to_add)

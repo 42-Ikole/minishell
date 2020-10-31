@@ -6,13 +6,14 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:53 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 12:02:24 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 15:24:23 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
 #include <unistd.h>
+#include <sys/stat.h>
 
 char	*get_path(char *path, char *exec)
 {
@@ -34,27 +35,24 @@ char	*get_path(char *path, char *exec)
 
 void	exec_child(t_cmd *cmd, char *path)
 {
-	char	**env;
-	int		ret;
-	int		i;
+	char		**env;
+	int			ret;
+	struct stat	buf;
 
 	ret = 0;
 	env = convert_env();
 	if (ft_strchr(cmd->arg[0], '/') || !path)
+	{
 		ret = execve(cmd->arg[0], cmd->arg, env);
+		if (!stat(cmd->arg[0], &buf))
+			exit(errors("Permission denied", 126));
+	}
 	if (ret == -1)
 		exit(errors("command not found", 127));
 	ret = execve(path, cmd->arg, env);
-	if (path)
-		free(path);
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
-	if (ret == -1)
+	if (!stat(cmd->arg[0], &buf))
+			exit(errors("Permission denied", 126));
+	else if (ret == -1)
 		exit(errors("Command not found", 127));
 }
 
