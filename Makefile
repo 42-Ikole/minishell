@@ -35,7 +35,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) -L. -lft -o $(NAME) $(OBJ)
+	$(CC) -L. -lft -o $(NAME) $(FLAGS) $(OBJ)
 
 $(LIBFT):
 	@printf "\e[0;34mCompiling LIBFT $<\n\e[0;35m"

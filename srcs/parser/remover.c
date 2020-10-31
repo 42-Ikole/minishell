@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:19:13 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 10:52:08 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ char		**remover(char **str)
 				str[j][i + 1] == '/'))
 				str[j] = ft_replace_occur(str[j], "~",
 					g_vars->envp[ft_get_env("HOME", true)][1], 0);
-			else if (str[j][i - 1] == '\\' && state == space)
+			else if (i > 0 && str[j][i - 1] == '\\' && state == space)
 				str[j] = ft_replace_occur(str[j], "\\", "", i - 1);
-			else if (str[j][i - 1] == '\\' && str[j][i] == '$' && state == dq)
+			else if (i > 0 && str[j][i - 1] == '\\' && str[j][i] == '$' && state == dq)
 				str[j] = ft_replace_occur(str[j], "\\", "", i - 1);
 			else
 				i++;

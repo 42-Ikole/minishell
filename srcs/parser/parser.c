@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:45 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:06:48 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 10:48:39 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_cmd	*cmd_splitting(t_tokens **tk, int i)
 	tokens = *tk;
 	commands = malloc(sizeof(t_cmd));
 	malloc_check(commands);
-	commands->arg = malloc(sizeof(char*) * command_size(tokens) + 1);
+	commands->arg = malloc(sizeof(char*) * (command_size(tokens) + 1));
 	malloc_check(commands->arg);
 	commands->type = 0;
 	while (tokens)

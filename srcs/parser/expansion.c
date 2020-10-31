@@ -6,10 +6,9 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:18 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 22:16:27 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 08:51:34 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
@@ -46,11 +45,10 @@ static char	*ft_tokenjoin(char *s1, char *s2)
 	}
 	while (s2[j])
 	{
-		str[i] = s2[j];
-		i++;
+		str[i + j] = s2[j];
 		j++;
 	}
-	str[i] = '\0';
+	str[i + j] = '\0';
 	free(s1);
 	free(s2);
 	return (str);
@@ -67,10 +65,12 @@ static int	copy_string(char **ret, char **str, int i, int length)
 		i++;
 		j++;
 	}
+	if (length >= 0)
+		free(str[j]);
 	return (i);
 }
 
-static char **expand_returnval(char **str, int *i, int *j)
+static char	**expand_returnval(char **str, int *i, int *j)
 {
 	char	*ret_val;
 
@@ -82,7 +82,7 @@ static char **expand_returnval(char **str, int *i, int *j)
 	return (str);
 }
 
-static char **get_split(char **str, char *find, int *i, int *j)
+static char	**get_split(char **str, char *find, int *i, int *j)
 {
 	char	**tmp;
 	int		idx;
@@ -94,10 +94,12 @@ static char **get_split(char **str, char *find, int *i, int *j)
 	malloc_check(tmp[idx]);
 	while (tmp[idx + 1])
 		idx++;
-	tmp[idx] = ft_tokenjoin(tmp[idx], ft_substr(str[*j], (*i) + ft_strlen(find) + 1, -1));
+	tmp[idx] = ft_tokenjoin(tmp[idx],
+		ft_substr(str[*j], (*i) + ft_strlen(find) + 1, -1));
 	malloc_check(tmp[idx]);
 	return (tmp);
 }
+
 static char	**expand_tokens(char **str, char *find, int *i, int *j)
 {
 	int		len;
@@ -108,7 +110,7 @@ static char	**expand_tokens(char **str, char *find, int *i, int *j)
 	len = 0;
 	while (str[len])
 		len++;
-	tmp	= get_split(str, find, i, j);
+	tmp = get_split(str, find, i, j);
 	idx = 0;
 	while (tmp[idx])
 		idx++;
@@ -116,20 +118,18 @@ static char	**expand_tokens(char **str, char *find, int *i, int *j)
 	malloc_check(new);
 	idx = copy_string(new, str, 0, *j);
 	idx = copy_string(new, tmp, idx, -1);
-	free(str[*j]);
 	while (str[*j] != NULL)
 	{
 		(*j)++;
 		new[idx] = str[*j];
 		idx++;
 	}
-	(*j) -= len;
-	free (str);
-	free (tmp);
+	free(str);
+	free(tmp);
 	return (new);
 }
 
-char	**expansion_space(char **str, int *i, int *j)
+char		**expansion_space(char **str, int *i, int *j)
 {
 	char	*find;
 	int		len;
@@ -149,32 +149,18 @@ char	**expansion_space(char **str, int *i, int *j)
 	else
 	{
 		str = expand_tokens(str, find + 1, i, j);
+		(*j) = 0;
 		(*i) = 0;
 	}
-	free (find);
+	free(find);
 	return (str);
 }
 
-char	*expansion(char *str, int *i)
+static char	*expand_string(char *str, int *i, int start)
 {
-	char	*ret;
-	int		start;
 	int		j;
 	char	*find;
 
-	start = *i;
-	(*i)++;
-	if (!str[*i])
-		return (str);
-	if (str[*i] == '?')
-	{
-		ret = ft_itoa(g_vars->ret);
-		malloc_check(ret);
-		str = ft_replace_occur(str, "$?", ret, start);
-		(*i) = start + ft_strlen(ret);
-		free(ret);
-		return (str);
-	}
 	(*i) = is_var(str, *i);
 	find = malloc(sizeof(char) * (*i) - start + 2);
 	malloc_check(find);
@@ -195,4 +181,25 @@ char	*expansion(char *str, int *i)
 	}
 	free(find);
 	return (str);
+}
+
+char		*expansion(char *str, int *i)
+{
+	char	*ret;
+	int		start;
+
+	start = *i;
+	(*i)++;
+	if (!str[*i])
+		return (str);
+	if (str[*i] == '?')
+	{
+		ret = ft_itoa(g_vars->ret);
+		malloc_check(ret);
+		str = ft_replace_occur(str, "$?", ret, start);
+		(*i) = start + ft_strlen(ret);
+		free(ret);
+		return (str);
+	}
+	return (expand_string(str, i, start));
 }

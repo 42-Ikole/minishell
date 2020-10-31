@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:53 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:08:56 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 09:38:06 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,11 @@
 #include <limits.h>
 #include <sys/stat.h>
 
-static char	**convert_env(void)
+static char	**join_env(char **ret)
 {
-	char	**ret;
-	int		i;
-	int		j;
+	int i;
+	int j;
 
-	i = 0;
-	j = 0;
-	while (g_vars->envp[i])
-	{
-		if (!g_vars->envp[i][1])
-			j++;
-		i++;
-	}
-	ret = malloc(sizeof(char *) * (i - j + 1));
-	malloc_check(ret);
 	i = 0;
 	j = 0;
 	while (g_vars->envp[i])
@@ -52,13 +41,31 @@ static char	**convert_env(void)
 	return (ret);
 }
 
+static char	**convert_env(void)
+{
+	char	**ret;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (g_vars->envp[i])
+	{
+		if (!g_vars->envp[i][1])
+			j++;
+		i++;
+	}
+	ret = malloc(sizeof(char *) * (i - j + 1));
+	malloc_check(ret);
+	ret = join_env(ret);
+	return (ret);
+}
+
 char		*join_path(const char *path, const char *exec, char ***locations)
 {
-	char		*ret;
 	struct stat	buf;
 	int			i;
 
-	ret = NULL;
 	i = 0;
 	(*locations) = ft_split(path, ':');
 	malloc_check((*locations));
@@ -70,13 +77,10 @@ char		*join_path(const char *path, const char *exec, char ***locations)
 		malloc_check((*locations)[i]);
 		stat((*locations)[i], &buf);
 		if (S_ISREG(buf.st_mode) == true)
-		{
-			ret = (*locations)[i];
-			break ;
-		}
+			return ((*locations)[i]);
 		i++;
 	}
-	return (ret);
+	return (NULL);
 }
 
 char		*get_path(char *path, char *exec)
@@ -130,7 +134,7 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 
 	pid = 0;
 	path = NULL;
-	if (ft_get_env("PATH", true) > 0)
+	if (ft_get_env("PATH", true) >= 0)
 		path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], cmd->arg[0]);
 	if (child == false)
 		pid = fork();
@@ -140,7 +144,7 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 		wait_status(pid);
 	else if (pid == 0)
 		exec_child(cmd, path);
-	free (path);
+	free(path);
 	return (g_vars->ret);
 }
 

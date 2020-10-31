@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 15:42:49 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 09:41:45 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ typedef struct	s_cmd
 	int				write_fd;
 	struct s_cmd	*next;
 }				t_cmd;
-
-typedef struct	s_nodes
-{
-	t_cmd			*cmd;
-	struct s_nodes	*next;
-}				t_nodes;
 
 typedef struct	s_tokens
 {

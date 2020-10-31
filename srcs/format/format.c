@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:14 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:07:16 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 10:46:52 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	format_redirect(char *str, int i)
 {
-	if (str[i - 1] == '\\')
+	if (i > 0 && str[i - 1] == '\\')
 		return ;
 	else if (str[i] == '>' && str[i + 1] == '>')
 	{

@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:44 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/26 15:26:23 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 07:23:26 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int			check_name(char *str)
 	return (true);
 }
 
-void 		copy_env(char **new)
+void		copy_env(char **new)
 {
 	int		size;
-	char 	***env;
+	char	***env;
 
 	size = 0;
 	while (g_vars->envp[size])
@@ -93,6 +93,20 @@ void 		copy_env(char **new)
 	env[size + 1] = NULL;
 	free(g_vars->envp);
 	g_vars->envp = env;
+}
+
+static void	replace_env(char **new)
+{
+	if (new[1])
+	{
+		if (g_vars->envp[ft_get_env(new[0], false)][1])
+			free(g_vars->envp[ft_get_env(new[0], false)][1]);
+		g_vars->envp[ft_get_env(new[0], false)][1] = new[1];
+	}
+	else
+		free(new[1]);
+	free(new[0]);
+	free(new);
 }
 
 static int	add_env(char **to_add)
@@ -112,22 +126,12 @@ static int	add_env(char **to_add)
 			free(new);
 		}
 		else if (ft_get_env(new[0], false) >= 0)
-		{
-			if (new[1])
-			{
-				if (g_vars->envp[ft_get_env(new[0], false)][1])
-					free(g_vars->envp[ft_get_env(new[0], false)][1]);
-				g_vars->envp[ft_get_env(new[0], false)][1] = new[1];
-			}
-			else
-				free(new[1]);
-			free(new[0]);
-			free(new);
-		}
+			replace_env(new);
 		else
 			copy_env(new);
 		i++;
 	}
+	sort_env();
 	return (0);
 }
 
@@ -154,9 +158,6 @@ int			builtin_export(t_cmd *cmd)
 		g_vars->ret = 0;
 	}
 	else
-	{
 		add_env(cmd->arg);
-		sort_env();
-	}
 	return (g_vars->ret);
 }

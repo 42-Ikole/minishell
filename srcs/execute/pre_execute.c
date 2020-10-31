@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:10 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:08:14 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 07:18:12 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_cmd	*pre_pipe_stuff(t_cmd *commands)
 int		exec_type(t_cmd *commands)
 {
 	t_cmd	*format;
+
 	signal(SIGINT, sig_skop);
 	signal(SIGQUIT, sig_skop);
 	while (commands)
