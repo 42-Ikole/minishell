@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:20 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:07:25 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 15:45:01 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		errors(char *msg, int status)
 {
 	write(2, "\e[0;31mError\e[0m\n\e[0;33m", 25);
 	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
+	write(2, "\n\e[39m", 6);
 	g_vars->ret = status;
 	return (status);
 }

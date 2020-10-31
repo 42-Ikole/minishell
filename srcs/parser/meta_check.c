@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:37 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/26 14:21:50 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 15:57:21 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	meta_check(t_cmd *cmd)
 		else if (cmd->next && cmd->type == cmd->next->type &&
 			!cmd->next->arg[0])
 			return (errors("syntax error", 258));
-		else if (cmd->type == pipeline && !cmd->next &&
-			cmd->next->type < pipeline)
+		else if (cmd->type == pipeline && !cmd->next)
 			return (errors("syntax error", 258));
 		cmd = cmd->next;
 	}

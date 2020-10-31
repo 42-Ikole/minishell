@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:53 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 15:24:23 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 16:16:53 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_child(t_cmd *cmd, char *path)
 		exit(errors("command not found", 127));
 	ret = execve(path, cmd->arg, env);
 	if (!stat(cmd->arg[0], &buf))
-			exit(errors("Permission denied", 126));
+		exit(errors("Permission denied", 126));
 	else if (ret == -1)
 		exit(errors("Command not found", 127));
 }
