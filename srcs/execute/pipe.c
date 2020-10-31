@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:46 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 16:01:11 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 16:51:39 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-static void	fork_child(t_cmd *commands, int *fd)
+static void	fork_parent(t_cmd *commands, int *fd)
 {
 	close(fd[0]);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -30,7 +30,7 @@ static void	fork_child(t_cmd *commands, int *fd)
 	exit(0);
 }
 
-static void	fork_parent(t_cmd *commands, int *fd)
+static void	fork_child(t_cmd *commands, int *fd)
 {
 	close(fd[1]);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
@@ -57,8 +57,8 @@ t_cmd		*pipe_stuff(t_cmd *commands)
 	if (pid < 0)
 		do_exit(1, true);
 	if (pid > 0)
-		fork_parent(commands->next, fd);
+		fork_parent(commands, fd);
 	else
-		fork_child(commands, fd);
+		fork_child(commands->next, fd);
 	return (commands);
 }
