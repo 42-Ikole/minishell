@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 15:14:43 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 17:33:26 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include <sys/wait.h>
-# include <stdio.h> //
 
 # define PROMPT "\e[0;96mFluffeon \e[0;91m➢\e[0;0m "
 # define PROMPT_LENGTH 34
