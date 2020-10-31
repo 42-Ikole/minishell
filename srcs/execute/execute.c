@@ -6,84 +6,15 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:53 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:13:04 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:02:24 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
 #include <unistd.h>
-#include <limits.h>
-#include <sys/stat.h>
 
-static char	**join_env(char **ret)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (g_vars->envp[i])
-	{
-		if (g_vars->envp[i][1])
-		{
-			ret[j] = ft_strdup(g_vars->envp[i][0]);
-			malloc_check(ret[j]);
-			ret[j] = ft_strjoin(ret[j], "=");
-			malloc_check(ret[j]);
-			ret[j] = ft_strjoin(ret[j], g_vars->envp[i][1]);
-			malloc_check(ret[j]);
-			j++;
-		}
-		i++;
-	}
-	ret[i] = NULL;
-	return (ret);
-}
-
-static char	**convert_env(void)
-{
-	char	**ret;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (g_vars->envp[i])
-	{
-		if (!g_vars->envp[i][1])
-			j++;
-		i++;
-	}
-	ret = malloc(sizeof(char *) * (i - j + 1));
-	malloc_check(ret);
-	ret = join_env(ret);
-	return (ret);
-}
-
-char		*join_path(const char *path, const char *exec, char ***locations)
-{
-	struct stat	buf;
-	int			i;
-
-	i = 0;
-	(*locations) = ft_split(path, ':');
-	malloc_check((*locations));
-	while ((*locations)[i])
-	{
-		(*locations)[i] = ft_strjoin((*locations)[i], "/");
-		malloc_check((*locations)[i]);
-		(*locations)[i] = ft_strjoin((*locations)[i], exec);
-		malloc_check((*locations)[i]);
-		stat((*locations)[i], &buf);
-		if (S_ISREG(buf.st_mode) == true)
-			return ((*locations)[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-char		*get_path(char *path, char *exec)
+char	*get_path(char *path, char *exec)
 {
 	char		**locations;
 	char		*ret;
@@ -101,7 +32,7 @@ char		*get_path(char *path, char *exec)
 	return (ret);
 }
 
-void		exec_child(t_cmd *cmd, char *path)
+void	exec_child(t_cmd *cmd, char *path)
 {
 	char	**env;
 	int		ret;
@@ -127,7 +58,7 @@ void		exec_child(t_cmd *cmd, char *path)
 		exit(errors("Command not found", 127));
 }
 
-int			exec_program(t_cmd *cmd, enum e_bool child)
+int		exec_program(t_cmd *cmd, enum e_bool child)
 {
 	pid_t	pid;
 	char	*path;
@@ -148,7 +79,7 @@ int			exec_program(t_cmd *cmd, enum e_bool child)
 	return (g_vars->ret);
 }
 
-int			check_builtin(t_cmd *cmd, enum e_bool child)
+int		check_builtin(t_cmd *cmd, enum e_bool child)
 {
 	int ret;
 
@@ -171,7 +102,7 @@ int			check_builtin(t_cmd *cmd, enum e_bool child)
 	return (ret);
 }
 
-t_cmd		*select_commands(t_cmd *cmd, enum e_bool child)
+t_cmd	*select_commands(t_cmd *cmd, enum e_bool child)
 {
 	int	ret;
 	int	backup_fd[2];

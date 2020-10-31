@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/24 10:32:45 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/31 11:38:52 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:09:11 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-void	sig_handler(int signum)
+void		sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -27,7 +27,7 @@ void	sig_handler(int signum)
 		write(1, "\b\b  \b\b", 6);
 }
 
-static int		prompt(void)
+static int	prompt(void)
 {
 	int			ret;
 	char		*line;
@@ -55,7 +55,7 @@ static int		prompt(void)
 	}
 }
 
-int		main(int ac, char **av, char **env)
+int			main(int ac, char **av, char **env)
 {
 	(void)av;
 	if (ac > 1)

@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:45 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:42:26 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:46:59 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,6 @@
 #include "../../includes/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
-
-static int		command_size(t_tokens *tokens)
-{
-	int i;
-
-	i = 0;
-	if (!tokens->token)
-		return (i);
-	while (tokens)
-	{
-		if (ft_ismeta(tokens->token[0]))
-			break ;
-		i++;
-		tokens = tokens->next;
-	}
-	return (i);
-}
-
-t_cmd			*set_type(t_cmd *commands, char *token)
-{
-	if (!token)
-		commands->type = semicolon;
-	else if (token[0] == '|')
-		commands->type = pipeline;
-	else if (token[0] == ';')
-		commands->type = semicolon;
-	return (commands);
-}
 
 t_tokens		*free_tokens(t_tokens *tokens)
 {

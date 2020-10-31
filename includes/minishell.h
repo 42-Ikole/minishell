@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:47:15 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:58:12 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,17 @@ void			format_redirect(char *str, int i);
 ** Parser
 */
 t_cmd			*parser(t_tokens *tokens);
+t_cmd			*set_type(t_cmd *commands, char *token);
+int				command_size(t_tokens *tokens);
 char			*ft_replace_occur
 					(char *str, char *find, char *replace, int idx);
 void			parse_env(char **env);
 char			*expansion(char *str, int *i);
 char			**expansion_space(char **str, int *i, int *j);
+int				is_var(char *str, int i);
+char			*ft_tokenjoin(char *s1, char *s2);
+int				copy_string(char **ret, char **str, int i, int length);
+char			**expand_returnval(char **str, int *i, int *j);
 char			**remover(char **str);
 int				meta_check(t_cmd *commands);
 
@@ -126,6 +132,10 @@ int				meta_check(t_cmd *commands);
 ** Execute
 */
 t_cmd			*select_commands(t_cmd *cmd, enum e_bool child);
+char			**join_env(char **ret);
+char			**convert_env(void);
+char			*join_path
+					(const char *path, const char *exec, char ***locations);
 int				ft_exit(t_cmd	*cmd, enum e_bool child);
 int				change_dir(t_cmd *cmd);
 int				ft_get_env(char *str, enum e_bool isnull);
@@ -140,9 +150,12 @@ int				exec_type(t_cmd *commands);
 t_cmd			*pipe_stuff(t_cmd *commands);
 int				redirect(t_cmd *cmd, enum e_bool child);
 enum e_bool		is_redirect(t_cmd *cmd, int i);
+enum e_bool		is_exec(char *exec);
 char			*get_path(char	*path, char *exec);
 void			backup_io(int	*backup_in, int *backup_out);
 void			restore_io(int	*backup_fd);
 int				check_name(char *str);
+void			copy_env(char **new);
+void			replace_env(char **new);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:55 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 11:46:16 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 12:05:16 by ivan-tol      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static enum e_bool	is_exec(char *exec)
-{
-	char *path;
-
-	path = NULL;
-	if (!exec)
-		return (false);
-	if (!(ft_strncmp(exec, "cd", 3)))
-		return (true);
-	else if (!(ft_cmdcmp(exec, "pwd")))
-		return (true);
-	else if (!(ft_cmdcmp(exec, "echo")))
-		return (true);
-	else if (!(ft_strncmp(exec, "exit", 5)))
-		return (true);
-	else if (!(ft_strncmp(exec, "export", 7)))
-		return (true);
-	else if (!(ft_strncmp(exec, "unset", 6)))
-		return (true);
-	else if (!(ft_cmdcmp(exec, "env")))
-		return (true);
-	else if (ft_get_env("PATH", true) > 0)
-		path = get_path(g_vars->envp[ft_get_env("PATH", true)][1], exec);
-	if (!path)
-		return (false);
-	free(path);
-	return (true);
-}
-
-enum e_bool			is_redirect(t_cmd *cmd, int i)
-{
-	while (cmd && cmd->arg && cmd->arg[i])
-	{
-		if (cmd->arg[i][0] <= append)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-int					swap_arguments(t_cmd *cmd, int i)
+int			swap_arguments(t_cmd *cmd, int i)
 {
 	int		j;
 	char	*tmp;
@@ -83,7 +43,7 @@ int					swap_arguments(t_cmd *cmd, int i)
 	return (i);
 }
 
-void				copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
+void		copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
 {
 	int	i;
 
@@ -100,7 +60,7 @@ void				copy_redirect(t_cmd *cmd, enum e_bool child, t_cmd *exec)
 	free(exec->arg);
 }
 
-static int			execute_redirect(t_cmd *cmd, enum e_bool child)
+static int	execute_redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		i;
 	t_cmd	exec;
@@ -122,7 +82,7 @@ static int			execute_redirect(t_cmd *cmd, enum e_bool child)
 	return (0);
 }
 
-int					dup_fd(t_cmd *cmd, int i, int fd)
+int			dup_fd(t_cmd *cmd, int i, int fd)
 {
 	if (fd < 0)
 		return (errors("Error opening file or directory", 1));
@@ -142,7 +102,7 @@ int					dup_fd(t_cmd *cmd, int i, int fd)
 	return (0);
 }
 
-int					redirect(t_cmd *cmd, enum e_bool child)
+int			redirect(t_cmd *cmd, enum e_bool child)
 {
 	int		fd;
 	int		i;

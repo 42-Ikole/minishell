@@ -15,12 +15,14 @@ TOKENIZER_ = tokenizer.c fsm.c
 TOKENIZER = $(addprefix tokenizer/, $(TOKENIZER_))
 
 PARSER_ = parser.c find_replace.c environment.c remover.c \
-			expansion.c meta_check.c
+			expansion.c meta_check.c parser_helper.c \
+			expansion_helper.c
 PARSER = $(addprefix parser/, $(PARSER_))
 
 EXECUTE_ = execute.c exit.c change_dir.c path_dir.c print_echo.c \
 			builtin_export.c builtin_unset.c builtin_env.c \
-			free_cmd.c pre_execute.c pipe.c redirect.c
+			free_cmd.c pre_execute.c pipe.c redirect.c export_env.c \
+			execute_helper.c redirect_helper.c
 EXECUTE = $(addprefix execute/, $(EXECUTE_))
 
 SRC = $(addprefix srcs/, $(SRC_) $(ERROR) $(TOKENIZER) $(FORMAT) \
