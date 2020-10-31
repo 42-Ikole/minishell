@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:08:53 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 16:42:56 by ikole         ########   odam.nl         */
+/*   Updated: 2020/10/31 18:06:58 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int		check_builtin(t_cmd *cmd, enum e_bool child)
 
 	if (!(ft_strncmp(cmd->arg[0], "cd", 3)))
 		ret = change_dir(cmd);
-	else if (!(ft_cmdcmp(cmd->arg[0], "pwd")))
+	else if (!(ft_strncmp(cmd->arg[0], "pwd", 4)))
 		ret = path_dir();
-	else if (!(ft_cmdcmp(cmd->arg[0], "echo")))
+	else if (!(ft_strncmp(cmd->arg[0], "echo", 5)))
 		ret = print_echo(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "exit", 5)))
 		ret = ft_exit(cmd, child);
@@ -93,7 +93,7 @@ int		check_builtin(t_cmd *cmd, enum e_bool child)
 		ret = builtin_export(cmd);
 	else if (!(ft_strncmp(cmd->arg[0], "unset", 6)))
 		ret = builtin_unset(cmd);
-	else if (!(ft_cmdcmp(cmd->arg[0], "env")))
+	else if (!(ft_strncmp(cmd->arg[0], "env", 4)))
 		ret = builtin_env(cmd);
 	else
 		ret = exec_program(cmd, child);
