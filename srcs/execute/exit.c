@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:21 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/26 14:20:23 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/10/31 13:42:58 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,26 @@ static int	extoi(const char *str, int *err)
 	i = 0;
 	nega = 1;
 	ret = 0;
-	while (str[i] >= '\t' || str[i] == ' ')
+	while (str[i] == '\t' || str[i] == ' ')
 		i++;
 	if (str[i] == '-')
 		nega = -1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	if (!(str[i] >= '0' && str[i] <= '9'))
-		*err = -1;
+		(*err) = -1;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		ret = ret * 10 + str[i] - '0';
 		i++;
 	}
 	if (str[i])
-		*err = -1;
+		(*err) = -1;
 	return (ret * nega);
 }
 
 void		do_exit(int code, enum e_bool child)
 {
-	(void)child;
 	if (child == false)
 		write(2, "exit\n", 5);
 	exit(code);
