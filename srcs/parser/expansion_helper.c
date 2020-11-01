@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/31 12:53:57 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/01 12:12:53 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 14:56:22 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@
 
 int		is_escapable(char c)
 {
-	if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || (c >= '0' && c <= '9')))
+	if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' ||
+	(c >= '0' && c <= '9') || c == '\''))
 		return (false);
 	return (true);
 }
 
 int		is_var(char *str, int i)
 {
-	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || str[i] == '_'))
+	if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z')
+	|| str[i] == '_'))
 		return (i);
 	i++;
 	while (ft_isalnum(str[i]) || str[i] == '_')

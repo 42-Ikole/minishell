@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:44 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/01 13:14:38 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 14:08:41 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static char	**export_split(char *str)
 	ret[0] = ft_substr(str, 0, i);
 	ret = get_string(str, i, i, ret);
 	i = 0;
-	ret[1] = multiply_escape(ret[1]);
+	if (ret[1])
+		ret[1] = multiply_escape(ret[1]);
 	return (ret);
 }
 
