@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/11/01 11:38:10 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 13:12:20 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int				format_de(char *str, int i);
 void			sort_env(void);
 void			format_redirect(char *str, int i);
 char			*expand_de(char *str);
-char			*remove_escape(char *str);
+char			*multiply_escape(char *str);
 int				is_escapable(char c);
 
 /*

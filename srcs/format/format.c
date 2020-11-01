@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:07:14 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 15:13:48 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 13:11:47 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*expand_de(char *str)
 	return (str);
 }
 
-char	*remove_escape(char *str)
+char	*multiply_escape(char *str)
 {
 	int i;
 
@@ -58,7 +58,10 @@ char	*remove_escape(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\\')
-			str = ft_replace_occur(str, "\\", "", i);
+		{
+			str = ft_replace_occur(str, "\\", "\\\\", i);
+			i++;
+		}
 		i++;
 	}
 	return (str);

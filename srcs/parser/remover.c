@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/11/01 12:11:23 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 13:19:02 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ char		**remover(char **str)
 			else
 				str = expand_stuff(str, &j, &i, &state);
 		}
-		// str[j] = remove_escape(str[j]);
 		str[j] = remove_escaped(str[j]);
 		j++;
 	}
