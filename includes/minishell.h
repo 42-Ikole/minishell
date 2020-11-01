@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:07 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 17:33:26 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 11:38:10 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void			sort_env(void);
 void			format_redirect(char *str, int i);
 char			*expand_de(char *str);
 char			*remove_escape(char *str);
+int				is_escapable(char c);
 
 /*
 ** Parser
