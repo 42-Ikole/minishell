@@ -6,7 +6,7 @@
 #    By: ivan-tol <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/10/28 14:18:51 by ivan-tol      #+#    #+#                  #
-#    Updated: 2020/10/14 11:45:38 by ivan-tol      ########   odam.nl          #
+#    Updated: 2020/11/01 11:16:47 by ivan-tol      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 %.o: %.c
-	gcc -c $(CFLAGS) $? -o $@ -I.
+	gcc -c $(CFLAGS) $? -o $@ -I../../includes
 
 bonus: $(NAME) $(BONUS_OBJ)
 	ar rc $(NAME) $(BONUS_OBJ)
