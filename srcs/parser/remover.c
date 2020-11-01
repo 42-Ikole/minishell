@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 17:56:07 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 12:11:23 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static char	**expand_stuff(char **str, int *j, int *i, enum e_state *state)
 		str[(*j)][(*i) + 1] != '\\')
 		str[(*j)] = expansion(str[(*j)], &(*i));
 	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' && *state == space)
+		str[(*j)] = ft_replace_occur(str[(*j)], "\\", "", (*i) - 1);
+	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' && !is_escapable(str[*j][*i]) &&  *state == dq)
 		str[(*j)] = ft_replace_occur(str[(*j)], "\\", "", (*i) - 1);
 	else if ((*i) > 0 && str[(*j)][(*i) - 1] == '\\' &&
 		str[(*j)][(*i)] == '$' && *state == dq)
