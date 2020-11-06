@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:18 by ikole         #+#    #+#                 */
-/*   Updated: 2020/10/31 14:59:57 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 15:39:19 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char		**expansion_space(char **str, int *i, int *j)
 {
 	char	*find;
 	int		len;
+	int		check;
 
 	if (!str[*j][(*i) + 1])
 	{
@@ -86,9 +87,9 @@ char		**expansion_space(char **str, int *i, int *j)
 		str[*j] = ft_replace_occur(str[*j], find, "", (*i));
 	else
 	{
+		check = *j;
 		str = expand_tokens(str, find + 1, i, j);
-		(*j) = 0;
-		(*i) = 0;
+		(*j) = *j - (*j - check) + 1;
 	}
 	free(find);
 	return (str);

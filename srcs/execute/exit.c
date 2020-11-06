@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:21 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/01 14:55:41 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/01 19:20:51 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int			ft_exit(t_cmd *cmd, enum e_bool child)
 	{
 		code = extoi(cmd->arg[i], &err);
 		if (i > 1)
+		{
 			write(2, "exit: too many arguments\n", 25);
+			break ;
+		}
 		else if (err == -1)
 		{
 			write(2, "exit: numeric argument required\n", 32);
