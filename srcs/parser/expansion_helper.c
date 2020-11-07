@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/31 12:53:57 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/01 14:56:22 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 13:28:54 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_tokenjoin(char *s1, char *s2)
 
 int		copy_string(char **ret, char **str, int i, int length)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (str[j] && (length < 0 || i < length))

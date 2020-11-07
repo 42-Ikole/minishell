@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/11/01 18:14:09 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 13:35:38 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,27 @@ static char	**expand_stuff(char **str, int *j, int *i, enum e_state *state)
 	return (str);
 }
 
-static char	*remove_escaped(char *str)
+static char	**remove_escaped(char **str)
 {
-	int i;
+	int		i;
+	int		j;
+	char	remove[2];
 
-	i = 0;
-	while (str && str[i])
+	remove[0] = escaped;
+	remove[1] = '\0';
+	j = 0;
+	while (str[j])
 	{
-		if (str[i] == escaped)
-			str[i] = '\\';
-		i++;
+		i = 0;
+		while (str[j] && str[j][i])
+		{
+			if (str[j][i] == escaped && (i > 0) && str[j][i - 1] == '\\')
+				str[j] = ft_replace_occur(str[j], remove, "", i);
+			else if (str[j][i] == escaped)
+				str[j][i] = '\\';
+			i++;
+		}
+		j++;
 	}
 	return (str);
 }
@@ -97,8 +108,8 @@ char		**remover(char **str)
 		}
 		if (!str[j])
 			break ;
-		str[j] = remove_escaped(str[j]);
 		j++;
 	}
+	str = remove_escaped(str);
 	return (str);
 }
