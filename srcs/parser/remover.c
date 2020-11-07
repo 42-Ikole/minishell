@@ -6,7 +6,7 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:56 by ikole         #+#    #+#                 */
-/*   Updated: 2020/11/07 13:35:38 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 14:11:51 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static char	**remove_escaped(char **str)
 				str[j] = ft_replace_occur(str[j], remove, "", i);
 			else if (str[j][i] == escaped)
 				str[j][i] = '\\';
-			i++;
+			else
+				i++;
 		}
 		j++;
 	}

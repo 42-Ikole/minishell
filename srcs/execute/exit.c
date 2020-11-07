@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:21 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/07 10:57:01 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 14:14:07 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ int			ft_exit(t_cmd *cmd, enum e_bool child)
 			do_exit(code, child);
 		i++;
 	}
-	return (-1);
+	return (1);
 }
