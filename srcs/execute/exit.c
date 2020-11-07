@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:21 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/07 16:07:12 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 17:43:07 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			ft_exit(t_cmd *cmd, enum e_bool child)
 	{
 		code = extoi(cmd->arg[i], &err);
 		if (i > 1)
-			write(2, "exit: too many arguments\n", 25);
+			write(2, "exit\nexit: too many arguments\n", 30);
 		if (i > 1)
 			break ;
 		else if (err == -1)
