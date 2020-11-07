@@ -6,14 +6,13 @@
 /*   By: ikole <ikole@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:06:18 by ikole         #+#    #+#                 */
-/*   Updated: 2020/11/07 17:33:50 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 18:04:45 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 #include "../../includes/minishell.h"
 #include <stdlib.h>
-#include <stdio.h> //
 
 static char	**get_split(char **str, char *find, int *i, int *j)
 {
