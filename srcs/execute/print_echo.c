@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/26 14:20:02 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/11/01 14:50:54 by ikole         ########   odam.nl         */
+/*   Updated: 2020/11/07 15:48:05 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,8 @@ int		print_echo(t_cmd *cmd)
 			j++;
 		if (!cmd->arg[i][j] && j > 1)
 			nl = false;
-		else if (j == 1)
-			break ;
 		else
-		{
-			nl = true;
 			break ;
-		}
 		i++;
 	}
 	actual_echo(cmd, i, nl);

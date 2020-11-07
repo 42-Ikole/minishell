@@ -6,7 +6,7 @@
 /*   By: ivan-tol <ivan-tol@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/24 10:32:45 by ivan-tol      #+#    #+#                 */
-/*   Updated: 2020/10/31 12:09:11 by ivan-tol      ########   odam.nl         */
+/*   Updated: 2020/11/07 15:43:31 by ikole         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void		sig_handler(int signum)
 	{
 		write(1, "\b\b  \b\b\n", 7);
 		write(STDERR_FILENO, PROMPT, PROMPT_LENGTH);
+		g_vars->ret = 1;
 	}
 	else
 		write(1, "\b\b  \b\b", 6);
